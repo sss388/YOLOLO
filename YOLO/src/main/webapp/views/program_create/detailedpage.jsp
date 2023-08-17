@@ -90,26 +90,30 @@
 	dt.over{background:#D2DAFF; cursor:pointer;}
 	dt.selected{background:#B1B2FF; cursor:default;}/*cursor:default; 기본 커서*/
 
+	.thumb_style {
+		width: 100%; height: 300px; object-fit: cover; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); border-radius: 10px;
+	}
 </style>
 
 <section style="display: flex; justify-content: center;">
-	<div style="width: 100%; justify-content: center; display: flex; min-width: 800px; max-width: 1280px; border: 1px solid black;">
-		<div style="border: 1px solid black; width: 100%; justify-content: center; display: flex;">
+	<div style="width: 100%; justify-content: center; display: flex; min-width: 800px; max-width: 1280px; ">
+		<div style="width: 100%; justify-content: center; display: flex; padding: 50px; 2.5%;">
 			<div style="width: 100%;">
-				<div style="border: 1px solid black; height: 300px; width: 80%;">
-					
-				</div>
-				<table border="1" style="width: 100%;">
+				<table style="width: 100%;">
 					<tr style="height: 300px;">
 						<th id="inter1">
-							<c:if test="${ empty program.thumb }">
-								<img src="${path}/resources/images/example.png" style="width: 300px; height: 300px; object-fit: cover;">
-							</c:if>
-							<c:if test="${ not empty program.thumb }">
-								<img src="${path}/resources/upload/main_file/${ program.thumb }" style="width: 300px; height: 300px; object-fit: cover;">
-							</c:if>
+							<div style="margin-right: 25px;">
+								<c:if test="${ empty program.thumb }">
+									<img src="${path}/resources/images/example.png" class="thumb_style">
+								</c:if>
+								<c:if test="${ not empty program.thumb }">
+									<img src="${path}/resources/upload/main_file/${ program.thumb }" class="thumb_style">
+								</c:if>
+							</div>
 						</th>
-						<th id="inter2" style="height: 60px;">${ program.title }</th> 
+						<th id="inter2" style="height: 60px; font-size: 20px; text-align: center;">
+							  <div style="height: 60px; line-height: 60px;">${ program.title }</div>
+						</th> 
 						<!-- 모임 시작일/ 종료일 -->
 						<th id="inter2" class="date" style="height: 150px;">
 							<h5>모임 시작일</h5>
@@ -123,30 +127,34 @@
 						<th id="inter2" style="height: 30px;">${ program.writename }</th>
 					</tr>
 				</table>
-				
-				<div style="width:600px;">
-					<h4>세부정보</h4>
-					<div style="text-align: left; min-height: 300px;">
-						${ program.content }
+
+				<div style="display: flex;">				
+					<div style="width: 75%;">
+						<h4>세부정보</h4>
+						<div style="text-align: left; min-height: 300px;">
+							${ program.content }
+						</div>
+					</div>
+					
+					<div id="plus">
+						<h4>포함 사항</h4>
+						<p>- ${ program.inclusion }</p>
+						<h4>불포함 사항</h4>
+						<p>- ${ program.noninclusion }</p>
+						<h4>준비물</h4>
+						<p>- ${ program.supplies }</p>
+					
 					</div>
 				</div>
-				
 	
 				<!-- 지도 -->
-				<div style="width:600px">
+				<div>
 					<h4>모이는 장소</h4>
-					<iframe id="map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.947689065985!2d126.93466157647785!3d37.556296224714295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2e75d4a7c41%3A0x4916c3cc69cb6c2f!2z7ZWY7J2066-465SU7Ja07Lu07ZOo7YSw7ZWZ7JuQ7Iug7LSM7KCQ!5e0!3m2!1sko!2skr!4v1682394239329!5m2!1sko!2skr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+					<iframe id="map-iframe" 
+					src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.947689065985!2d126.93466157647785!3d37.556296224714295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2e75d4a7c41%3A0x4916c3cc69cb6c2f!2z7ZWY7J2066-465SU7Ja07Lu07ZOo7YSw7ZWZ7JuQ7Iug7LSM7KCQ!5e0!3m2!1sko!2skr!4v1682394239329!5m2!1sko!2skr" 
+					allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width: 100%; height: 200px;"></iframe>
 				</div>
 				
-				<div id="plus" style="width:80%;">
-					<h4>포함 사항</h4>
-					<p>- ${ program.inclusion }</p>
-					<h4>불포함 사항</h4>
-					<p>- ${ program.noninclusion }</p>
-					<h4>준비물</h4>
-					<p>- ${ program.supplies }</p>
-				
-				</div>
 	
 					
 				<!-- 수정 및 삭제 버튼 -->

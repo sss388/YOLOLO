@@ -64,12 +64,12 @@
                 	<c:if test="${ not empty closeDeadLine }">
 	                	<c:forEach var="item" items="${ closeDeadLine }" varStatus="status">
 	                		<div class="img_box" onclick="showProgramDetailPage(${ item.no })">
-		                        <div style="width: 100%; height: 200px; overflow: hidden">
+		                        <div style="width: 100%; height: 200px; overflow: hidden;">
 		                        	<c:if test="${ not empty item.thumb }">
 		                        		<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
 		                        			<img src="resources/upload/main_file/${ item.thumb }">
 		                        		</div>
-	                            </c:if>
+	                            	</c:if>
 		                            <c:if test="${ empty item.thumb }">
 		                            	<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
 		                            		<img src="resources/images/example.png">

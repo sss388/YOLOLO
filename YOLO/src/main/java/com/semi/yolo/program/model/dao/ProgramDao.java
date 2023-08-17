@@ -103,6 +103,7 @@ public class ProgramDao {
 				program.setSupplies(rs.getString("SUPPLIES"));
 				program.setStartDate(rs.getDate("START_DATE"));
 				program.setExpireDate(rs.getDate("EXPIRE_DATE"));
+				program.setWritename(rs.getString("WRITER_NAME"));
 			}			
 		} catch (SQLException e) {
 			e.printStackTrace();
