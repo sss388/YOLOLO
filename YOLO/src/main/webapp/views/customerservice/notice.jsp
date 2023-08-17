@@ -152,56 +152,11 @@
             <h3 style="color: #AAC4FF; font-size: 2em; margin: 50px 0;">
             	<i class="fa-solid fa-circle-exclamation fa-beat" style="color: #AAC4FF;"></i>&nbsp;공지사항
            	</h3> 
+           	
            	<c:if test="${ not empty currentBoard }">   
-           		<div style="border-radius: 10px; border: 2px solid gray; margin-bottom: 50px;">
-           			<table class="current_board" style="justify-content: space-between; width: 100%;">
-						<tr>
-							<th width="70%">제목</th>
-							<th>등록일</th>
-						</tr>
-						<tr>
-							<td width="70%">
-								<input type="text" id="current_board_title" value="${ currentBoard.title }" readonly>
-							</td>
-							<td>${ currentBoard.createDate }</td>
-						</tr>
-						<tr>
-							<td colspan="4">
-								<div style="background: #AAC4FF; padding: 20px 0; border-radius: 10px;">
-									<div style="padding-top: 20px;">
-										<form id="content_form" method="POST" action="${ path }/customerService/notice">
-											<input id="update_title" type="hidden" name="update_title"/>
-											<input type="hidden" name="no" value="${param.no}" />
-											<input type="hidden" name="page" value="${param.page}" />
-											
-											<div id="content_update" class="centered" style="display: none">
-												<div>
-													<textarea name="content" class="editor"></textarea>
-												</div>
-											</div>
-											
-											<div class="centered">
-												<div id="content">${ currentBoard.content }</div>
-											</div>
-											
-											<!--
-												<textarea id="content_area" name="content" style="border:none; width: 90%; height: 300px; padding: 10px; border-radius: 10px;" readonly >${ currentBoard.content }</textarea>  
-											-->
-										</form>
-									</div>
-									
-									<div style="padding-top: 20px;">
-										<c:if test="${ loginMember.role == 1 }">
-											<button type="button" id="update_button" onclick="updateContentButton()" style="background: blue" hidden>수정확인</button>
-											<button type="button" class="modify_button" onclick="toggleModifyButton()" style="background: blue">수정하기</button>
-										</c:if>
-									</div>
-								</div>
-							</td>
-						</tr>
-					</table>          			
-           		</div>      	
+    			<jsp:include page="/views/customerservice/noticeDetail.jsp" />
            	</c:if>
+           	
             <table class="board" style="justify-content: space-between; width: 100%; border: 1px solid #ddd;">
                 <tr>
                     <th>글번호</th>

@@ -17,7 +17,7 @@
 #create_notice_form #create_button {
 	width: 100%;
 	border-radius: 10px; 
-	background: #B1B2FF; 
+	background-color: #AAC4FF; 
 	text-align: center; 
 	padding: 10px 0; 
 	margin-top: 20px;
@@ -25,7 +25,7 @@
 }
 
 #create_notice_form #create_button:hover {
-	background: #D2DAFF;
+	background-color: #668FD8;
 }
 </style>
 

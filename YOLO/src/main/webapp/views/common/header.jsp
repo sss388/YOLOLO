@@ -203,7 +203,7 @@
 	case '/YOLO/views/community/meetingReview.jsp': 	
 		$('#community').addClass("header_active");	
 		break;
-	case '/YOLO/views/customerservice/commonlist.jsp':
+	case '/YOLO/views/customerservice/FAQ.jsp':
 	case '/YOLO/views/customerservice/notice.jsp':
 	case '/YOLO/views/customerservice/noticeCreate.jsp':
 	case '/YOLO/views/customerservice/qnaAdmin.jsp':
