@@ -70,6 +70,28 @@
 	text-align: left;
 }
 
+.pagenation {
+  	font-size: 20px;
+  	border: none;
+  	background: none;
+  	color: gray;
+	opacity: 60%;
+  	cursor: pointer;
+}
+  
+.pagenation:disabled {
+  	color: #AAC4FF;
+  	opacity: 100%;
+  	text-decoration: underline;
+}
+  
+.pagenation_direct {
+ 	font-size: 20px;
+  	border: none;
+  	background: none;
+  	color: #AAC4FF;
+  	cursor: pointer;
+}
 
 </style>
 
@@ -97,16 +119,14 @@
 			    		<c:forEach var="item" items="${list}" varStatus="status" end="3">
 						    <div class="img_box" onclick="showDetailPage(${ item.no })">
 						        <div style="width: 100%; height: 200px; overflow: hidden;">
-						        	<c:if test="${ not empty item.thumb }">
-						        		<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
-						            		<img src="${path}/resources/upload/board/${item.thumb}" alt="${item.thumb}">
-					            		</div>
-						            </c:if>
-						            <c:if test="${ empty item.thumb }">
-						            	<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
-						            		<img src="${path}/resources/images/example.png">
-						            	</div>
-						            </c:if>
+					            	<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
+					            		<c:if test="${ empty item.thumb }">
+					            			<img src="${ path }/resources/images/example.png">
+					            		</c:if>
+					            		<c:if test="${ not empty item.thumb }">
+					            			<img src="${ item.thumb }">
+				            			</c:if>
+					            	</div>
 						        </div>
 						        <div class="img_info">
 						            <span style="opacity: 50%; font-size: 12px;"><fmt:formatDate value="${item.createDate}" pattern="yyyy년 MM월 d일" /></span><br>

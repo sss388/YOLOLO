@@ -9,7 +9,6 @@
 		
 		.wrap {
             width: 1280px;
-            height: 2200px;
             text-align: center;
         }
 		aside {
@@ -42,14 +41,12 @@
 		color: #AAC4FF;
 		}
 		header button{
-		border:1px solid #fff;
-		background:#B1B2FF;
-		color:#fff;
-		height:50px;
-		padding:0 30px;
-		font-weight:bold;
-		cursor:pointer;
-		border-radius:10px;
+		border: none;
+		font-size: 20px;
+		margin-top: 100px;
+		padding: 0 30px;
+		cursor: pointer;
+		border-radius: 10px;
 	}
 	body > p{text-align:center; padding:0 50px 50px 0;}
         
@@ -59,15 +56,13 @@
 		<div class="wrap">
 		<aside></aside>
 		<article id="sect1">
-		<br><br><br>
 			<header>
 				<button onclick="fnMove('1')">Yolo란?</button>
+				<span style="color: #B1B2FF;">|</span>
 				<button onclick="fnMove('2')">멤버들의 한마디</button>
+				<span style="color: #B1B2FF;">|</span>
 				<button onclick="fnMove('3')">모임만들기</button>
 			</header>
-		  <br><br>
-		  	
-			
 			
 			<span><img class="pic1" src="${ path }/resources/images/1.jpg"></span>
 			<div>
@@ -131,7 +126,7 @@
 	</section>
 	
 	<br><br><br><br><br><br><br><br>
-	<p><a href="#" id="scrollTop"><img src="${ path }/resources/images/top.jpg"></p>
+	<p><a href="#" id="scrollTop"><img src="${ path }/resources/images/top.jpg"></a></p>
 	<br><br><br>
 	
 	

@@ -55,9 +55,6 @@
 </section>
 
 <script>
-	const page = '<%= request.getRequestURI() %>';
-	console.log(page);
-	
 	switch(page){
 	case '/YOLO/views/community/freeBoard.jsp':
 		$('.freeBoard').addClass("active");

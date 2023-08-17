@@ -71,7 +71,6 @@ public class BoardWriteServlet extends HttpServlet {
             
             board.setContent(mr.getParameter("content")); // 상세설명
 			// 파일에 대한 정보	
-			board.setThumb(mr.getFilesystemName("main_file"));
             
             int result = new BoardService().save(board);
             if (result > 0) {

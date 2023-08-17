@@ -144,16 +144,14 @@
                     <c:forEach var="item" items="${ recentReviewBoard }" varStatus="status">
                 		<div class="img_box" onclick="showReviewDetailPage(${ item.no })">
 	                        <div style="width: 100%; height: 200px; overflow: hidden">
-	                        	<c:if test="${ not empty item.thumb }">
-	                        		<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
-	                            		<img src="resources/upload/board/${ item.thumb }">
-	                            	</div>
-	                            </c:if>
-	                            <c:if test="${ empty item.thumb }">
-	                            	<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
-	                            		<img src="resources/images/example.png">
-	                            	</div>
-	                            </c:if>
+                            	<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
+                            		<c:if test="${ empty item.thumb }">
+				            			<img src="resources/images/example.png">
+				            		</c:if>
+				            		<c:if test="${ not empty item.thumb }">
+				            			<img src="${ item.thumb }">
+			            			</c:if>
+                            	</div>
 	                        </div>
 	                        <div>
 	                            <span>

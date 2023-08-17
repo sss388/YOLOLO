@@ -85,7 +85,9 @@
     section#board-list-container{width:600px; margin:0 auto; text-align:center;}
 	section#board-list-container h2{margin:10px 0;}
     table#tbl-board{width:100%; margin:0 auto; border:1px solid black; border-collapse:collapse; clear:both; }
-	table#tbl-board th, table#tbl-board td {border:1px solid; padding: 5px 0; text-align:center;} 
+	table#tbl-board th, table#tbl-board td {border:1px solid; padding: 5px 0; text-align:center;}
+	
+	 
 </style>
 
 <section style="justify-content: center; display: flex;"> 
@@ -93,7 +95,7 @@
 		justify-content: center; display: flex; margin: 50px 0">
 		<jsp:include page="/views/common/sidebar2.jsp" />
         <div style="width: 100%; text-align: center;">
-            <h3 style="color: #AAC4FF; font-size: 40px">
+            <h3 style="color: #AAC4FF; font-size: 2em">
             	<i class="fa-solid fa-comments"></i>&nbsp;자유게시판
            	</h3> 
            	<br>
@@ -106,12 +108,9 @@
                     <th>등록일</th>
                 </tr>
                 <c:forEach var="board" items="${ list }">
-	                <tr>
+	                <tr onclick="location.href='${ path }/community/freeBoarddetailpage?no=${ board.no }'">
 	                    <td>${ board.rowNum } </td>
-	                    <td>
-	                    <a href="${ path }/community/freeBoarddetailpage?no=${ board.no }">
-	                    ${ board.title }
-	                    </td>
+	                    <td>${ board.title }</td>
 	                    <td>${ board.userName }</td>
 	                    <td>${ board.createDate }</td>
 	                    <c:if test="${ loginMember.role == 1 }">

@@ -144,12 +144,12 @@
 	}
 </style>
 
-<section style="justify-content: center; display: flex;">
+<section id="notice" style="justify-content: center; display: flex;">
     <div style="width: 100%; min-width: 800px; max-width: 1280px;
 		justify-content: center; display: flex; margin: 50px 0">
 		<jsp:include page="/views/common/sidebar3.jsp" /> 
         <div style="width: 100%; text-align: center;">
-            <h3 style="color: #AAC4FF; font-size: 40px; margin: 50px 0;">
+            <h3 style="color: #AAC4FF; font-size: 2em; margin: 50px 0;">
             	<i class="fa-solid fa-circle-exclamation fa-beat" style="color: #AAC4FF;"></i>&nbsp;공지사항
            	</h3> 
            	<c:if test="${ not empty currentBoard }">   

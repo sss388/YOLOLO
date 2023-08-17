@@ -30,9 +30,9 @@
 </style>
 
 <section style="justify-content: center; display: flex;">
-<jsp:include page="/views/common/sidebar3.jsp" /> 
 <div style="width: 100%; min-width: 800px; max-width: 1280px;
 	justify-content: center; display: flex; margin: 50px 0">
+	<jsp:include page="/views/common/sidebar3.jsp" /> 
 	<div style="border: 2px solid gray; border-radius: 10px; width: 90%; margin-top: 50px; padding: 25px 0;">
 		<form id="create_notice_form" method="POST" action="">
 			<div style="text-align: center; justify-content: center; display: flex">

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class Board {
 	private int no;
 	private String title;                        // 제목
-	private String thumb;                    // 썸네일(대표이미지)
 	private String category;                 // 카테고리
 	private int kind;                 // 카테고리
 	private String content;                  // 내용
@@ -22,5 +21,6 @@ public class Board {
 	private int rowNum;
 	private int userNo;
 	private String userName;
+	private String thumb;
 }
 

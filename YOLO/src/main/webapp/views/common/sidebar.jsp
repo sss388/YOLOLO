@@ -58,9 +58,6 @@
 </section>
 
 <script>
-	const page = '<%= request.getRequestURI() %>';
-	console.log(page);
-	
 	switch(page){
 	case '/YOLO/views/program/oneDay.jsp':
 		$('.oneDayMenu').addClass("active");

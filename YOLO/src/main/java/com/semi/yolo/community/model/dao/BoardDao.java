@@ -73,7 +73,6 @@ public class BoardDao {
 	              + "           yb.CONTENT AS CONTENT,"
 	              + "           yb.KIND AS KIND,"
 	              + "           yb.USER_NO AS USER_NO,"
-	              + "			yb.THUMB AS THUMB, "
 	              + "			yb.CREATE_DATE AS CREATE_DATE,"
 	              + "           ym.NAME AS NAME,"
 	              + "           ROW_NUMBER() OVER (ORDER BY yb.NO DESC) AS RN"
@@ -100,8 +99,10 @@ public class BoardDao {
 				board.setContent(rs.getString("CONTENT"));
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
 				board.setRowNum(rs.getInt("RN"));
-				board.setThumb(rs.getString("THUMB"));
 				board.setUserName(rs.getString("NAME"));
+				if(board.getContent().indexOf("<img src=\"") != -1) {
+					board.setThumb(board.getContent().substring(board.getContent().indexOf("<img src=\"") + 10 , board.getContent().indexOf("\">", board.getContent().indexOf("<img src=\""))));					
+				}
 				
 				list.add(board);
 			}
@@ -118,8 +119,8 @@ public class BoardDao {
 	public int insertboard(Connection connection, Board board) {
 	    int result = 0;
 	    PreparedStatement pstmt = null;
-	    String query = "INSERT INTO YOLO_BOARD (NO, TITLE, CONTENT, KIND, USER_NO, THUMB)"
-	    		+ "VALUES (YOLO_BOARD_NO.NEXTVAL,?,?,?,?,?)";
+	    String query = "INSERT INTO YOLO_BOARD (NO, TITLE, CONTENT, KIND, USER_NO)"
+	    		+ "VALUES (YOLO_BOARD_NO.NEXTVAL,?,?,?,?)";
 
 	    try {
 	        pstmt = connection.prepareStatement(query);
@@ -128,7 +129,6 @@ public class BoardDao {
 	        pstmt.setString(2, board.getContent());
 	        pstmt.setInt(3, board.getKind());
 	        pstmt.setInt(4, board.getUserNo());
-	        pstmt.setString(5, board.getThumb());
 	        
 
 	        result = pstmt.executeUpdate();
@@ -204,7 +204,6 @@ public class BoardDao {
 				board.setTitle(rs.getString("TITLE"));
 				board.setContent(rs.getString("CONTENT"));
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
-				board.setThumb(rs.getString("THUMB"));
 				board.setUserNo(rs.getInt("USER_NO"));
 			}			
 		} catch (SQLException e) {
@@ -247,7 +246,9 @@ public class BoardDao {
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
 				board.setState(rs.getString("STATUS").charAt(0));
 				board.setRowNum(rs.getInt("RN"));
-				board.setThumb(rs.getString("THUMB"));
+				if(kind == 2 && board.getContent().indexOf("<img src=\"") != -1) {
+					board.setThumb(board.getContent().substring(board.getContent().indexOf("<img src=\"") + 10 , board.getContent().indexOf("\">", board.getContent().indexOf("<img src=\""))));					
+				}
 				
 				list.add(board);
 			}

@@ -15,10 +15,6 @@ header tr:nth-child(2) {
 	text-shadow: 1px 1px white, -0.5px -0.5px black;
 }
 
-footer td {
-    padding-top: 12px;
-}
-
 #home {
     margin-bottom: 150px;
     justify-content: center;

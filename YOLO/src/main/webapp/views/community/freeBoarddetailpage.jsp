@@ -9,46 +9,67 @@
 <!-- 자유게시판 상세페이지  -->
 
 <style>
-    section>div#board-write-container{width:600px; margin:0 auto; text-align:center;}
-    section>div#board-write-container h2{margin:10px 0;}
-    table#tbl-board{width:500px; margin:0 auto; border:1px solid black; border-collapse:collapse; clear:both; }
-    table#tbl-board th {width: 125px; border:1px solid; padding: 5px 0; text-align:center;} 
-    table#tbl-board td {border:1px solid; padding: 5px 0 5px 10px; text-align:left;}
-    div#comment-container button#btn-insert{width:60px;height:50px; color:white; background-color:}
+#freeboard_detail #rb_buttons button {
+	font-size: 20px;
+	border: none;
+	background: none;
+	cursor: pointer;
+	background-color: #AAC4FF; 
+	padding: 7.5px 15px;
+	border-radius: 10px;
+	color: #FFF;
+	margin-right: 5%;
+	transition: background-color 0.1s ease;
+}
     
-	h2 {color : #AAC4FF;}
+#freeboard_detail #rb_buttons button:hover {
+	background-color: #668FD8;
+}
+
+#freeboard_detail td {
+	border-bottom: 1px solid #ddd;
+	padding: 10px 0;
+}
+
+#freeboard_detail tr td:nth-child(2) {
+	text-align: left;
+}
 </style>
-<section id="content">   
-	<div id="board-write-container">
-		<h2 align="center">자유게시판</h2>
-		<table id="tbl-board">
-			<tr>
-			    <th>글번호</th>
-			    <td>${board.no}</td>
-			</tr>
-			<tr>
-				<th>제 목</th>
-				<td>${ board.title }</td>
-			</tr>
-			
-			<tr>
-				<th>첨부파일</th>
-				<td>
-					<span style="color: gray;"> - </span>
-				</td>
-			</tr>
-			<tr>
-				<th>내 용</th>
-				<td>${ board.content }</td>
-			</tr>
-			<%--글작성자/관리자인경우 수정삭제 가능 --%>
-			<tr>
-				<th colspan="2">
-					<button type="button">수정</button>
-					<button type="button">삭제</button>
-					<button type="button">목록으로</button>
-				</th>
-			</tr>
-		</table>
-    </div>
+
+<section id="freeboard_detail" style="justify-content: center; display:flex;">   
+	<div style="width: 90%; max-width: 800px; min-width: 1280px; margin: 100px 0; border-radius: 10px;">
+		<div style="justify-content: center; display:flex; padding: 0 5%;">
+			<table style="width: 100%; text-align: center; padding: 0 5%; border-collapse: collapse;">
+				<tr>
+					<td width="20%">제목</td>
+					<td>${ board.title }</td>
+				</tr>
+				<tr>
+					<td>작성자</td>
+					<td>${ member_name }</td>
+				</tr>
+			</table>
+		</div>
+		<div style="padding: 0 10%; padding: 30px 5%;">
+			<div style="min-height: 300px; border-bottom: 1px solid #ddd; padding: 30px 5%">
+				<div id="content">${ board.content }</div>
+				<div id="content_editor" style="display: none">
+					<form id="modify_form" method="POST" action="">
+						<input name="no" type="text" value="${ board.no }" hidden>
+						<textarea name="content" class="editor"></textarea>
+					</form>
+				</div>
+			</div>
+			<div id="rb_buttons" style="margin-top:50px; justify-content: center; display: flex">
+				<c:if test="${ ( loginMember.no == board.userNo ) || loginMember.role == 1 }">
+					<button id="modify_complete" onclick="handleModifyComButton()" hidden>수정확인</button>
+					<button id="modify_button" onclick="handleModifyButton()">수정하기</button>
+					<button onclick="handleDeleteButton()" >삭제하기</button>	
+				</c:if>
+				<button onclick="window.history.back();">뒤로가기</button>
+			</div>
+		</div>
+	</div>
 </section>
+
+<jsp:include page="/views/common/footer.jsp" />

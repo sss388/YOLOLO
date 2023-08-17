@@ -109,11 +109,9 @@
 </style>
 
 <section style="justify-content: center; display: flex;">
-	<div style="width: 100%; display: flex; justify-content: center; padding-bottom: 100px; min-width: 800px; max-width: 1280px;">
-	
-		<!-- 사이드바 추가 -->
+	<div style="width: 100%; min-width: 800px; max-width: 1280px;
+	justify-content: center; display: flex; margin: 50px 0">
 		<jsp:include page="/views/common/sidebar.jsp" /> 
-		
 		<div style="width: 100%;">
 			<h1 style="text-align: center; font-size: 2em; color: #AAC4FF;"><i class="fa-regular fa-handshake fa-flip"></i>&nbsp;원데이</h1>
 			<h2 style="text-align: center;">똑같은 일상을 다채롭게 만들어 줄 원데이 모임</h2>
