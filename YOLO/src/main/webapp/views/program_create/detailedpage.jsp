@@ -43,12 +43,6 @@
 	 text-align: left;
 	}
 	
-	/* 지도 */
-	iframe {
-	width: 500px; 
-	height: 500px; 
-	
-	}
 	
 	/* 포함 사항, 불포함사항, 준비물 글씨 */
 	#plus > p{
@@ -150,9 +144,7 @@
 				<!-- 지도 -->
 				<div>
 					<h4>모이는 장소</h4>
-					<iframe id="map-iframe" 
-					src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.947689065985!2d126.93466157647785!3d37.556296224714295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2e75d4a7c41%3A0x4916c3cc69cb6c2f!2z7ZWY7J2066-465SU7Ja07Lu07ZOo7YSw7ZWZ7JuQ7Iug7LSM7KCQ!5e0!3m2!1sko!2skr!4v1682394239329!5m2!1sko!2skr" 
-					allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width: 100%; height: 200px;"></iframe>
+					<div id="map"  style="width: 100%; height: 350px"></div>
 				</div>
 				
 	
@@ -172,7 +164,7 @@
 	</div>
 </section>
 
-
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=874176aa26c8be96cf01e374fe87f3ed"></script>
 <script>
 		$(function(){
 			//:not() 특정 선택자를 제외한 나머지 요소
@@ -203,6 +195,23 @@
 			});
 
 		});
+		
+		// 지도
+		var mapContainer = document.getElementById('map');
+        var mapOption = {
+            center: new kakao.maps.LatLng(${program.latitude}, ${program.longitude}),
+            level: 3
+        };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+        var markerPosition = new kakao.maps.LatLng(${program.latitude}, ${program.longitude});
+
+        var marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+
+        marker.setMap(map);
 
 </script>
 

@@ -19,8 +19,9 @@ public class Program {
 	private String category;                 // 카테고리
 	private String content;                  // 내용
 	
-//	private String region;                   // 지역
-//	private String location;                 // 위치
+	private String address;                  // 주소
+	private double latitude;                 // 위도
+	private double longitude;                // 경도
 	
 	private String inclusion;                // 포함사항
 	private String noninclusion;          	 // 불포함사항

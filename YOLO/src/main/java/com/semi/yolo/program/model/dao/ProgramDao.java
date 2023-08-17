@@ -18,7 +18,7 @@ public class ProgramDao {
 	public int updateprogram(Connection connection, Program program) {
 	    int result = 0;
 	    PreparedStatement pstmt = null;
-	    String query = "UPDATE YOLO_PROGRAM SET TITLE=?, CONTENT=?, THUMB=?, CATEGORY=?, START_DATE=?, EXPIRE_DATE=?, INCLUSION=?, NONINCLUSION=?, SUPPLIES=? WHERE NO=?";
+	    String query = "UPDATE YOLO_PROGRAM SET TITLE=?, CONTENT=?, THUMB=?, CATEGORY=?, START_DATE=?, EXPIRE_DATE=?,ADDRESS=?, LATITUDE=?, LONGITUDE=?, INCLUSION=?, NONINCLUSION=?, SUPPLIES=? WHERE NO=?";
 
 	    try {
 	        pstmt = connection.prepareStatement(query);
@@ -29,10 +29,13 @@ public class ProgramDao {
 	        pstmt.setString(4, program.getCategory());
 	        pstmt.setDate(5, new java.sql.Date(program.getStartDate().getTime()));
 	        pstmt.setDate(6, new java.sql.Date(program.getExpireDate().getTime()));
-	        pstmt.setString(7, program.getInclusion());
-	        pstmt.setString(8, program.getNoninclusion());
-	        pstmt.setString(9, program.getSupplies());
-	        pstmt.setInt(10, program.getNo());
+	        pstmt.setString(7, program.getAddress());
+	        pstmt.setDouble(8, program.getLatitude());
+	        pstmt.setDouble(9, program.getLongitude());
+	        pstmt.setString(10, program.getInclusion());
+	        pstmt.setString(11, program.getNoninclusion());
+	        pstmt.setString(12, program.getSupplies());
+	        pstmt.setInt(13, program.getNo());
 
 	        result = pstmt.executeUpdate();
 	    } catch (SQLException e) {
@@ -48,7 +51,7 @@ public class ProgramDao {
 	public int insertprogram(Connection connection, Program program) {
 		int result = 0;
 	    PreparedStatement pstmt = null;
-	    String query = "INSERT INTO YOLO_PROGRAM (NO, USER_NO, TITLE, THUMB, CATEGORY, CONTENT, INCLUSION, NONINCLUSION, SUPPLIES, STATUS, CREATE_DATE, START_DATE, EXPIRE_DATE, WRITER_NAME) VALUES (YOLO_PROGRAM_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,'Y',SYSDATE,?,?,?)";
+	    String query = "INSERT INTO YOLO_PROGRAM (NO, USER_NO, TITLE, THUMB, CATEGORY, CONTENT, ADDRESS, LATITUDE, LONGITUDE, INCLUSION, NONINCLUSION, SUPPLIES, STATUS, CREATE_DATE, START_DATE, EXPIRE_DATE, WRITER_NAME) VALUES (YOLO_PROGRAM_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,'Y',SYSDATE,?,?,?)";
 
 	    try {
 	        pstmt = connection.prepareStatement(query);
@@ -58,12 +61,15 @@ public class ProgramDao {
 	        pstmt.setString(3, program.getThumb());
 	        pstmt.setString(4, program.getCategory());
 	        pstmt.setString(5, program.getContent());
-	        pstmt.setString(6, program.getInclusion());
-	        pstmt.setString(7, program.getNoninclusion());
-	        pstmt.setString(8, program.getSupplies());
-	        pstmt.setDate(9, new java.sql.Date(program.getStartDate().getTime()));
-	        pstmt.setDate(10, new java.sql.Date(program.getExpireDate().getTime()));
-	        pstmt.setString(11, program.getWritename());
+	        pstmt.setString(6, program.getAddress());
+	        pstmt.setDouble(7, program.getLatitude());
+	        pstmt.setDouble(8, program.getLongitude());
+	        pstmt.setString(9, program.getInclusion());
+	        pstmt.setString(10, program.getNoninclusion());
+	        pstmt.setString(11, program.getSupplies());
+	        pstmt.setDate(12, new java.sql.Date(program.getStartDate().getTime()));
+	        pstmt.setDate(13, new java.sql.Date(program.getExpireDate().getTime()));
+	        pstmt.setString(14, program.getWritename());
 
 	        result = pstmt.executeUpdate();
 	    } catch (SQLException e) {
@@ -104,6 +110,8 @@ public class ProgramDao {
 				program.setStartDate(rs.getDate("START_DATE"));
 				program.setExpireDate(rs.getDate("EXPIRE_DATE"));
 				program.setWritename(rs.getString("WRITER_NAME"));
+				program.setLatitude(rs.getDouble("LATITUDE"));
+				program.setLongitude(rs.getDouble("LONGITUDE"));
 			}			
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -95,6 +95,16 @@ public class CreateWriteServlet extends HttpServlet {
 	            // 상세설명	    
 		        program.setContent(mr.getParameter("content")); 
 		        
+		        // 장소
+		        program.setAddress(mr.getParameter("address"));
+		        
+		        // 위도와 경도
+		        double latitude = Double.parseDouble(mr.getParameter("latitude"));
+		        double longitude = Double.parseDouble(mr.getParameter("longitude"));
+
+		        program.setLatitude(latitude);
+		        program.setLongitude(longitude);
+		        
 		        // 작성자 이름 설정
 		        program.setWritename(mr.getParameter("writename"));
 		        
