@@ -93,7 +93,12 @@
           margin-left: 10px;
       }
       /* 마이페이지 스타일 끝  */
-     </style>
+      
+.header_active {
+	color: #AAC4FF;
+}
+      
+</style>
 
 <body>
 	<header style="justify-content: center; display: flex">
@@ -182,6 +187,31 @@
 </section>
 	
 <script>
+	const page = '<%= request.getRequestURI() %>';
+	console.log(page);
+	
+	switch(page){
+	case '/YOLO/views/service/introduction.jsp':
+		$('#service').addClass("header_active");
+		break;
+	case '/YOLO/views/program/oneDay.jsp':
+	case '/YOLO/views/program/club.jsp':
+	case '/YOLO/views/program/challenge.jsp':
+		$('#program').addClass("header_active");
+		break;
+	case '/YOLO/views/community/freeBoard.jsp':
+	case '/YOLO/views/community/meetingReview.jsp': 	
+		$('#community').addClass("header_active");	
+		break;
+	case '/YOLO/views/customerservice/commonlist.jsp':
+	case '/YOLO/views/customerservice/notice.jsp':
+	case '/YOLO/views/customerservice/noticeCreate.jsp':
+	case '/YOLO/views/customerservice/qnaAdmin.jsp':
+	case '/YOLO/views/customerservice/qna.jsp':
+		$('#customerService').addClass("header_active");
+		break;
+	}
+
 	$(document).ready(() => {
 		$('#login').on('click', () => {
 			location.assign('${ path }/member/login');
@@ -200,7 +230,7 @@
       	});
 		
 		$('#customerService').on('click', () => {
-			location.assign('${ path }/customerService/notice');
+			location.assign('${ path }/customerService/faq');
 		});
 		
 		$('#community').on('click', () => {
@@ -224,6 +254,7 @@
 		});		    
 	  });
 </script>
+
 <!-- 마이페이지 -->
 <script>
      document.addEventListener('DOMContentLoaded', function(){

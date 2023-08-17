@@ -107,8 +107,8 @@
 	}
 </style>
 <section style="justify-content: center; display: flex;">
-	<div style="width: 100%; display: flex; justify-content: center; padding-bottom: 100px; min-width: 800px; max-width: 1280px;">
-	
+	<div style="width: 100%; min-width: 800px; max-width: 1280px;
+	justify-content: center; display: flex; margin: 50px 0">	
 		<!-- 사이드바 추가 -->
 		<jsp:include page="/views/common/sidebar.jsp" /> 
 		

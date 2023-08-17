@@ -41,7 +41,7 @@
 		<table>
 			<tr>
 				<td>
-					<div class="commomlist">자주 묻는 질문</div>
+					<div class="faq">자주 묻는 질문</div>
 				</td>
 			</tr>
 			<tr>
@@ -59,14 +59,12 @@
 </section>
 
 <script>
-	const page = '<%= request.getRequestURI() %>';
-	console.log(page);
-	
 	switch(page){
-	case '/YOLO/views/customerservice/commonlist.jsp':
-		$('.commomlist').addClass("active");
+	case '/YOLO/views/customerservice/FAQ.jsp':
+		$('.faq').addClass("active");
 		break;
 	case '/YOLO/views/customerservice/notice.jsp':
+	case '/YOLO/views/customerservice/noticeCreate.jsp':
 		$('.notice').addClass("active");
 		break;
 	case '/YOLO/views/customerservice/qnaAdmin.jsp':
@@ -75,8 +73,8 @@
 		break;
 	}
 	
-	$('.commomlist').on('click', () => {
-		location.assign('${ path }/customerService/commonlist');
+	$('.faq').on('click', () => {
+		location.assign('${ path }/customerService/faq');
 	});
 	
 	$('.notice').on('click', () => {

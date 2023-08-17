@@ -24,34 +24,33 @@
 #review_detail #rb_buttons button:hover {
 	background-color: #668FD8;
 }
+
+#review_detail td {
+	border-bottom: 1px solid #ddd;
+	padding: 10px 0;
+}
+
+#review_detail tr td:nth-child(2) {
+	text-align: left;
+}
 </style>
 
 <section id="review_detail" style="justify-content: center; display:flex;">
-	<div style="width: 90%; border: 2px solid #ddd; max-width: 800px; min-width: 1280px; margin: 100px 0; border-radius: 10px;">
-		<div style="justify-content: center; display:flex; padding: 10px 5%;">
-			<table style="width: 100%; text-align: center; padding: 0 10px;">
+	<div style="width: 90%; max-width: 800px; min-width: 1280px; margin: 100px 0; border-radius: 10px;">
+		<div style="justify-content: center; display:flex; padding: 0 5%;">
+			<table style="width: 100%; text-align: center; padding: 0 5%; border-collapse: collapse;">
 				<tr>
-					<td rowspan="2" width="5%">
-						<div style="justify-content: center; display:flex; padding: 5px 0; width: 50px; height: 50px; border: 2px solid #AAC4FF; overflow:hidden; border-radius: 20px;">
-							<c:if test="${ not empty board.thumb }">
-								<img src="${ path }/resources/upload/board/${ board.thumb }" style="width: 100%; height: 100%; object-fit: cover">
-							</c:if>
-							<c:if test="${ empty board.thumb }">
-								<img src="${ path }/resources/images/example.png" style="width: 100%; height: 100%; object-fit: cover">
-							</c:if>
-						</div>
-					</td>
-					<td width="70%">제목</td>
-					<td>작성자</td>
+					<td width="20%">제목</td>
+					<td>${ board.title }</td>
 				</tr>
 				<tr>
-					<td>${ board.title }</td>
+					<td>작성자</td>
 					<td>${ member_name }</td>
 				</tr>
 			</table>
 		</div>
-		<div style="padding: 0 5%; padding-bottom: 30px;">
-			<div style="min-height: 300px; padding: 0 25px;">
+		<div style="padding: 0 10%; padding: 30px 5%;">
+			<div style="min-height: 300px; border-bottom: 1px solid #ddd; padding: 30px 5%">
 				<div id="content">${ board.content }</div>
 				<div id="content_editor" style="display: none">
 					<form id="modify_form" method="POST" action="">

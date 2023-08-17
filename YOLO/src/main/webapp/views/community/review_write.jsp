@@ -9,69 +9,38 @@
 <!-- 모임만들기 글쓰기 -->
 
 <style>
-     section {
-     max-width: 100%;
-     text-align:center;
-     }
-
-     section #joinform input {
-     margin:7px;
-     }
-
-     section #joinform table {
-     margin: auto;
-     }
-
-     section #joinform table td {
-          padding:0  5px; 
-          text-align:left;
-     }
-     
-     .create_write th, .create_write td {
-     padding: 10px;
-     border-bottom: 1px solid rgb(150, 150, 150);
+section #joinform input {
+ 	margin:7px;
 }
 
-     .create_write th {
-          text-align: center;
-          background-color: rgb(238, 241, 255);
-          
-     }
+.create_write {
+	border-collapse: collapse;
+}
+
+.create_write tr {
+	border-bottom: 1px solid rgb(150, 150, 150);
+}
+
+.create_write td {
+	text-align: left;
+	padding-left: 10px;	
+}
+
+.create_write th {
+	text-align: center;
+	background-color: rgb(238, 241, 255);
+	height: 50px;
+	width: 100px;        
+}
      
      /*  input */
      input {
-     width: 250px;
-     height: 30px;
-     border: 1px solid rgb(201, 201, 201);
-     border-radius: 5px;
+     	width: 250px;
+	     height: 30px;
+	     border: 1px solid rgb(201, 201, 201);
+	     border-radius: 5px;
      }
      
-     /* 버튼 */
-     /* 주소검색 버튼 */
-     #postcode_button {
-          background-color: rgb(170, 196, 255); 
-          color: white;  
-          border: none;
-          width: 75px;
-          height: 30px;
-          font-size: 15px;
-          text-align: center;
-          margin-bottom: 100px;
-          border-radius: 10px;
-     }
-
-     /* 등록버튼 */
-     #btn1, #btn2, #btn3 {
-          background-color: rgb(170, 196, 255); 
-          color: white;  
-          border: none;
-          width: 55px;
-          height: 30px;
-          font-size: 15px;
-          text-align: center;
-          border-radius: 10px;
-     }
-
      /* 맨밑 등록 , 취소 버튼 */
      #submit_btn input {
           background-color: rgb(170, 196, 255); 
@@ -96,7 +65,7 @@
     	background: none;
     	cursor: pointer;
     	background-color: #AAC4FF; 
-    	padding: 7.5px 15px;
+    	padding: 7.5px 30px;
     	border-radius: 10px;
     	color: #FFF;
     	margin-right: 5%;
@@ -106,88 +75,56 @@
     .create_freeboard:hover {
     	background-color: #668FD8;
     }
-    
 
-
-     
-               
 </style>
      
-<section>
-<br><br>
-	<h1 align="center">게시판 작성</h1>
-	<div id="joinform" style="width: 100%; justify-content: center; display: flex">
-	<form action="${ path }/community/reviewwrite" method="POST" enctype="multipart/form-data">
-	<br><br>
-		<table class="create_write">
-                   <tr>
-                        <th>제목</th>
-                        <td><input type="text" name="title" id="groupname"></td>
-                   </tr>
-
-                   <tr>
-                        <th>작성자</th>
-                        <td>
-                        <p>${ loginMember.name }</p>
-                        </td>
-                   </tr>
-
-                   <tr>
-                        <th>대표이미지</th>
-                        <td><input type="file" name="main_file">
-                        <c:if test="${ not empty board.originalFilename }">
-                        <!-- <span>${ board.originalFilename }</span> -->
-                        </c:if>
-                         </td>
-                    </tr>
-
-                    <tr>
-                         <th>카테고리</th>
-                         <td>
-                           	<select name="category" id="category" >
-                                 <option value="freeboard">자유 게시판</option>
-                                 <option value="meetingreview">모임 후기 게시판</option>  
-                            </select>
-                         </td>
-                    </tr>
-                    
-                     
-               
-                    
-                    
-                    
-	<!--  
-                    <td>
-                    	<textarea name="textarea" id="textarea" cols="70" rows="10"></textarea>
-                    </td>
-	
-	-->
-                    <tr>
-                   		 <th>상세내용</th>
-                    	 <td>
-	                    	<textarea name="content" id="content" class="editor" cols="70" rows="10"></textarea>
-	                     </td>
-                    </tr>
-	<!--
-                    <tr>
-                         <th>첨부파일</th>
-                         <td><input type="file" name="upload_file">
-                         <c:if test="${ not empty board.originalFilename }">
-                        <span>${ board.originalFilename }</span> 
-                        </c:if>
-                        </td>
-                   </tr>
-  --> 
-                  
-
-
-                   </table>
-                   <br><br>
-                       <button class="create_freeboard" id="refind">등록</button>	
-                       <button class="create_freeboard"id="createAccount">취소</button>	
-                   <br><br><br><br>
-	
-	</form>
+<section style="justify-content: center; display: flex; text-align:center;">
+	<div style="width: 100%; min-width: 800px; max-width: 1280px;
+		justify-content: center; display: flex; margin: 50px 0">
+		<div>			
+			<h1>게시판 작성</h1>
+			<div id="joinform" style="width: 100%; justify-content: center; display: flex; padding-top: 30px;">
+			<form action="${ path }/community/reviewwrite" method="POST" enctype="multipart/form-data">
+				<table class="create_write">
+		            <tr>
+		                 <th>제목</th>
+		                 <td><input type="text" name="title" id="groupname"></td>
+		            </tr>
+		
+		            <tr>
+		                 <th>작성자</th>
+		                 <td>
+		                 	<p style="font-size: 16px; color: black;" >${ loginMember.name }</p>
+		                 </td>
+		            </tr>
+		
+		             <tr>
+		                  <th>카테고리</th>
+		                  <td>
+                    		<select name="category" id="category" style="width:30%; font-size: 16px;">
+		                          <option value="freeboard">자유 게시판</option>
+		                          <option value="meetingreview">모임 후기 게시판</option>  
+	                     	</select>
+		                  </td>
+		             </tr>
+		                  
+		              <tr>
+		             		<th>상세내용</th>
+		              	 	<td>
+		               			<textarea name="content" id="content" class="editor"></textarea>
+		                	</td>
+		              </tr>
+		
+		
+	             </table>
+	             <div style="margin-top: 30px;">
+	               	<button class="create_freeboard" id="refind">등록</button>	
+	                <button class="create_freeboard"id="createAccount">취소</button>	
+	             </div>
+			</form>
+		</div>
+		</div>
+	</div>
 </section>
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

@@ -120,7 +120,7 @@
 		justify-content: center; display: flex; margin: 50px 0">
 		<jsp:include page="/views/common/sidebar3.jsp" /> 
 		<div style="width: 100%; text-align: center; ">
-			<h3 style="color: #AAC4FF; font-size: 40px; margin: 50px 0;">
+			<h3 style="color: #AAC4FF; font-size: 2em; margin: 50px 0;">
 				<i class="fa-regular fa-lightbulb"></i> 
 				문의하기 
 			</h3>

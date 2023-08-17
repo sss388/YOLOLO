@@ -61,18 +61,18 @@ public class BoardService {
 	
 
 	 public List<Board> getBoardList(PageInfo pageInfo, int kind) {
-	        List<Board> list = null;
-	        Connection connection = getConnection();
-	        
-	        try {
-	            BoardDao boardDao = new BoardDao();
-	            list = boardDao.findAll(connection, pageInfo, kind);
-	        } finally {
-	            close(connection);
-	        }
+        List<Board> list = null;
+        Connection connection = getConnection();
+        
+        try {
+            BoardDao boardDao = new BoardDao();
+            list = boardDao.findAll(connection, pageInfo, kind);
+        } finally {
+            close(connection);
+        }
 
-	        return list;
-	    }
+        return list;
+    }
 	 
 	 
 	 public Board getBoardByNo(int no) {

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.yolo.community.model.service.BoardService;
 import com.semi.yolo.community.model.vo.Board;
+import com.semi.yolo.member.service.MemberService;
 import com.semi.yolo.program.model.service.ProgramService;
 import com.semi.yolo.program.model.vo.Program;
 
@@ -25,13 +26,12 @@ public class BoardDetailedpageServlet extends HttpServlet {
     	
     	
     	Board board = new BoardService().getProgramByNo(no);
+    	String member_name = new MemberService().getMemberNameByNo(board.getUserNo());
     	
-    	System.out.println(board);
+    	request.setAttribute("member_name", member_name);
     	
     	request.setAttribute("board", board); 
     	request.getRequestDispatcher("/views/community/freeBoarddetailpage.jsp").forward(request, response);
-
-    
     }
     
     @Override
