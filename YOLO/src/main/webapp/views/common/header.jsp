@@ -174,13 +174,16 @@
                <p>회원정보</p>
                <button type="submit" id="myInfo">회원정보 수정</button><br>
                <button type="submit" id="">비밀번호 변경</button><br>
+               
+               <p>프로그램</p>
                <button type="submit" id="made">내가 만든 모임</button><br>
                <button type="submit" id="">내가 참여한 모임</button><br>
                
                <p>고객센터</p>
                <button type="submit" id="common">자주묻는질문</button><br>
                <button type="button" id="notice" onclick="location.assign('${ path }/customerService/notice');">공지사항</button><br>
-               <button type="submit" id="myqna">문의하기</button><br> 
+               <button type="submit" id="qna">문의하기</button><br>
+               <button type="submit" id="myqna">내 문의보기</button><br> 
           </div>
 
      </div>
