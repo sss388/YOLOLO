@@ -16,8 +16,6 @@
         border-collapse: collapse;
         border: 1px solid #000;
     }
-    
-    
    
 	.text {
 		text-align: center;
@@ -58,6 +56,7 @@
     	color: #FFF;
     	margin-right: 5%;
     	transition: background-color 0.1s ease;
+    	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
     }
     
     .create_freeboard:hover {
@@ -132,16 +131,12 @@
                 	<c:if test="${ not empty list }">
 					    <c:forEach var="item" items="${list}" varStatus="status">
 					        <div class="img_box" onclick="showDetailPage(${item.no})">
-					            <div style="width: 100%; height: 200px; overflow: hidden;">
+					            <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 					            	<c:if test="${ empty item.thumb }">
-					            		<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
-					            			<img src="${path}/resources/images/example.png">
-				            			</div>
+				            			<img src="${path}/resources/images/example.png">
 					            	</c:if>
 					            	<c:if test="${ not empty item.thumb }">
-					            		<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
-					                		<img src="${path}/resources/upload/main_file/${item.thumb}" alt="${item.title}">
-					                	</div>
+				                		<img src="${path}/resources/upload/main_file/${item.thumb}" alt="${item.title}">
 					                </c:if>
 					            </div>
 					            <div class="img_info">

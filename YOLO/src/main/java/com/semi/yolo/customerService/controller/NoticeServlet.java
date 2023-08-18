@@ -54,7 +54,7 @@ public class NoticeServlet extends HttpServlet {
 		
 		listCount = new BoardService().getBoardCount(5);
 		pageInfo = new PageInfo(page, 10, listCount, 20);
-		list = new BoardService().getBoardList(5);
+		list = new BoardService().getBoardList(pageInfo, 5);
 		
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("list", list);

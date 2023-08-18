@@ -80,6 +80,7 @@
    	position: absolute;
    	right:0;
    	margin-top: 30px;
+   	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
 }
 
 .create_button:hover {
@@ -108,6 +109,19 @@
   	color: #AAC4FF;
   	cursor: pointer;
 }
+
+#modifyButton,
+#deleteButton {
+	font-size: 16px;
+}
+
+#modifyButton:hover {
+	color: skyblue;
+}
+
+#deleteButton:hover {
+	color: orangered;
+}
 </style>
 
 <section style="justify-content: center; display: flex;">
@@ -122,8 +136,17 @@
 	           	<c:if test="${ not empty list }">
 					<div id="Accordion_wrap">
 						<c:forEach var="board" items="${ list }">
-							<div class="que">
+							<div class="que" style="position: relative;">
 								<span>${ board.title }</span>
+								<span style="position: absolute; right: 5%;">
+									<button onclick="location.href=`${ path }/customerService/faqCreate?no=${ board.no }`;">
+										<i id="modifyButton" class="fa-solid fa-pen"></i>
+							    	</button>
+									&nbsp;&nbsp;&nbsp;&nbsp;
+									<button onclick="deleteNotice(${board.no})">
+										<i id="deleteButton" class="fa-solid fa-trash-can"></i>
+									</button>
+								</span>
 							</div>
 							<div class="anw">
 							 	<span>${ board.content }</span>
@@ -172,6 +195,9 @@
 				</button>
 		</div>
 	</div>
+	<form id="delete_notice_form" method="POST" action="${ path }/customerService/noticeDelete" hidden>
+    	<input type="text" id="delete_notice_no" name="delete_notice_no"/>
+    </form>
 </section>
 
 <script>
@@ -180,6 +206,11 @@ $(".que").click(function() {
 	$(this).toggleClass('on').siblings().removeClass('on');
 	$(this).next(".anw").siblings(".anw").slideUp(300); // 1개씩 펼치기
 });
+
+const deleteNotice = (no) => {
+	$('#delete_notice_no').val(no);
+	$('#delete_notice_form').submit();
+}
 </script>
 
 <jsp:include page="/views/common/footer.jsp" />

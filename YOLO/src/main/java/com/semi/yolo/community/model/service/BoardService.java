@@ -54,7 +54,7 @@ public class BoardService {
 		int count = 0;
 		Connection connection = getConnection();
 		
-		count = new BoardDao().getFreeBoardCount(connection, kind);
+		count = new BoardDao().getBoardCount(connection, kind);
 		
 		close(connection);
 		
