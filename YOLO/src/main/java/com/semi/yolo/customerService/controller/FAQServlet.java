@@ -37,7 +37,7 @@ public class FAQServlet extends HttpServlet {
 		
 		listCount = new BoardService().getBoardCount(4);
 		pageInfo = new PageInfo(page, 10, listCount, 20);
-		list = new BoardService().getBoardList(4);
+		list = new BoardService().getBoardList(pageInfo, 4);
 		
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("list", list);

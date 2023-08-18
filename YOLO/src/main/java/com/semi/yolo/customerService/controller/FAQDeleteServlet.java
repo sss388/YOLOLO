@@ -10,14 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.semi.yolo.community.model.service.BoardService;
 import com.semi.yolo.customerService.service.NoticeService;
 
-/**
- * Servlet implementation class NoticeDeleteServlet
- */
-@WebServlet(name = "noticeDelete", urlPatterns = { "/customerService/noticeDelete" })
-public class NoticeDeleteServlet extends HttpServlet {
+@WebServlet(name = "faqDelete", urlPatterns = { "/customerService/faqDelete" })
+public class FAQDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public NoticeDeleteServlet() {
+    public FAQDeleteServlet() {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -39,7 +39,7 @@ public class NoticeCreateServlet extends HttpServlet {
     	
     	int result = 0;
 		
-    	if (loginMember != null || loginMember.getRole() == 1) {
+    	if (loginMember != null && loginMember.getRole() == 1) {
     		
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
