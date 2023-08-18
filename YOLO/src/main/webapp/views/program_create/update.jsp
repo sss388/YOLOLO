@@ -119,6 +119,9 @@
                         <th>대표이미지</th>
                         <td>
                         	<input type="file" name="main_file" value="${ program.thumb }" style="border: none">
+                        	<c:if test="${ not empty program.thumb }">
+							<span>${ program.thumb }</span>
+						</c:if>
                          </td>
                     </tr>
 
@@ -159,7 +162,7 @@
                    <tr>
 					    <th>장소</th>
 					    <td class="address"> 
-					        <input type="text" name="address" id="address" value="${ program.address }">
+					        <input type="text" name="address" id="address" value="${ program.address }" readonly>
 					        <input type="button" id="postcode_button" onclick="open_Postcode()" size="5" value="주소검색" style="margin-left: -8px">
 					        <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>							    
 					    </td>   

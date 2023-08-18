@@ -153,7 +153,7 @@
 		               
 		                   <tr>
 		                         <th>모임 종료일</th>
-		                         <td><input type="text" name="end_date" id="end_date"  placeholder=" YYYY/MM/DD형식으로 작성해주세요."  
+		                         <td><input type="text" name="end_date" id="end_date"  placeholder=" YYYY/MM/DD형식으로 작성해주세요."   
 		                         pattern="^(19|20)\d\d/(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])$" title=" YYYY/MM/DD형식으로 작성해주세요."></td>
 		                   </tr>
 		

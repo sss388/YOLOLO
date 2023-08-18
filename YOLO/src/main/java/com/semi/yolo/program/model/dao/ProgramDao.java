@@ -107,6 +107,7 @@ public class ProgramDao {
 				program.setInclusion(rs.getString("INCLUSION"));
 				program.setNoninclusion(rs.getString("NONINCLUSION"));
 				program.setSupplies(rs.getString("SUPPLIES"));
+				program.setAddress(rs.getString("ADDRESS"));
 				program.setStartDate(rs.getDate("START_DATE"));
 				program.setExpireDate(rs.getDate("EXPIRE_DATE"));
 				program.setWritename(rs.getString("WRITER_NAME"));

@@ -27,9 +27,9 @@ public class Program {
 	private String noninclusion;          	 // 불포함사항
 	private String supplies;         		 // 준비물
 	
-	private char status;                      // 상태값 => Y/N
+	private char status;                     // 상태값 => Y/N
 	private Date createDate;                 // 작성일
-	private Date startDate;                  // 모임시작일
+	private Date startDate;                	 // 모임시작일
 	private Date expireDate;                 // 모임만료일
 	private int rowNum;
 
