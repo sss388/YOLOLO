@@ -208,6 +208,7 @@
 	case '/YOLO/views/customerservice/noticeCreate.jsp':
 	case '/YOLO/views/customerservice/qnaAdmin.jsp':
 	case '/YOLO/views/customerservice/qna.jsp':
+	case '/YOLO/views/customerservice/FAQcreate.jsp':
 		$('#customerService').addClass("header_active");
 		break;
 	}

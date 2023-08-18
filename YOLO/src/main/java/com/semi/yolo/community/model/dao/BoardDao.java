@@ -1,5 +1,7 @@
 package com.semi.yolo.community.model.dao;
 
+import static com.semi.yolo.common.jdbc.JDBCTemplate.close;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,9 +11,6 @@ import java.util.List;
 
 import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.community.model.vo.Board;
-import com.semi.yolo.program.model.vo.Program;
-
-import static com.semi.yolo.common.jdbc.JDBCTemplate.close;
 
 public class BoardDao {
 
@@ -144,15 +143,14 @@ public class BoardDao {
 	public int updateBoard(Connection connection, Board board) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String query = "UPDATE YOLO_BOARD SET NO=?,TITLE=?,CONTENT=?,CREATE_DATE=SYSDATE WHERE NO=?";
+		String query = "UPDATE YOLO_BOARD SET TITLE=?,CONTENT=?,CREATE_DATE=SYSDATE WHERE NO=?";
 		
 		try {
 			pstmt = connection.prepareStatement(query);
 			
-			pstmt.setInt(1, board.getNo());
-	        pstmt.setString(2, board.getTitle());
-	        pstmt.setString(3, board.getContent());
-	        pstmt.setInt(4, board.getKind());
+	        pstmt.setString(1, board.getTitle());
+	        pstmt.setString(2, board.getContent());
+	        pstmt.setInt(3, board.getNo());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {

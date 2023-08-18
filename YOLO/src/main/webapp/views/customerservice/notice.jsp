@@ -279,7 +279,6 @@ const updateContentButton = () => {
 	$('#update_title').val($('#current_board_title').val());
 	//console.log($('#update_title').val()); 
 	
-	
 	$('#content_form').submit();
 }
 

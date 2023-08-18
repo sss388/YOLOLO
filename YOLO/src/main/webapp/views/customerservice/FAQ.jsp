@@ -28,14 +28,14 @@
 }
 
 .que.on>span{
-  color: skyblue;
+  color: #B1B2FF;
 }
   
 .anw {
   display: none;
   overflow: hidden;
   font-size: 14px;
-  background-color: #f4f4f2;
+  background-color: #EEF1FF;
   padding: 27px 0;
 }
   
@@ -85,40 +85,91 @@
 .create_button:hover {
   	background-color: #668FD8;
 }
+
+.pagenation {
+  	font-size: 20px;
+  	border: none;
+  	background: none;
+  	color: gray;
+	opacity: 60%;
+  	cursor: pointer;
+}
+  
+.pagenation:disabled {
+  	color: #AAC4FF;
+  	opacity: 100%;
+  	text-decoration: underline;
+}
+  
+.pagenation_direct {
+  	font-size: 20px;
+  	border: none;
+  	background: none;
+  	color: #AAC4FF;
+  	cursor: pointer;
+}
 </style>
 
 <section style="justify-content: center; display: flex;">
 	<div style="width: 100%; min-width: 800px; max-width: 1280px;
 		justify-content: center; display: flex; margin: 50px 0">
 		<jsp:include page="/views/common/sidebar3.jsp" /> 
-		<div style="width: 100%; text-align: center;">
-			 <h3 style="color: #AAC4FF; font-size: 2em; margin: 50px 0;">
-            	<i class="fa-regular fa-circle-question fa-spin"></i>&nbsp;자주 묻는 질문
-           	</h3> 
-			<div id="Accordion_wrap">
-				<div class="que">
-					<span>This is first question.</span>
+			<div style="width: 100%; text-align: center;">
+				<h3 style="color: #AAC4FF; font-size: 2em; margin: 50px 0;">
+	            	<i class="fa-regular fa-circle-question fa-spin"></i>&nbsp;자주 묻는 질문
+	           	</h3> 
+	           	
+	           	<c:if test="${ not empty list }">
+					<div id="Accordion_wrap">
+						<c:forEach var="board" items="${ list }">
+							<div class="que">
+								<span>${ board.title }</span>
+							</div>
+							<div class="anw">
+							 	<span>${ board.content }</span>
+							</div>
+						</c:forEach>
+					</div>
+				</c:if>
+				
+				<div style="position: relative; margin-bottom: 100px;">
+					<c:if test="${ loginMember.role == 1 }">
+						<button class="create_button" onclick="location.href=`${ path }/customerService/faqCreate`;">글쓰기</button>
+					</c:if>
 				</div>
-				<div class="anw">
-				 	<span>This is first answer.</span>
-				</div>
-				<div class="que">
-				 	<span>This is second question.</span>
-				</div>
-				<div class="anw">
-				 	<span>This is second answer.</span>
-				</div>
-				 	<div class="que">
-				 <span>This is third question.</span>
-				</div>
-				<div class="anw">
-				 	<span>This is third answer.</span>
-				</div>
-			</div>
-			
-			<div style="position: relative; margin-bottom: 100px;">
-				<button class="create_button">글쓰기</button>
-			</div>
+					
+				
+				<!-- 맨 처음으로 -->
+				<button class="pagenation_direct" onclick="location.href='${ path }/customerService/faq?page=1'">
+					<i class="fa-solid fa-angles-left"></i>
+				</button>
+		
+				<!-- 이전 페이지로 -->
+				<button class="pagenation_direct" onclick="location.href='${ path }/customerService/faq?page=${ pageInfo.prevPage }'">
+					<i class="fa-solid fa-angle-left"></i>
+				</button>
+		           
+		           <c:forEach var="current" begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }">
+		           	<c:choose>
+						<c:when test="${ current == pageInfo.currentPage }">					
+							<button class="pagenation" disabled>${ current }</button>			
+						</c:when>
+						<c:otherwise>
+							<button class="pagenation" 
+								onclick="location.href='${ path }/customerService/faq?page=${ current }'">${ current }</button>			
+						</c:otherwise>
+					</c:choose>
+		           </c:forEach>
+		           
+		           <!-- 다음 페이지로 -->
+				<button class="pagenation_direct" onclick="location.href='${ path }/customerService/faq?page=${ pageInfo.nextPage }'">
+					<i class="fa-solid fa-angle-right"></i>
+				</button>
+		
+				<!-- 맨 끝으로 -->
+				<button class="pagenation_direct" onclick="location.href='${ path }/customerService/faq?page=${ pageInfo.maxPage }'">
+					<i class="fa-solid fa-angles-right"></i>
+				</button>
 		</div>
 	</div>
 </section>
