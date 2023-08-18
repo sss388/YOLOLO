@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.time.LocalDate" %>
 <c:set var="path" value="${ pageContext.request.contextPath }"/>
 
 <jsp:include page="/views/common/header.jsp" />
@@ -147,14 +148,25 @@
 		
 		                   <tr>
 		                         <th>모임 시작일</th>
-		                         <td><input type="text" name="start_date" id="start_date" placeholder=" YYYY/MM/DD형식으로 작성해주세요." 
-		                         pattern="^(19|20)\d\d/(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])$" title=" YYYY/MM/DD형식으로 작성해주세요."></td>
+		                         <td>
+		                         	<input type="date" name="start_date" id="start_date" min="<%= LocalDate.now().toString() %>"  required/>
+		                         <!-- 
+		                         <input type="text" name="start_date" id="start_date" placeholder=" YYYY/MM/DD형식으로 작성해주세요." 
+		                         pattern="^(19|20)\d\d/(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])$" title=" YYYY/MM/DD형식으로 작성해주세요.">
+		                          -->
+		                         </td>
+		                         
 		                   </tr>
 		               
 		                   <tr>
 		                         <th>모임 종료일</th>
-		                         <td><input type="text" name="end_date" id="end_date"  placeholder=" YYYY/MM/DD형식으로 작성해주세요."   
-		                         pattern="^(19|20)\d\d/(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])$" title=" YYYY/MM/DD형식으로 작성해주세요."></td>
+		                         <td>
+		                         	<input type="date" name="end_date" id="end_date" min="<%= LocalDate.now().toString() %>" required/>
+		                         <!-- 
+		                         <input type="text" name="end_date" id="end_date"  placeholder=" YYYY/MM/DD형식으로 작성해주세요."   
+		                         pattern="^(19|20)\d\d/(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])$" title=" YYYY/MM/DD형식으로 작성해주세요.">
+		                          -->
+		                         </td>
 		                   </tr>
 		
 		                   <tr>

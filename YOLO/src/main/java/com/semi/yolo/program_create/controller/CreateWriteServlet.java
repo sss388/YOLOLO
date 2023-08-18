@@ -73,8 +73,8 @@ public class CreateWriteServlet extends HttpServlet {
 	            program.setCategory(category);
 		            
 		        // 모임시작일, 모임종료일
-	            String startDateStr = mr.getParameter("start_date");
-	            String endDateStr = mr.getParameter("end_date");
+	            String startDateStr = mr.getParameter("start_date").replace("-", "/");
+	            String endDateStr = mr.getParameter("end_date").replace("-", "/");;
 
 	            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
