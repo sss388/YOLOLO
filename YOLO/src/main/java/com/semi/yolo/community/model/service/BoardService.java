@@ -1,18 +1,16 @@
 package com.semi.yolo.community.model.service;
 
+import static com.semi.yolo.common.jdbc.JDBCTemplate.close;
+import static com.semi.yolo.common.jdbc.JDBCTemplate.commit;
+import static com.semi.yolo.common.jdbc.JDBCTemplate.getConnection;
+import static com.semi.yolo.common.jdbc.JDBCTemplate.rollback;
+
 import java.sql.Connection;
 import java.util.List;
 
 import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.community.model.dao.BoardDao;
 import com.semi.yolo.community.model.vo.Board;
-import com.semi.yolo.program.model.dao.ProgramDao;
-import com.semi.yolo.program.model.vo.Program;
-
-import static com.semi.yolo.common.jdbc.JDBCTemplate.getConnection;
-import static com.semi.yolo.common.jdbc.JDBCTemplate.close;
-import static com.semi.yolo.common.jdbc.JDBCTemplate.commit;
-import static com.semi.yolo.common.jdbc.JDBCTemplate.rollback;
 
 public class BoardService {
 	
@@ -21,7 +19,11 @@ public class BoardService {
 			int result = 0;
 			Connection connection = getConnection();
 			
-			result = new BoardDao().insertboard(connection, board);
+			if(board.getNo() == 0) {				
+				result = new BoardDao().insertboard(connection, board);
+			} else {
+				result = new BoardDao().updateBoard(connection, board);
+			}
 			
 			if (result > 0) {
 				commit(connection);

@@ -1,7 +1,6 @@
 package com.semi.yolo.customerService.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,22 +12,15 @@ import com.semi.yolo.community.model.service.BoardService;
 import com.semi.yolo.community.model.vo.Board;
 import com.semi.yolo.member.vo.Member;
 
-/**
- * Servlet implementation class NoticeCreateServlet
- */
-@WebServlet(name = "noticeCreate", urlPatterns = { "/customerService/noticeCreate" })
-public class NoticeCreateServlet extends HttpServlet {
+@WebServlet(name = "faqCreate", urlPatterns = { "/customerService/faqCreate" })
+public class FAQCreateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public NoticeCreateServlet() {
+    public FAQCreateServlet() {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int no = Integer.parseInt(request.getParameter("no"));
-		Board board = new BoardService().getBoardByNo(no);
-		
-		request.setAttribute("board", board);
-		request.getRequestDispatcher("/views/customerservice/noticeCreate.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/customerservice/FAQcreate.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,42 +31,35 @@ public class NoticeCreateServlet extends HttpServlet {
     	
     	int result = 0;
 		
-    	if (loginMember != null || loginMember.getRole() == 1) {
+    	if (loginMember != null && loginMember.getRole() == 1) {
     		
-			String title = request.getParameter("title");
+    		String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			
-			Board newNotice = new Board();
+			Board newFAQ = new Board();
 			
-			newNotice.setTitle(title);
-			newNotice.setContent(content);
-			newNotice.setUserNo(loginMember.getNo());
-			newNotice.setKind(5);
+			newFAQ.setTitle(title);
+			newFAQ.setContent(content);
+			newFAQ.setUserNo(loginMember.getNo());
+			newFAQ.setKind(4);
 			
-			try {
-				int no = Integer.parseInt(request.getParameter("no"));
-								
-				newNotice.setNo(no);
-			} catch (NumberFormatException e) {
-			}
-			
-			result = new BoardService().save(newNotice);
+			result = new BoardService().save(newFAQ);
 			
 			if (result > 0) {
 				// 게시글 등록 성공
 				request.setAttribute("msg", "게시글 등록 성공");
-				request.setAttribute("location", "/customerService/notice?no=" + newNotice.getNo());
+				request.setAttribute("location", "/customerService/faq");
 			} else {
 				// 게시글 등록 실패
 				request.setAttribute("msg", "게시글 등록 실패");
-				request.setAttribute("location", "/customerService/notice");
+				request.setAttribute("location", "/customerService/faq");
 			}
-		} else {
+    	} else {
 			request.setAttribute("msg", "로그인 후 작성해 주세요 ");
 			request.setAttribute("location", "/member/login");
 		}	
-		
-		request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
+    	
+    	request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
 	}
 
 }

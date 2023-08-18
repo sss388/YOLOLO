@@ -61,6 +61,7 @@
 <script>
 	switch(page){
 	case '/YOLO/views/customerservice/FAQ.jsp':
+	case '/YOLO/views/customerservice/FAQcreate.jsp':
 		$('.faq').addClass("active");
 		break;
 	case '/YOLO/views/customerservice/notice.jsp':

@@ -15,6 +15,7 @@ import com.semi.yolo.community.model.service.BoardService;
 import com.semi.yolo.community.model.vo.Board;
 import com.semi.yolo.customerService.service.NoticeService;
 import com.semi.yolo.customerService.vo.Notice;
+import com.semi.yolo.member.service.MemberService;
 
 // 자주묻는질문 서블릿
 
@@ -34,23 +35,26 @@ public class NoticeServlet extends HttpServlet {
 		int listCount = 0;
 		
 		PageInfo pageInfo = null;
-		List<Notice> list = null;
-		Notice currentNotice = null;
+		List<Board> list = null;
+		Board currentNotice = null;
 		
 		try {
 			page = Integer.parseInt(request.getParameter("page"));
 			no = Integer.parseInt(request.getParameter("no"));
 			
-			currentNotice = new NoticeService().getCurrentNotice(no);
+			currentNotice = new BoardService().getBoardByNo(no);
+			
+			String member_name = new MemberService().getMemberNameByNo(currentNotice.getUserNo());
 			
 			request.setAttribute("currentBoard", currentNotice);
+			request.setAttribute("member_name", member_name);
 		} catch (NumberFormatException e) {
 			page = 1;
 		}
 		
-		listCount = new NoticeService().getNoticeCount();	
+		listCount = new BoardService().getBoardCount(5);
 		pageInfo = new PageInfo(page, 10, listCount, 20);
-		list = new NoticeService().getNoticeList(pageInfo);
+		list = new BoardService().getBoardList(5);
 		
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("list", list);
