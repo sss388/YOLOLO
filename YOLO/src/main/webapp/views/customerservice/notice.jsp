@@ -72,6 +72,7 @@
     	color: #FFF;
     	margin-right: 5%;
     	transition: background-color 0.1s ease;
+    	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
     }
     
     .create_button:hover {

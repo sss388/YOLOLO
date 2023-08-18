@@ -37,7 +37,7 @@ public class BoardDao {
 		return count;
 	}
 	
-	public int getFreeBoardCount(Connection connection, int kind) {
+	public int getBoardCount(Connection connection, int kind) {
 		int count = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
