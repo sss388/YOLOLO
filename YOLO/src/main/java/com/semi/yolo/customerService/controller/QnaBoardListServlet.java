@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.customerService.service.QnaBoardService;
-import com.semi.yolo.customerService.vo.Board;
+import com.semi.yolo.customerService.vo.Qna_Board;
 
 
 @WebServlet(name = "qnaBoardList", urlPatterns = { "/customerService/qnalist" })
@@ -27,7 +27,7 @@ public class QnaBoardListServlet extends HttpServlet {
     	int page = 0;
 		int listCount = 0;
     	PageInfo pageInfo = null;
-    	List<Board> list = null;
+    	List<Qna_Board> list = null;
     	
     	try {
     		page = Integer.parseInt(request.getParameter("page"));

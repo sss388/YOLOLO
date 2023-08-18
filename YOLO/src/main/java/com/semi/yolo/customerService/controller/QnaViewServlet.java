@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.semi.yolo.customerService.service.QnaBoardService;
-import com.semi.yolo.customerService.vo.Board;
+import com.semi.yolo.customerService.vo.Qna_Board;
 
 
 
@@ -27,7 +27,7 @@ public class QnaViewServlet extends HttpServlet {
 		
 		System.out.println("게시글 번호 : " + no);
 		
-		Board board = new QnaBoardService().getBoardByNo(no);
+		Qna_Board board = new QnaBoardService().getBoardByNo(no);
 		
 		System.out.println(board);
 		

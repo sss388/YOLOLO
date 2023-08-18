@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.semi.yolo.customerService.vo.Board;
+import com.semi.yolo.customerService.vo.Qna_Board;
 import com.semi.yolo.common.util.PageInfo;
 
 import static com.semi.yolo.common.jdbc.JDBCTemplate.close;
@@ -37,8 +37,8 @@ public class commonDao {
 		return count;
 	}
 
-	public List<Board> findAll(Connection connection, PageInfo pageInfo) {
-		List<Board> list = new ArrayList<>(); // 조회되는게 있으면 리스트에 담아서 주고, 없으면 빈 리스트를 주게
+	public List<Qna_Board> findAll(Connection connection, PageInfo pageInfo) {
+		List<Qna_Board> list = new ArrayList<>(); // 조회되는게 있으면 리스트에 담아서 주고, 없으면 빈 리스트를 주게
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String query =  "SELECT RNUM, b.* FROM (SELECT ROWNUM AS RNUM, a.* FROM (SELECT B.NO, B.TITLE,M.ID, B.CREATE_DATE, B.ORIGINAL_FILENAME, B.READCOUNT,B.CONTENT FROM YOLO_COMMON B JOIN YOLO_MEMBER M ON(B.WRITER_NO = M.NO) ORDER BY B.NO DESC) a) b WHERE RNUM BETWEEN ? and ?"
@@ -56,14 +56,12 @@ public class commonDao {
 			// 1. 조회된 행에 하나씩 접근한다 (false를 리턴할 때까지)
 			while (rs.next()) {
 				// 2. 조회가 되면 각각의 행을 하나씩 객체로 만든다
-				Board board = new Board();
+				Qna_Board board = new Qna_Board();
 				
 				board.setNo(rs.getInt("NO"));
 				board.setRowNum(rs.getInt("RNUM"));
-				board.setWriterId(rs.getString("ID"));
-				board.setTitle(rs.getString("TITLE"));
+//				board.setWriterId(rs.getString("ID"));
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
-				board.setOriginalFilename(rs.getString("ORIGINAL_FILENAME"));
 				board.setReadCount(rs.getInt("READCOUNT"));
 				board.setContent(rs.getString("content"));
 				
@@ -81,8 +79,8 @@ public class commonDao {
 		return list;
 	}
 
-	public Board findBoardByNo(Connection connection, int no) {
-		Board board = null;
+	public Qna_Board findBoardByNo(Connection connection, int no) {
+		Qna_Board board = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String query = "SELECT  B.NO, "
@@ -104,14 +102,11 @@ public class commonDao {
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
-				board = new Board();
+				board = new Qna_Board();
 				
 				board.setNo(rs.getInt("NO"));
-				board.setTitle(rs.getString("TITLE"));
-				board.setWriterId(rs.getString("ID"));
+//				board.setWriterId(rs.getString("ID"));
 				board.setReadCount(rs.getInt("READCOUNT"));
-				board.setOriginalFilename(rs.getString("ORIGINAL_FILENAME"));
-				board.setRenamedFilename(rs.getString("RENAMED_FILENAME"));
 				board.setContent(rs.getString("CONTENT"));
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
 			}
@@ -125,7 +120,7 @@ public class commonDao {
 		return board;
 	}
 
-	public int insertBoard(Connection connection, Board board) {
+	public int insertBoard(Connection connection, Qna_Board board) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String query = "INSERT INTO YOLO_COMMON VALUES(SEQ_YOLO_COMMON_NO.NEXTVAL,?,?,?,?,?,DEFAULT,DEFAULT)";
@@ -135,7 +130,6 @@ public class commonDao {
 			
 			// 위의 쿼리문의 ?(5개)값들을 정해줌
 			pstmt.setInt(1, board.getWriterNo());
-			pstmt.setString(2, board.getTitle());
 			pstmt.setString(3, board.getContent());
 			pstmt.setString(4, null);
 			pstmt.setString(5, null);
@@ -150,7 +144,7 @@ public class commonDao {
 		return result;
 	}
 
-	public int updateBoard(Connection connection, Board board) {
+	public int updateBoard(Connection connection, Qna_Board board) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String query = "UPDATE YOLO_QNABOARD SET TITLE=?,CONTENT=?,ORIGINAL_FILENAME=?,RENAMED_FILENAME=?,MODIFY_DATE=SYSDATE WHERE NO=?";
@@ -158,10 +152,7 @@ public class commonDao {
 		try {
 			pstmt = connection.prepareStatement(query);
 			
-			pstmt.setString(1, board.getTitle());
 			pstmt.setString(2, board.getContent());
-			pstmt.setString(3, board.getOriginalFilename());
-			pstmt.setString(4, board.getRenamedFilename());
 			pstmt.setInt(5, board.getNo());
 			
 			result = pstmt.executeUpdate();

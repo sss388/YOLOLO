@@ -12,8 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.customerService.service.QnaBoardService;
-import com.semi.yolo.customerService.vo.Board;
 import com.semi.yolo.customerService.vo.QnaReply;
+import com.semi.yolo.customerService.vo.Qna_Board;
 import com.semi.yolo.member.vo.Member;
 
 
@@ -37,7 +37,7 @@ public class QnaServlet extends HttpServlet {
             int page = 0;
             int listCount = 0;
             PageInfo pageInfo = null;
-            List<Board> list = null;
+            List<Qna_Board> list = null;
             
             try {
                page = Integer.parseInt(request.getParameter("page"));
@@ -48,7 +48,7 @@ public class QnaServlet extends HttpServlet {
             try {               
                selected = Integer.parseInt(request.getParameter("no"));
                
-               Board currentBoard = null;
+               Qna_Board currentBoard = null;
                
                currentBoard = new QnaBoardService().getBoardByNo(selected);
                request.setAttribute("currentBoard", currentBoard);

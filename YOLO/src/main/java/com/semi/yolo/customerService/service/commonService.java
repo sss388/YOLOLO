@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.customerService.dao.commonDao;
-import com.semi.yolo.customerService.vo.Board;
+import com.semi.yolo.customerService.vo.Qna_Board;
 
 import static com.semi.yolo.common.jdbc.JDBCTemplate.close;
 import static com.semi.yolo.common.jdbc.JDBCTemplate.commit;
@@ -24,8 +24,8 @@ public class commonService {
 		return count;
 	}
 
-	public List<Board> getBoardList(PageInfo pageInfo) {
-		List<Board> list = null;
+	public List<Qna_Board> getBoardList(PageInfo pageInfo) {
+		List<Qna_Board> list = null;
 		Connection connection = getConnection();
 		
 		list = new commonDao().findAll(connection, pageInfo);
@@ -35,8 +35,8 @@ public class commonService {
 		return list;
 	}
 
-	public Board getBoardByNo(int no) {
-		Board board = null; 
+	public Qna_Board getBoardByNo(int no) {
+		Qna_Board board = null; 
 		Connection connection = getConnection();
 		
 		board = new commonDao().findBoardByNo(connection, no);
@@ -46,7 +46,7 @@ public class commonService {
 		return board;
 	}
 
-	public int save(Board board) {
+	public int save(Qna_Board board) {
 		int result = 0;
 		Connection connection = getConnection();
 		

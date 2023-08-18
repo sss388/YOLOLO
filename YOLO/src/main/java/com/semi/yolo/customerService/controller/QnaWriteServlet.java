@@ -1,7 +1,7 @@
 package com.semi.yolo.customerService.controller;
 
 import java.io.IOException;
-//import java.io.PrintWriter;
+
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,14 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.semi.yolo.common.util.FileRename;
+
 import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.customerService.service.QnaBoardService;
-import com.semi.yolo.customerService.vo.Board;
 import com.semi.yolo.customerService.vo.QnaReply;
+import com.semi.yolo.customerService.vo.Qna_Board;
 import com.semi.yolo.member.vo.Member;
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 
 
 @WebServlet(name = "qnaWrite", urlPatterns = { "/customerService/qnaWrite" })
@@ -41,7 +40,7 @@ public class QnaWriteServlet extends HttpServlet {
                 int page = 0;
                 int listCount = 0;
                 PageInfo pageInfo = null;
-                List<Board> list = null;
+                List<Qna_Board> list = null;
                 
                 try {
                    page = Integer.parseInt(request.getParameter("page"));
@@ -52,7 +51,7 @@ public class QnaWriteServlet extends HttpServlet {
                 try {               
                    selected = Integer.parseInt(request.getParameter("no"));
                    
-                   Board currentBoard = null;
+                   Qna_Board currentBoard = null;
                    
                    currentBoard = new QnaBoardService().getBoardByNo(selected);
                    request.setAttribute("currentBoard", currentBoard);
@@ -93,30 +92,28 @@ public class QnaWriteServlet extends HttpServlet {
     	Member loginMember = (Member) session.getAttribute("loginMember");
     	
     	if (loginMember != null) {
-     		// 파일이 저장될 경로
-            // String path = getServletContext().getRealPath("/resources/upload");
-        	
-        	// 파일의 최대 사이즈 지정 (10MB)
-        	// int maxSize = 10485760;
-        	
-        	// 파일 인코딩 설정
-        	// String encoding = "UTF-8";    	
-        	
-            // DefaultFileRenamePolicy : 중복되는 파일 이름 뒤에 1 ~ 9999 붙인다.
-        	// MultipartRequest mr = new MultipartRequest(request, path, maxSize, encoding, new FileRename());
-    		
-    		Board board = new Board();
+
+    		Qna_Board board = new Qna_Board();
     		
     		// 게시글을 작성한 작성자의 No 값 
     		board.setWriterNo(loginMember.getNo());
     		
-    		// 폼 파라미터로 넘어온 값들
-    		board.setTitle(request.getParameter("title"));
+    		// 문의유형
+    		
+    		// 이름
+    		board.setName(request.getParameter("name"));
+    		// 이메일
+    		board.setEmail(request.getParameter("email"));
+    		
+    		// 휴대폰번호
+    		board.setPhone(request.getParameter("phone"));
+    		
+    		// 문의내용
     		board.setContent(request.getParameter("content"));
     		
-    		// 파일에 대한 정보
-    		//board.setRenamedFilename(mr.getFilesystemName("qnafile"));
-    		//board.setOriginalFilename(mr.getOriginalFileName("qnafile"));
+    		// 동의내용
+    		board.setAgree(request.getParameter("agree"));
+    		
     		
     	    // 파일을 서비스객체에 전달하고, (나중에 dao 객체를 사용해서 db에 저장)
     		int result = new QnaBoardService().save(board);

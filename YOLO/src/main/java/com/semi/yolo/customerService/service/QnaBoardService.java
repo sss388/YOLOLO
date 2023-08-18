@@ -10,60 +10,13 @@ import java.util.List;
 
 import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.customerService.dao.QnaBoardDao;
-import com.semi.yolo.customerService.vo.Board;
 import com.semi.yolo.customerService.vo.QnaReply;
+import com.semi.yolo.customerService.vo.Qna_Board;
 
 public class QnaBoardService {
 	
-//	public int getBoardCount() {
-//		int count = 0;
-//		Connection connection = getConnection();
-//		
-//		count = new QnaBoardDao().getBoardCount(connection);
-//		
-//		close(connection);
-//		
-//		return count;
-//	}
-	
-	// 내가 작성
-	public int getBoardCount() {
-	int count = 0;
-	Connection connection = getConnection();
-	
-	count = new QnaBoardDao().getBoardCount(connection);
-	
-	close(connection);
-	
-	return count;
-}
-	
-	
-
-	public List<Board> getBoardList(PageInfo pageInfo) {
-		List<Board> list = null;
-		Connection connection = getConnection();
-		
-		list = new QnaBoardDao().findAll(connection, pageInfo);
-		
-		close(connection);
-		
-		return list;
-	}
-
-	// 글 번호를 가져오고 해당 번호의 글을 조회함
-	public Board getBoardByNo(int no) {
-		Board board = null; 
-		Connection connection = getConnection();
-		
-		board = new QnaBoardDao().findBoardByNo(connection, no);
-		
-		close(connection);
-	
-		return board;
-	}
-
-	public int save(Board board) {
+	// 저장하기
+	public int save(Qna_Board board) {
 		int result = 0;
 		Connection connection = getConnection();
 		
@@ -75,7 +28,7 @@ public class QnaBoardService {
 			result = new QnaBoardDao().insertBoard(connection, board);
 			
 		}
-	
+		
 		if (result > 0) {
 			commit(connection);
 		} else {
@@ -86,7 +39,21 @@ public class QnaBoardService {
 		
 		return result;
 	}
-
+	
+	// 글 번호를 가져오고 해당 번호의 글을 조회함
+	public Qna_Board getBoardByNo(int no) {
+		Qna_Board board = null; 
+		Connection connection = getConnection();
+		
+		board = new QnaBoardDao().findBoardByNo(connection, no);
+		
+		close(connection);
+	
+		return board;
+	}
+	
+	
+	// 삭제하기
 	public int delete(int no) {
 		int result = 0;
 		Connection connection = getConnection();
@@ -104,6 +71,32 @@ public class QnaBoardService {
 		return result;
 	}
 
+
+	public int getBoardCount() {
+	int count = 0;
+	Connection connection = getConnection();
+	
+	count = new QnaBoardDao().getBoardCount(connection);
+	
+	close(connection);
+	
+	return count;
+}
+	
+	
+
+	public List<Qna_Board> getBoardList(PageInfo pageInfo) {
+		List<Qna_Board> list = null;
+		Connection connection = getConnection();
+		
+		list = new QnaBoardDao().findAll(connection, pageInfo);
+		
+		close(connection);
+		
+		return list;
+	}
+
+	
 	public int createReply(QnaReply reply) {
 		int result = 0;
 		Connection connection = getConnection();

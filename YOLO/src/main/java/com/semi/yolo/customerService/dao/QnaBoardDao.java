@@ -12,10 +12,62 @@ import com.semi.yolo.common.jdbc.JDBCTemplate;
 import com.semi.yolo.common.util.PageInfo;
 
 import static com.semi.yolo.common.jdbc.JDBCTemplate.close;
-import com.semi.yolo.customerService.vo.Board;
 import com.semi.yolo.customerService.vo.QnaReply;
+import com.semi.yolo.customerService.vo.Qna_Board;
 
 public class QnaBoardDao {
+	// 게시글 작성
+	public int insertBoard(Connection connection, Qna_Board board) {
+	    int result = 0;
+	    PreparedStatement pstmt = null;
+	    String query = "INSERT INTO YOLO_QNABOARD (NO, TYPE, WRITER_NO, NAME, EMAIL, PHONE, CONTENT, STATUS, AGREE, CREATE_DATE, MODIFY_DATE, REPLY)"
+	                 + " VALUES (YOLO_QNABOARD_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,SYSDATE,SYSDATE,'N')";
+
+	    try {
+	        pstmt = connection.prepareStatement(query);
+
+	        pstmt.setString(1, board.getType());
+	        pstmt.setInt(2, board.getWriterNo());
+	        pstmt.setString(3, board.getName());
+	        pstmt.setString(4, board.getEmail());
+	        pstmt.setString(5, board.getPhone());  
+	        pstmt.setString(6, board.getContent());
+	        pstmt.setString(7, board.getStatus());
+	        pstmt.setString(8, board.getAgree());
+
+	        result = pstmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt);
+	    }
+
+	    return result;
+	}
+
+	public int updateBoard(Connection connection, Qna_Board board) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = "UPDATE YOLO_QNABOARD SET CONTENT=?,MODIFY_DATE=SYSDATE WHERE NO=?";
+		
+		try {
+			pstmt = connection.prepareStatement(query);
+			
+
+			pstmt.setString(1, board.getContent());
+			pstmt.setInt(2, board.getNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	
 
 	// 전체 게시물 개수
 	public int getBoardCount(Connection connection) {
@@ -43,16 +95,14 @@ public class QnaBoardDao {
 		return count;
 	}
 
-	public List<Board> findAll(Connection connection, PageInfo pageInfo) {
-		List<Board> list = new ArrayList<>(); // 조회되는게 있으면 리스트에 담아서 주고, 없으면 빈 리스트를 주게
+	public List<Qna_Board> findAll(Connection connection, PageInfo pageInfo) {
+		List<Qna_Board> list = new ArrayList<>(); // 조회되는게 있으면 리스트에 담아서 주고, 없으면 빈 리스트를 주게
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String query =  "SELECT RNUM, NO, TITLE, ID, CREATE_DATE, STATUS, REPLY "
 			    + "FROM ("
 			    +    "SELECT ROWNUM AS RNUM, "
 			    +           "NO, "
-			    + 			"TITLE, "
-			    + 			"ID, "
 			    + 			"CREATE_DATE, "
 			    +     		"STATUS, "
 			    +			"REPLY "
@@ -78,12 +128,10 @@ public class QnaBoardDao {
 			
 			while (rs.next()) {
 	
-				Board board = new Board();
+				Qna_Board board = new Qna_Board();
 				
 				board.setNo(rs.getInt("NO"));
 				board.setRowNum(rs.getInt("RNUM"));
-				board.setWriterId(rs.getString("ID"));
-				board.setTitle(rs.getString("TITLE"));
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
 				board.setStatus(rs.getString("STATUS"));
 				board.setReply(rs.getString("REPLY"));
@@ -102,13 +150,14 @@ public class QnaBoardDao {
 	}
 
 	//게시물 번호를 기반으로 특정 게시물을 가져오는 메서드
-	public Board findBoardByNo(Connection connection, int no) {
-		Board board = null;
+	public Qna_Board findBoardByNo(Connection connection, int no) {
+		Qna_Board board = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String query = "SELECT  B.NO, "
 				 + "B.TITLE, "
-				 + "M.ID, "
+				 + "M.NO, "
+				 + "B.WRITER_NO "
 				 + "B.CONTENT, "
 				 + "B.CREATE_DATE, "
 				 + "B.MODIFY_DATE, "
@@ -125,11 +174,9 @@ public class QnaBoardDao {
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
-				board = new Board();
+				board = new Qna_Board();
 				
 				board.setNo(rs.getInt("NO"));
-				board.setTitle(rs.getString("TITLE"));
-				board.setWriterId(rs.getString("ID"));
 				board.setContent(rs.getString("CONTENT"));
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
 				board.setModifyDate(rs.getDate("MODIFY_DATE"));
@@ -143,55 +190,6 @@ public class QnaBoardDao {
 		}
 		
 		return board;
-	}
-
-	public int insertBoard(Connection connection, Board board) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String query = "INSERT INTO YOLO_QNABOARD VALUES(YOLO_QNABOARD_SEQ.NEXTVAL,?,?,?,DEFAULT,DEFAULT,DEFAULT,DEFAULT)";
-		
-		try {
-			pstmt = connection.prepareStatement(query);
-			
-			pstmt.setInt(1, board.getWriterNo());
-			pstmt.setString(2, board.getTitle());
-			pstmt.setString(3, board.getContent());
-			//pstmt.setString(4, board.getOriginalFilename());
-			//pstmt.setString(5, board.getRenamedFilename());
-			
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		
-		//System.out.println(result);
-		return result;
-	}
-
-	public int updateBoard(Connection connection, Board board) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String query = "UPDATE YOLO_QNABOARD SET TITLE=?,CONTENT=?,MODIFY_DATE=SYSDATE WHERE NO=?";
-		
-		try {
-			pstmt = connection.prepareStatement(query);
-			
-			pstmt.setString(1, board.getTitle());
-			pstmt.setString(2, board.getContent());
-			//pstmt.setString(3, board.getOriginalFilename());
-			//pstmt.setString(4, board.getRenamedFilename());
-			pstmt.setInt(3, board.getNo());
-			
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		
-		return result;
 	}
 
 

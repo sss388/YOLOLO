@@ -7,7 +7,7 @@
 
 <style>
       /* input 전체 */
-      input, #qnacate {
+      input, #type {
            width: 400px;
            height: 30px;
            border: 1px solid rgb(201, 201, 201);
@@ -42,7 +42,7 @@
  	}
 </style>
 
-     <section style="justify-content: center; display: flex;">
+ <section style="justify-content: center; display: flex;">
      	<div style="width: 100%; min-width: 800px; max-width: 1280px;
 		     justify-content: center; display: flex; margin: 50px 0">
           <jsp:include page="/views/common/sidebar3.jsp" /> 
@@ -55,7 +55,7 @@
                <form action="${path}/customerService/qnaWrite" method="post">
           
                     <h4>문의유형</h4>
-                    <select name="qnacate" id="qnacate" required>
+                    <select name="type" id="type" required>
                          <option value="member_info">회원정보</option>
                          <option value="program_info">프로그램관련</option>
                          <option value="etc">기타</option>

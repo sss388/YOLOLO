@@ -79,7 +79,7 @@
 				</tr>
 				<tr>
 					<th>작성자</th>
-					<td><input type="text" name="writer" value="${ board.writerId }" readonly></td>
+					<td><input type="text" name="writer" value="${ board.writerNo }" readonly></td>
 				</tr>
 				<tr>
 				</tr>	
