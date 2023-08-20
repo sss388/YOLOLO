@@ -118,17 +118,27 @@ public class BoardDao {
 	public int insertboard(Connection connection, Board board) {
 	    int result = 0;
 	    PreparedStatement pstmt = null;
+	    
+	    String seqQuery = "SELECT YOLO_BOARD_NO.NEXTVAL FROM DUAL";
 	    String query = "INSERT INTO YOLO_BOARD (NO, TITLE, CONTENT, KIND, USER_NO)"
-	    		+ "VALUES (YOLO_BOARD_NO.NEXTVAL,?,?,?,?)";
+	    		+ "VALUES (?,?,?,?,?)";
 
 	    try {
+	    	pstmt = connection.prepareStatement(seqQuery);
+	        ResultSet rs = pstmt.executeQuery();
+
+	        // 시퀀스의 다음 값을 변수에 저장
+	        if(rs.next()) {
+	        	board.setNo(rs.getInt(1));	        	
+	        }
+	    	
 	        pstmt = connection.prepareStatement(query);
 
-	        pstmt.setString(1, board.getTitle());
-	        pstmt.setString(2, board.getContent());
-	        pstmt.setInt(3, board.getKind());
-	        pstmt.setInt(4, board.getUserNo());
-	        
+	        pstmt.setInt(1, board.getNo());
+	        pstmt.setString(2, board.getTitle());
+	        pstmt.setString(3, board.getContent());
+	        pstmt.setInt(4, board.getKind());
+	        pstmt.setInt(5, board.getUserNo());
 
 	        result = pstmt.executeUpdate();
 	    } catch (SQLException e) {
@@ -203,6 +213,7 @@ public class BoardDao {
 				board.setContent(rs.getString("CONTENT"));
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
 				board.setUserNo(rs.getInt("USER_NO"));
+				board.setKind(rs.getInt("KIND"));
 			}			
 		} catch (SQLException e) {
 			e.printStackTrace();

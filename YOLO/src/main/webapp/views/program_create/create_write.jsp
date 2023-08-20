@@ -161,7 +161,7 @@
 		                   <tr>
 		                         <th>모임 종료일</th>
 		                         <td>
-		                         	<input type="date" name="end_date" id="end_date" min="<%= LocalDate.now().toString() %>" required/>
+		                         	<input type="date" name="end_date" id="end_date" disabled required/>
 		                         <!-- 
 		                         <input type="text" name="end_date" id="end_date"  placeholder=" YYYY/MM/DD형식으로 작성해주세요."   
 		                         pattern="^(19|20)\d\d/(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])$" title=" YYYY/MM/DD형식으로 작성해주세요.">
@@ -241,6 +241,17 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=874176aa26c8be96cf01e374fe87f3ed&libraries=services"></script>
 <script>
+	$('#start_date').on('change', function() {
+		let start_date = new Date($(this).val());
+	    let end_date = new Date($('#end_date').val());
+	    if (start_date > end_date) {
+	        $('#end_date').val($(this).val());
+	    }
+		    
+    	$('#end_date').attr('min', $(this).val());
+    	$('#end_date').removeAttr('disabled');
+	});
+
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표

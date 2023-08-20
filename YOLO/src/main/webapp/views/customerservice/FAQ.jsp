@@ -138,15 +138,17 @@
 						<c:forEach var="board" items="${ list }">
 							<div class="que" style="position: relative;">
 								<span>${ board.title }</span>
-								<span style="position: absolute; right: 5%;">
-									<button onclick="location.href=`${ path }/customerService/faqCreate?no=${ board.no }`;">
-										<i id="modifyButton" class="fa-solid fa-pen"></i>
-							    	</button>
-									&nbsp;&nbsp;&nbsp;&nbsp;
-									<button onclick="deleteNotice(${board.no})">
-										<i id="deleteButton" class="fa-solid fa-trash-can"></i>
-									</button>
-								</span>
+								<c:if test="${ loginMember.getRole() == 1 }">
+									<span style="position: absolute; right: 5%;">
+										<button onclick="location.href=`${ path }/customerService/faqCreate?no=${ board.no }`;">
+											<i id="modifyButton" class="fa-solid fa-pen"></i>
+								    	</button>
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										<button onclick="deleteNotice(${board.no})">
+											<i id="deleteButton" class="fa-solid fa-trash-can"></i>
+										</button>
+									</span>
+								</c:if>
 							</div>
 							<div class="anw">
 							 	<span>${ board.content }</span>

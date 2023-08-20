@@ -41,6 +41,8 @@ public class BoardWriteServlet extends HttpServlet {
     	HttpSession session = request.getSession();
 		Member loginMember = (Member) session.getAttribute("loginMember");
 		
+		int no = 0;
+		
 		if(loginMember != null) {
 			// 파일이 저장될 경로
 	        String mainFileUploadPath = getServletContext().getRealPath("/resources/upload/board/");
@@ -52,12 +54,18 @@ public class BoardWriteServlet extends HttpServlet {
             String encoding = "UTF-8";
 
             MultipartRequest mr = new MultipartRequest(request, mainFileUploadPath, maxSize, encoding, new FileRename());
-
 			
 			Board board = new Board();
 			
-			// 게시글을 작성한 작성자의 NO 값
-			board.setUserNo(loginMember.getNo());
+			try {
+				no = Integer.parseInt(mr.getParameter("no"));
+				
+				board.setNo(no);
+			} catch (NumberFormatException e) {				
+				// 게시글을 작성한 작성자의 NO 값
+				board.setUserNo(loginMember.getNo());
+			}
+			
 			
 			// 폼 파라미터로 넘어온 값들
 			board.setTitle(mr.getParameter("title"));
@@ -73,17 +81,22 @@ public class BoardWriteServlet extends HttpServlet {
 			// 파일에 대한 정보	
             
             int result = new BoardService().save(board);
+            
             if (result > 0) {
 	        	// 게시글 등록 성공
-                request.setAttribute("msg", "게시글 등록 성공");
+            	if(no != 0) {
+            		request.setAttribute("msg", "게시글 수정 성공");
+            	} else {
+            		request.setAttribute("msg", "게시글 등록 성공");
+            	}
+            	
                 if(mr.getParameter("category").equals("meetingreview")) {
                 	request.setAttribute("location", "/community/meetingReview"); 
     			} else {
-    				request.setAttribute("location", "/community/freeBoard");
+    				request.setAttribute("location", "/community/freeBoard?no=" + board.getNo());
     			}
 	        } else {
 	        	request.setAttribute("msg", "게시글 등록 실패");
-	        	
 	        	request.setAttribute("location", "/");
 	        }
 		}  else {

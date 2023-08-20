@@ -98,16 +98,24 @@
 
 
 <section style="justify-content: center; display: flex;"> 
-	<div style="width: 100%; min-width: 800px; max-width: 1280px;
+	<div style="width: 100%; min-width: 800px; max-width: 1280px; positon: relative;
 		justify-content: center; display: flex; margin: 50px 0">
 		<!-- 사이드바 추가 -->
 		<jsp:include page="/views/common/sidebar2.jsp" /> 
 		
 		<div style="width: 100%; text-align: center;">
 			<h1 style="text-align: center; font-size: 2em; color: #AAC4FF;"><i class="fa-solid fa-hand-holding-hand"></i>&nbsp;모임후기</h1>
-			<h2 style="text-align: center;">모임 후기를 들려주세요</h2>
+			<c:if test="${ not empty param.no }">
+				<jsp:include page="/views/community/reviewDetail.jsp" />
+			</c:if> 	
+			
+			<c:if test="${ empty param.no }">
+				<h2 style="text-align: center;">모임 후기를 들려주세요</h2>
+			</c:if>
 			<h3 style="text-align: center; position: relative;">
-				즐거웠던 추억을 모두와 공유해주세요!
+				<c:if test="${ empty param.no }">
+					즐거웠던 추억을 모두와 공유해주세요!
+				</c:if>
 				<c:if test="${ loginMember.role == 1 }">
 					<span id="deleteTrigger" onclick="handleDeleteTriggerButton()" 
 					style="position: absolute; right: 0;"><i class="fa-regular fa-trash-can"></i></span>
@@ -228,7 +236,7 @@ const handleDeleteTriggerButton = () => {
 
 const showDetailPage = (no) => {
 	if(!delState){
-		location.href='${ path }/community/reviewDetail?no=' + no;		
+		location.href='${ path }/community/meetingReview?no=' + no;		
 	} else {
 		const isConfirmed = confirm('삭제하시겠습니까?');
 	    if (isConfirmed) {

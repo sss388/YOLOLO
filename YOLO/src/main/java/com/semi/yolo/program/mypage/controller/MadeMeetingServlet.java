@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.customerService.service.QnaBoardService;
-import com.semi.yolo.customerService.vo.Board;
 import com.semi.yolo.member.vo.Member;
 import com.semi.yolo.program.model.service.ProgramService;
 import com.semi.yolo.program.model.vo.Program;
