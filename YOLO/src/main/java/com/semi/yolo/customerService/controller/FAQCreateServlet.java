@@ -20,10 +20,15 @@ public class FAQCreateServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int no = Integer.parseInt(request.getParameter("no"));
-		Board board = new BoardService().getBoardByNo(no);
+		try {
+			int no = Integer.parseInt(request.getParameter("no"));
+			Board board = new BoardService().getBoardByNo(no);
+			
+			request.setAttribute("board", board);
+		} catch (NumberFormatException e) {
+			
+		}
 		
-		request.setAttribute("board", board);
 		request.getRequestDispatcher("/views/customerservice/FAQcreate.jsp").forward(request, response);
 	}
 

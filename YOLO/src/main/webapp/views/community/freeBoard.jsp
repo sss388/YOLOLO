@@ -96,20 +96,23 @@
 		justify-content: center; display: flex; margin: 50px 0">
 		<jsp:include page="/views/common/sidebar2.jsp" />
         <div style="width: 100%; text-align: center;">
-            <h3 style="color: #AAC4FF; font-size: 2em">
+            <h3 style="color: #AAC4FF; font-size: 2em; margin: 50px 0;">
             	<i class="fa-solid fa-comments"></i>&nbsp;자유게시판
-           	</h3> 
-           	<br>
+           	</h3>
+           	
+           	<c:if test="${ not empty param.no }">
+           		<jsp:include page="/views/community/freeBoarddetailpage.jsp" />
+           	</c:if>
+           	 
             <table class="board" style="justify-content: space-between; width: 100%; border: 1px solid #ddd;">
                 <tr>
                     <th>글번호</th>
-                    
                     <th width="70%">제목</th>
                     <th>작성자</th>
                     <th>등록일</th>
                 </tr>
                 <c:forEach var="board" items="${ list }">
-	                <tr onclick="location.href='${ path }/community/freeBoarddetailpage?no=${ board.no }'">
+	                <tr onclick="location.href='${ path }/community/freeBoard?page=${ param.page }&no=${ board.no }'">
 	                    <td>${ board.rowNum } </td>
 	                    <td>${ board.title }</td>
 	                    <td>${ board.userName }</td>

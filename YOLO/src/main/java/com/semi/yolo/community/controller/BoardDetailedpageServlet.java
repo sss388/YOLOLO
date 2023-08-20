@@ -24,7 +24,6 @@ public class BoardDetailedpageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	int no = Integer.parseInt(request.getParameter("no"));
     	
-    	
     	Board board = new BoardService().getProgramByNo(no);
     	String member_name = new MemberService().getMemberNameByNo(board.getUserNo());
     	
