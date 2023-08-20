@@ -111,11 +111,22 @@
 		<!-- 사이드바 추가 -->
 		<jsp:include page="/views/common/sidebar.jsp" /> 
 		
-		<div style="width: 100%; min-width: 800px; max-width: 1280px">
+		<div style="width: 100%;">
 			<h1 style="text-align: center; font-size: 2em; color: #AAC4FF;"><i class="fa-solid fa-paper-plane fa-beat"></i>&nbsp;챌린지</h1>
-			<h2 style="text-align: center;">같은 목표를 가진 멤버들과 함께 도전해요</h2>
+			
+			<c:if test="${ not empty program }">
+				<jsp:include page="/views/program_create/detailedpage.jsp" /> 		
+			</c:if>
+			
+			<c:if test="${ empty program }">
+				<h2 style="text-align: center;">같은 목표를 가진 멤버들과 함께 도전해요</h2>
+			</c:if>
+			
 			<h3 style="text-align: center; position: relative;">
-				혼자 하기 어려운 큰 목표부터 작은 목표까지 함께 즐기면서 쉽게 달성해요!
+				<c:if test="${ empty program }">
+					혼자 하기 어려운 큰 목표부터 작은 목표까지 함께 즐기면서 쉽게 달성해요!
+				</c:if>
+				
 				<c:if test="${ loginMember.role == 1 }">
 					<span id="deleteTrigger" onclick="handleDeleteTriggerButton()" 
 					style="position: absolute; right: 0;"><i class="fa-regular fa-trash-can"></i></span>
@@ -224,7 +235,7 @@ const handleDeleteTriggerButton = () => {
 
 const showDetailPage = (no) => {
 	if(!delState){
-		location.href='${ path }/program_create/detailedpage?no=' + no;		
+		location.href='${ path }/program/challenge?no=' + no;		
 	} else {
 		const isConfirmed = confirm('삭제하시겠습니까?');
 	    if (isConfirmed) {

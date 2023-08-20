@@ -70,7 +70,8 @@
     section#board-list-container{width:600px; margin:0 auto; text-align:center;}
 	section#board-list-container h2{margin:10px 0;}
     table#tbl-board{width:100%; margin:0 auto; border:1px solid black; border-collapse:collapse; clear:both; }
-	table#tbl-board th, table#tbl-board td {border:1px solid; padding: 5px 0; text-align:center;} 
+	table#tbl-board th, table#tbl-board td {border:1px solid; padding: 5px 0; text-align:center;}
+	 
 	.img_box {
 	    width: 22%;
 	    height: 50%;
@@ -78,24 +79,28 @@
 	    margin-right: 3%;
     	cursor: pointer;
 	}
+	
 	.img_box img {
 		width: 100%; 
 		height: 200px;
 		object-fit: cover;
 		transition: transform 0.2s ease-in-out;
 	}
+	
 	.img_box img:hover {
-	transform: scale(1.25);
+		transform: scale(1.25);
 	}	
+	
 	.img_box div:nth-child(2){
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    padding-bottom: 10px;
+	    font-size: 14px;
+	    font-weight: bold;
+	    margin-bottom: 5px;
+	    padding-bottom: 10px;
 	}
+	
 	.img_box span {
-    opacity: 60%;
-    font-size: 11px;
+	    opacity: 60%;
+	    font-size: 11px;
 	}
 	
 	#deleteTrigger {
@@ -115,9 +120,19 @@
 		<jsp:include page="/views/common/sidebar.jsp" /> 
 		<div style="width: 100%;">
 			<h1 style="text-align: center; font-size: 2em; color: #AAC4FF;"><i class="fa-regular fa-handshake fa-flip"></i>&nbsp;원데이</h1>
-			<h2 style="text-align: center;">똑같은 일상을 다채롭게 만들어 줄 원데이 모임</h2>
+			
+			<c:if test="${ not empty program }">
+				<jsp:include page="/views/program_create/detailedpage.jsp" /> 		
+			</c:if>
+						
+			<c:if test="${ empty program }">
+				<h2 style="text-align: center;">똑같은 일상을 다채롭게 만들어 줄 원데이 모임</h2>
+			</c:if>
+			
 			<h3 style="text-align: center; position: relative;">
-				누구나 열고 참여할 수 있는 원데이 모임, 소셜링으로 가볍고 즐겁게 만나보세요!
+				<c:if test="${ empty program }">
+					누구나 열고 참여할 수 있는 원데이 모임, 소셜링으로 가볍고 즐겁게 만나보세요!
+				</c:if>
 				<c:if test="${ loginMember.role == 1 }">
 					<span id="deleteTrigger" onclick="handleDeleteTriggerButton()" 
 					style="position: absolute; right: 0;"><i class="fa-regular fa-trash-can"></i></span>
@@ -228,7 +243,7 @@ const handleDeleteTriggerButton = () => {
 
 const showDetailPage = (no) => {
 	if(!delState){
-		location.href='${ path }/program_create/detailedpage?no=' + no;		
+		location.href='${ path }/program/oneDay?no=' + no;		
 	} else {
 		const isConfirmed = confirm('삭제하시겠습니까?');
 	    if (isConfirmed) {

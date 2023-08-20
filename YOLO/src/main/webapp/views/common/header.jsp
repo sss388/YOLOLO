@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>YOLO</title>
 <script src="${ path }/resources/js/jquery-3.7.0.js"></script>
 <link rel="stylesheet" href="${path}/resources/css/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">

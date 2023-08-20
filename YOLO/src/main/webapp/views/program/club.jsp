@@ -114,11 +114,21 @@
 		<!-- 사이드바 추가 -->
 		<jsp:include page="/views/common/sidebar.jsp" /> 
 		
-		<div style="width: 100%; min-width: 800px; max-width: 1280px">
+		<div style="width: 100%;">
 			<h1 style="text-align: center; font-size: 2em; color: #AAC4FF;"><i class="fa-solid fa-users fa-bounce"></i>&nbsp;클럽</h1>
-			<h2 style="text-align: center;">지속형 모임으로 계속해서 친하게 지내요</h2>
+			
+			<c:if test="${ not empty program }">
+				<jsp:include page="/views/program_create/detailedpage.jsp" /> 		
+			</c:if>
+			
+			<c:if test="${ empty program }">
+				<h2 style="text-align: center;">지속형 모임으로 계속해서 친하게 지내요</h2>
+			</c:if>
 			<h3 style="text-align: center; position: relative;">
-				나와 같은 관심사를 가진 친구들과 매일 함께하고 싶다면 클럽에서 만나요!
+				<c:if test="${ empty program }">
+					나와 같은 관심사를 가진 친구들과 매일 함께하고 싶다면 클럽에서 만나요!
+				</c:if>
+				
 				<c:if test="${ loginMember.role == 1 }">
 					<span id="deleteTrigger" onclick="handleDeleteTriggerButton()" 
 					style="position: absolute; right: 0;"><i class="fa-regular fa-trash-can"></i></span>
@@ -227,7 +237,7 @@ const handleDeleteTriggerButton = () => {
 
 const showDetailPage = (no) => {
 	if(!delState){
-		location.href='${ path }/program_create/detailedpage?no=' + no;		
+		location.href='${ path }/program/club?no=' + no;		
 	} else {
 		const isConfirmed = confirm('삭제하시겠습니까?');
 	    if (isConfirmed) {

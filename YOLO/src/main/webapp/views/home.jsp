@@ -64,17 +64,15 @@
                 	<c:if test="${ not empty closeDeadLine }">
 	                	<c:forEach var="item" items="${ closeDeadLine }" varStatus="status">
 	                		<div class="img_box" onclick="showProgramDetailPage(${ item.no })">
-		                        <div style="width: 100%; height: 200px; overflow: hidden;">
-		                        	<c:if test="${ not empty item.thumb }">
-		                        		<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
+		                        <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; overflow: hidden; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
+	                        		<div style="width: 100%; height: 100%;">
+			                        	<c:if test="${ not empty item.thumb }">
 		                        			<img src="resources/upload/main_file/${ item.thumb }">
-		                        		</div>
-	                            	</c:if>
-		                            <c:if test="${ empty item.thumb }">
-		                            	<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
+		                            	</c:if>
+			                            <c:if test="${ empty item.thumb }">
 		                            		<img src="resources/images/example.png">
-		                            	</div>
-		                            </c:if>
+			                            </c:if>
+		                            </div>
 		                        </div>
 		                        <div>
 		                            <span style="color: red">
@@ -106,17 +104,15 @@
                 	<c:if test="${ not empty recentProgram }">
                     <c:forEach var="item" items="${ recentProgram }" varStatus="status">
                 		<div class="img_box" onclick="showProgramDetailPage(${ item.no })">
-	                        <div style="width: 100%; height: 200px; overflow: hidden">
-	                        	<c:if test="${ not empty item.thumb }">
-	                        		<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
+	                        <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; overflow: hidden; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
+                        		<div style="width: 100%; height: 100%;">
+		                        	<c:if test="${ not empty item.thumb }">
 	                            		<img src="resources/upload/main_file/${ item.thumb }">
-	                            	</div>
-	                            </c:if>
-	                            <c:if test="${ empty item.thumb }">
-	                            	<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
+		                            </c:if>
+		                            <c:if test="${ empty item.thumb }">
 	                            		<img src="resources/images/example.png">
-	                            	</div>
-	                            </c:if>
+		                            </c:if>
+                            	</div>
 	                        </div>
 	                        <div>
 	                            <span>
@@ -143,8 +139,8 @@
                 	<c:if test="${ not empty recentReviewBoard }">
                     <c:forEach var="item" items="${ recentReviewBoard }" varStatus="status">
                 		<div class="img_box" onclick="showReviewDetailPage(${ item.no })">
-	                        <div style="width: 100%; height: 200px; overflow: hidden">
-                            	<div style="width: 100%; height: 100%; border-radius: 10px; overflow: hidden;">
+	                        <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; overflow: hidden; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
+                        		<div style="width: 100%; height: 100%;">
                             		<c:if test="${ empty item.thumb }">
 				            			<img src="resources/images/example.png">
 				            		</c:if>

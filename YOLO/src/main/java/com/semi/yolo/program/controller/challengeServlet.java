@@ -32,6 +32,15 @@ public class challengeServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             // 페이지 번호가 파라미터로 전달되지 않은 경우 처리
         }
+        
+        try {
+        	int no = Integer.parseInt(request.getParameter("no"));
+        	
+        	Program program = new ProgramService().getProgramByNo(no);
+        	request.setAttribute("program", program);
+        } catch (NumberFormatException e) {
+        	
+        }
 
         // Service를 통해 데이터 가져오기
         ProgramService programService = new ProgramService();

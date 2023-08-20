@@ -54,13 +54,26 @@ public class MeetingReviewServlet extends HttpServlet {
         } catch (NumberFormatException e) {
         	
         }
-
+        
         // Service를 통해 데이터 가져오기
         BoardService boardservice = new BoardService();
         
-        listCount = boardservice.getBoardCount(2);
-        pageInfo = new PageInfo(page, 10, listCount, 8);
-        list = new BoardService().getBoardList(pageInfo, 2);
+        try {
+        	// 검색했을 때
+        	String keyword = request.getParameter("keyword");
+        	
+        	if( !keyword.isEmpty() ) {
+        		listCount = boardservice.getBoardCountByKeyword(2, keyword);
+        		pageInfo = new PageInfo(page, 10, listCount, 8);
+        		list = new BoardService().getBoardListByKeyword(pageInfo, 2, keyword);
+        	}
+        	
+        } catch (NullPointerException e) {
+        	// 안했을 때
+        	listCount = boardservice.getBoardCount(2);
+        	pageInfo = new PageInfo(page, 10, listCount, 8);
+        	list = new BoardService().getBoardList(pageInfo, 2);
+        }
 
         request.setAttribute("pageInfo", pageInfo);
         request.setAttribute("list", list);

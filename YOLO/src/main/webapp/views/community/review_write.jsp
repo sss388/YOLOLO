@@ -96,7 +96,6 @@ section #joinform input {
 				<c:if test="${ not empty board }">
 					<input type="text" name="no" value="${ board.no }" hidden>
 				</c:if>
-				${kind}
 				<table class="create_write">
 		            <tr>
 		                 <th>제목</th>
