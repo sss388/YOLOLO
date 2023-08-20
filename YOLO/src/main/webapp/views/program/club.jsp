@@ -121,11 +121,16 @@
 				<jsp:include page="/views/program_create/detailedpage.jsp" /> 		
 			</c:if>
 			
-			<c:if test="${ empty program }">
+			<c:if test="${ empty program and empty param.keyword }">
 				<h2 style="text-align: center;">지속형 모임으로 계속해서 친하게 지내요</h2>
 			</c:if>
+			
+			<c:if test="${ not empty param.keyword }">
+				<h2 style="text-align: center;">"${ param.keyword }"의 검색 결과는 ${ list.size() }개 입니다.</h2>
+			</c:if>
+			
 			<h3 style="text-align: center; position: relative;">
-				<c:if test="${ empty program }">
+				<c:if test="${ empty program and empty param.keyword }">
 					나와 같은 관심사를 가진 친구들과 매일 함께하고 싶다면 클럽에서 만나요!
 				</c:if>
 				
@@ -138,7 +143,12 @@
                 <div style="display: flex; flex-wrap: wrap;">
                 	<c:if test="${ empty list }">
                 		<div style="width:100%; height: 300px; display: flex; align-items: center; justify-content: center;">
-                			모임이 없습니다. ㅠㅠ
+                			<c:if test="${ not empty param.keyword }">
+                				검색 결과가 없습니다.
+                			</c:if>
+                			<c:if test="${ empty param.keyword }">
+               					모임이 없습니다. ㅠㅠ
+               				</c:if>
                 		</div>
                 	</c:if>
                 	<c:if test="${ not empty list }">
@@ -164,8 +174,11 @@
            
  
             <br>
-            <div style="text-align: right;">
-            	<button class="create_freeboard" id="create_write">글쓰기</button>	
+            <div style="position: relative; justify-content: center; display: flex; align-items: center;">
+            	<div style="position: absolute; width: 100%; text-align: right;">
+            		<button class="create_freeboard" id="create_write">글쓰기</button>
+           		</div>	
+            	<jsp:include page="/views/common/search.jsp" /> 
             </div>
 			
               

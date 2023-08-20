@@ -103,6 +103,15 @@
            	<c:if test="${ not empty param.no }">
            		<jsp:include page="/views/community/freeBoarddetailpage.jsp" />
            	</c:if>
+           	
+           	<c:if test="${ not empty param.keyword }">
+           		<c:if test="${ list.size() == 0 }">
+           			<h2 style="text-align: center; margin-bottom: 50px;">검색 결과가 없습니다.</h2>
+           		</c:if>
+           		<c:if test="${ list.size() != 0 }">
+					<h2 style="text-align: center; margin-bottom: 50px;">"${ param.keyword }"의 검색 결과는 ${ list.size() }개 입니다.</h2>
+				</c:if>
+			</c:if>
            	 
             <table class="board" style="justify-content: space-between; width: 100%; border: 1px solid #ddd;">
                 <tr>
@@ -127,8 +136,11 @@
             </table>
             
             <br>
-            <div style="text-align: right;">
-            	<button class="create_button" id="create_write" >글쓰기</button>	
+            <div style="position: relative; justify-content: center; display: flex; align-items: center;">
+            	<div style="position: absolute; width: 100%; text-align: right;">
+            		<button class="create_button" id="create_write" >글쓰기</button>
+           		</div>	
+            	<jsp:include page="/views/common/search.jsp" /> 
             </div>
             
             <!-- 맨 처음으로 -->

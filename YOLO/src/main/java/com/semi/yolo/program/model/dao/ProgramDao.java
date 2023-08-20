@@ -147,6 +147,31 @@ public class ProgramDao {
         return result;
     }
     
+    public int getProgramCountByKeyword(Connection connection, String kind, String keyword) {
+    	int count = 0;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String query = "SELECT COUNT(*) FROM YOLO_PROGRAM WHERE STATUS='Y' AND CATEGORY=? AND TITLE LIKE ?";
+
+        try {
+            pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, kind);
+            pstmt.setString(2, "%" + keyword + "%");
+            
+            rs = pstmt.executeQuery();            
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rs);
+            close(pstmt);
+        }
+
+        return count;
+    }
 	
 	// getOneDayCount(Connection connection), getClubCount(Connection connection), getChallengeCount(Connection connection): 
 	// 각각 OneDay, Club, Challenge 카테고리의 프로그램 수를 조회하는 메서드
@@ -358,5 +383,7 @@ public class ProgramDao {
 
         return list;
     }
+
+
 
 }

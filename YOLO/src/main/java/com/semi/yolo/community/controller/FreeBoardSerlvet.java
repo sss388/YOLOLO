@@ -52,10 +52,23 @@ public class FreeBoardSerlvet extends HttpServlet {
 		} catch (NumberFormatException e) {
 		}
 		
-		listCount = new BoardService().getBoardCount(1);	
-		pageInfo = new PageInfo(page, 10, listCount, 20);
-		list = new BoardService().getBoardList(pageInfo, 1);
+		BoardService boardservice = new BoardService();
 		
+		try {
+        	// 검색했을 때
+        	String keyword = request.getParameter("keyword");
+        	
+        	if( !keyword.isEmpty() ) {
+        		listCount = boardservice.getBoardCountByKeyword(1, keyword);
+        		pageInfo = new PageInfo(page, 10, listCount, 20);
+        		list = new BoardService().getBoardListByKeyword(pageInfo, 1, keyword);
+        	}
+        	
+		} catch (NullPointerException e) {
+			listCount = boardservice.getBoardCount(1);	
+			pageInfo = new PageInfo(page, 10, listCount, 20);
+			list = boardservice.getBoardList(pageInfo, 1);
+		}
 		
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("list", list);

@@ -67,7 +67,16 @@ public class ProgramService {
         return result;
     }
     
-    
+    public int getProgramCountByKeyword(String keyword, String kind) {
+    	int count = 0;
+        Connection connection = getConnection();
+
+        count = new ProgramDao().getProgramCountByKeyword(connection, kind, keyword);
+
+        close(connection);
+
+        return count;
+    }
 	
 	// getOneDayCount(), getClubCount(), getChallengeCount(): 각각 OneDay, Club, Challenge 카테고리의 프로그램 수를 조회하는 메서드
 	public int getOneDayCount() {
@@ -140,4 +149,6 @@ public class ProgramService {
 
         return list;
     }
+
+
 }

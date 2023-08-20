@@ -26,17 +26,6 @@
    	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
 }
 
-#search_button {
-	border: none;
-	background-color: #AAC4FF;
-	padding: 5px 10px;
-	border-radius: 10px;
-	color: #FFF;
-   	transition: background-color 0.1s ease;
-   	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
-}
-
-#search_button:hover,    
 #create_write:hover {
 	background-color: #668FD8;
 }
@@ -119,15 +108,20 @@
 				<jsp:include page="/views/community/reviewDetail.jsp" />
 			</c:if> 	
 			
-			<c:if test="${ empty param.no } || ${ empty param.keyword }">
+			<c:if test="${ empty param.no and empty param.keyword }">
 				<h2 style="text-align: center;">모임 후기를 들려주세요</h2>
 			</c:if>
 			<c:if test="${ not empty param.keyword }">
-				<h2 style="text-align: center;">"${ param.keyword }"의 검색 결과는 ${ list.size() }개 입니다.</h2>
+				<c:if test="${ list.size() == 0 }">
+           			<h2 style="text-align: center; margin-bottom: 50px;">검색 결과가 없습니다.</h2>
+           		</c:if>
+           		<c:if test="${ list.size() != 0 }">
+					<h2 style="text-align: center;">"${ param.keyword }"의 검색 결과는 ${ list.size() }개 입니다.</h2>
+				</c:if>
 			</c:if>
 			
 			<h3 style="text-align: center; position: relative;">
-				<c:if test="${ empty param.no } || ${ empty param.keyword }">
+				<c:if test="${ empty param.no and empty param.keyword }">
 					즐거웠던 추억을 모두와 공유해주세요!
 				</c:if>
 				<c:if test="${ loginMember.role == 1 }">
@@ -138,29 +132,10 @@
 			
 			<div class="board" style="width: 100%;">
 		    	<div>
-                	<div style="display: flex;">
-			    		<c:forEach var="item" items="${list}" varStatus="status" end="3">
-						    <div class="img_box" onclick="showDetailPage(${ item.no })">
-						        <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
-				            		<c:if test="${ empty item.thumb }">
-				            			<img src="${ path }/resources/images/example.png">
-				            		</c:if>
-				            		<c:if test="${ not empty item.thumb }">
-				            			<img src="${ item.thumb }">
-			            			</c:if>
-						        </div>
-						        <div class="img_info">
-						            <span style="opacity: 50%; font-size: 12px;"><fmt:formatDate value="${item.createDate}" pattern="yyyy년 MM월 d일" /></span><br>
-						            ${item.title}
-						        </div>
-						    </div>
-						</c:forEach>
-					</div>
-					<br>
-					<div style="display: flex;">
-			    		<c:forEach var="item" items="${list}" varStatus="status" >
-			    			<c:if test="${status.index >= 4}">
-							     <div class="img_box" onclick="showDetailPage(${ item.no })">
+		    		<c:if test="${ not empty list }">
+	                	<div style="display: flex;">
+				    		<c:forEach var="item" items="${list}" varStatus="status" end="3">
+							    <div class="img_box" onclick="showDetailPage(${ item.no })">
 							        <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 					            		<c:if test="${ empty item.thumb }">
 					            			<img src="${ path }/resources/images/example.png">
@@ -174,9 +149,40 @@
 							            ${item.title}
 							        </div>
 							    </div>
-						    </c:if>
-						</c:forEach>
-					</div>
+							</c:forEach>
+						</div>
+						<br>
+						<div style="display: flex;">
+				    		<c:forEach var="item" items="${list}" varStatus="status" >
+				    			<c:if test="${status.index >= 4}">
+								     <div class="img_box" onclick="showDetailPage(${ item.no })">
+								        <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
+						            		<c:if test="${ empty item.thumb }">
+						            			<img src="${ path }/resources/images/example.png">
+						            		</c:if>
+						            		<c:if test="${ not empty item.thumb }">
+						            			<img src="${ item.thumb }">
+					            			</c:if>
+								        </div>
+								        <div class="img_info">
+								            <span style="opacity: 50%; font-size: 12px;"><fmt:formatDate value="${item.createDate}" pattern="yyyy년 MM월 d일" /></span><br>
+								            ${item.title}
+								        </div>
+								    </div>
+							    </c:if>
+							</c:forEach>
+						</div>
+					</c:if>
+					<c:if test="${ empty list }">
+						<div style="width:100%; height: 300px; display: flex; align-items: center; justify-content: center;">
+							<c:if test="${ not empty param.keyword }">
+                				검색 결과가 없습니다.
+                			</c:if>
+                			<c:if test="${ empty param.keyword }">
+               					모임이 없습니다. ㅠㅠ
+               				</c:if>
+						</div>
+					</c:if>
 				</div>
 			</div>
            
@@ -186,12 +192,7 @@
             	<div style="position: absolute; width: 100%; text-align: right;">
 					<button class="create_freeboard" id="create_write">글쓰기</button>
             	</div>
-            	<div style="z-index: 1; position: relative;">
-            		<form method="GET" id="search_form" action="">
-		            	<input name="keyword" type="text" style="border-radius: 10px; padding: 2.5px 5px;" required>
-		            	<button id="search_button">검색</button>
-            		</form>
-            	</div>
+            	<jsp:include page="/views/common/search.jsp" /> 
             </div>
 			
               
