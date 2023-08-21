@@ -111,11 +111,26 @@
 		<!-- 사이드바 추가 -->
 		<jsp:include page="/views/common/sidebar.jsp" /> 
 		
-		<div style="width: 100%; min-width: 800px; max-width: 1280px">
+		<div style="width: 100%;">
 			<h1 style="text-align: center; font-size: 2em; color: #AAC4FF;"><i class="fa-solid fa-paper-plane fa-beat"></i>&nbsp;챌린지</h1>
-			<h2 style="text-align: center;">같은 목표를 가진 멤버들과 함께 도전해요</h2>
+			
+			<c:if test="${ not empty program }">
+				<jsp:include page="/views/program_create/detailedpage.jsp" /> 		
+			</c:if>
+			
+			<c:if test="${ empty program and empty param.keyword }">
+				<h2 style="text-align: center;">같은 목표를 가진 멤버들과 함께 도전해요</h2>
+			</c:if>
+			
+			<c:if test="${ not empty param.keyword }">
+				<h2 style="text-align: center;">"${ param.keyword }"의 검색 결과는 ${ list.size() }개 입니다.</h2>
+			</c:if>
+			
 			<h3 style="text-align: center; position: relative;">
-				혼자 하기 어려운 큰 목표부터 작은 목표까지 함께 즐기면서 쉽게 달성해요!
+				<c:if test="${ empty program and empty param.keyword }">
+					혼자 하기 어려운 큰 목표부터 작은 목표까지 함께 즐기면서 쉽게 달성해요!
+				</c:if>
+				
 				<c:if test="${ loginMember.role == 1 }">
 					<span id="deleteTrigger" onclick="handleDeleteTriggerButton()" 
 					style="position: absolute; right: 0;"><i class="fa-regular fa-trash-can"></i></span>
@@ -125,7 +140,12 @@
                 <div style="display: flex; flex-wrap: wrap;">
                 	<c:if test="${ empty list }">
                 		<div style="width:100%; height: 300px; display: flex; align-items: center; justify-content: center;">
-                			모임이 없습니다. ㅠㅠ
+                			<c:if test="${ not empty param.keyword }">
+                				검색 결과가 없습니다.
+                			</c:if>
+                			<c:if test="${ empty param.keyword }">
+               					모임이 없습니다. ㅠㅠ
+               				</c:if>
                 		</div>
                 	</c:if>
                 	<c:if test="${ not empty list }">
@@ -151,8 +171,11 @@
            
  
             <br>
-            <div style="text-align: right;">
-            	<button class="create_freeboard" id="create_write">글쓰기</button>	
+            <div style="position: relative; justify-content: center; display: flex; align-items: center;">
+            	<div style="position: absolute; width: 100%; text-align: right;">
+            		<button class="create_freeboard" id="create_write">글쓰기</button>
+           		</div>	
+            	<jsp:include page="/views/common/search.jsp" /> 
             </div>
 			
               
@@ -224,7 +247,7 @@ const handleDeleteTriggerButton = () => {
 
 const showDetailPage = (no) => {
 	if(!delState){
-		location.href='${ path }/program_create/detailedpage?no=' + no;		
+		location.href='${ path }/program/challenge?no=' + no;		
 	} else {
 		const isConfirmed = confirm('삭제하시겠습니까?');
 	    if (isConfirmed) {

@@ -22,10 +22,7 @@ public class ProgramDetailedpageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	int no = Integer.parseInt(request.getParameter("no"));
     	
-    	
     	Program program = new ProgramService().getProgramByNo(no);
-    	
-//    	System.out.println(program);   => 확인완료
     	
     	request.setAttribute("program", program); 
     	request.getRequestDispatcher("/views/program_create/detailedpage.jsp").forward(request, response);

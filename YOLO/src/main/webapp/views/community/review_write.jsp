@@ -65,11 +65,14 @@ section #joinform input {
     	background: none;
     	cursor: pointer;
     	background-color: #AAC4FF; 
-    	padding: 7.5px 30px;
+    	padding: 7.5px 0;
+    	width: 100%;
     	border-radius: 10px;
     	color: #FFF;
     	margin-right: 5%;
     	transition: background-color 0.1s ease;
+    	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    	text-align: center;
     }
     
     .create_freeboard:hover {
@@ -82,28 +85,47 @@ section #joinform input {
 	<div style="width: 100%; min-width: 800px; max-width: 1280px;
 		justify-content: center; display: flex; margin: 50px 0">
 		<div>			
-			<h1>게시판 작성</h1>
+			<c:if test="${ not empty board }">
+				<h1>게시글 수정</h1>
+			</c:if>
+			<c:if test="${ empty board }">
+				<h1>게시글 작성</h1>
+			</c:if>
 			<div id="joinform" style="width: 100%; justify-content: center; display: flex; padding-top: 30px;">
 			<form action="${ path }/community/reviewwrite" method="POST" enctype="multipart/form-data">
+				<c:if test="${ not empty board }">
+					<input type="text" name="no" value="${ board.no }" hidden>
+				</c:if>
 				<table class="create_write">
 		            <tr>
 		                 <th>제목</th>
-		                 <td><input type="text" name="title" id="groupname"></td>
+		                 <td><input type="text" name="title" id="groupname" value="${ board.title }"></td>
 		            </tr>
 		
 		            <tr>
 		                 <th>작성자</th>
 		                 <td>
-		                 	<p style="font-size: 16px; color: black;" >${ loginMember.name }</p>
+		                 	<c:if test="${ not empty board }">
+		                 		<p style="font-size: 16px; color: black;" >${ board.userName }</p>
+		                 	</c:if>
+		                 	<c:if test="${ empty board }">
+		                 		<p style="font-size: 16px; color: black;" >${ loginMember.name }</p>
+		                 	</c:if>
 		                 </td>
 		            </tr>
-		
+					
+					
 		             <tr>
 		                  <th>카테고리</th>
 		                  <td>
                     		<select name="category" id="category" style="width:30%; font-size: 16px;">
 		                          <option value="freeboard">자유 게시판</option>
-		                          <option value="meetingreview">모임 후기 게시판</option>  
+		                          <c:if test="${ not empty kind }">
+		                          	<option value="meetingreview" selected>모임 후기 게시판</option>
+		                          </c:if>
+		                          <c:if test="${ empty kind }">
+		                          	<option value="meetingreview">모임 후기 게시판</option>
+		                          </c:if>  
 	                     	</select>
 		                  </td>
 		             </tr>
@@ -111,7 +133,7 @@ section #joinform input {
 		              <tr>
 		             		<th>상세내용</th>
 		              	 	<td>
-		               			<textarea name="content" id="content" class="editor"></textarea>
+		               			<textarea name="content" id="content" class="editor">${ board.content }</textarea>
 		                	</td>
 		              </tr>
 		
@@ -119,7 +141,6 @@ section #joinform input {
 	             </table>
 	             <div style="margin-top: 30px;">
 	               	<button class="create_freeboard" id="refind">등록</button>	
-	                <button class="create_freeboard"id="createAccount">취소</button>	
 	             </div>
 			</form>
 		</div>
@@ -130,10 +151,10 @@ section #joinform input {
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
+
 	if(${param.category} == 2){
 		$('#category').val('meetingreview');
 	}
-
 
      function addToList(inputId, listId) {
           var inclusionText = document.getElementById(inputId).value;

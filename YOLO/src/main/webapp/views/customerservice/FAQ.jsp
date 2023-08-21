@@ -12,9 +12,9 @@
   
 .que{
   position: relative;
-  padding: 17px 0;
+  padding: 20px 0;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   border-bottom: 1px solid #dddddd;
 }
 
@@ -22,7 +22,7 @@
 .que::before{
   display: inline-block;
   content: 'Q';
-  font-size: 14px;
+  font-size: 16px;
   color: #AAC4FF;
   margin: 0 5px;
 }
@@ -34,7 +34,7 @@
 .anw {
   display: none;
   overflow: hidden;
-  font-size: 14px;
+  font-size: 16px;
   background-color: #EEF1FF;
   padding: 27px 0;
 }
@@ -42,7 +42,7 @@
 .anw::before {
   display: inline-block;
   content: 'A';
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   color: #AAC4FF;
   margin: 0 5px;
@@ -122,6 +122,21 @@
 #deleteButton:hover {
 	color: orangered;
 }
+
+#search_keyword {
+	width: 60%;
+	height: 35px;
+	margin-bottom: 50px;
+	font-size: 16px;
+}
+
+#search_button {
+	width: 10%;
+	height: 40px;
+	text-align: center;
+	font-size: 20px;
+}
+
 </style>
 
 <section style="justify-content: center; display: flex;">
@@ -133,20 +148,24 @@
 	            	<i class="fa-regular fa-circle-question fa-spin"></i>&nbsp;자주 묻는 질문
 	           	</h3> 
 	           	
+	           	<jsp:include page="/views/common/search.jsp" />
+	           	
 	           	<c:if test="${ not empty list }">
 					<div id="Accordion_wrap">
 						<c:forEach var="board" items="${ list }">
 							<div class="que" style="position: relative;">
 								<span>${ board.title }</span>
-								<span style="position: absolute; right: 5%;">
-									<button onclick="location.href=`${ path }/customerService/faqCreate?no=${ board.no }`;">
-										<i id="modifyButton" class="fa-solid fa-pen"></i>
-							    	</button>
-									&nbsp;&nbsp;&nbsp;&nbsp;
-									<button onclick="deleteNotice(${board.no})">
-										<i id="deleteButton" class="fa-solid fa-trash-can"></i>
-									</button>
-								</span>
+								<c:if test="${ loginMember.getRole() == 1 }">
+									<span style="position: absolute; right: 5%;">
+										<button onclick="location.href=`${ path }/customerService/faqCreate?no=${ board.no }`;">
+											<i id="modifyButton" class="fa-solid fa-pen"></i>
+								    	</button>
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										<button onclick="deleteNotice(${board.no})">
+											<i id="deleteButton" class="fa-solid fa-trash-can"></i>
+										</button>
+									</span>
+								</c:if>
 							</div>
 							<div class="anw">
 							 	<span>${ board.content }</span>

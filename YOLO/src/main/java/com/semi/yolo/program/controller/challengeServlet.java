@@ -24,23 +24,41 @@ public class challengeServlet extends HttpServlet {
 		int page = 1; // 기본 페이지 번호를 1로 설정
         int listCount = 0;
         PageInfo pageInfo = null;
-
-        
+        List<Program> list = null;
 
         try {
             page = Integer.parseInt(request.getParameter("page"));
         } catch (NumberFormatException e) {
             // 페이지 번호가 파라미터로 전달되지 않은 경우 처리
         }
+        
+        try {
+        	int no = Integer.parseInt(request.getParameter("no"));
+        	
+        	Program program = new ProgramService().getProgramByNo(no);
+        	request.setAttribute("program", program);
+        } catch (NumberFormatException e) {
+        	
+        }
 
-        // Service를 통해 데이터 가져오기
         ProgramService programService = new ProgramService();
-        listCount = programService.getChallengeCount();
-        pageInfo = new PageInfo(page, 10, listCount, 8);
-        List<Program> list = new ProgramService().getBoardList(pageInfo, "challenge");
         
+        try {
+        	// 검색했을 때
+        	String keyword = request.getParameter("keyword");
+        	
+        	if( !keyword.isEmpty() ) {
+        		listCount = programService.getProgramCountByKeyword(keyword, "challenge");
+        		pageInfo = new PageInfo(page, 10, listCount, 8);
+        		list = new ProgramService().getBoardList(pageInfo, "challenge");
+        	}
+        	
+		} catch (NullPointerException e) {
+			listCount = programService.getChallengeCount();
+			pageInfo = new PageInfo(page, 10, listCount, 8);
+			list = new ProgramService().getBoardList(pageInfo, "challenge");
+		}
         
-
         request.setAttribute("pageInfo", pageInfo);
         request.setAttribute("list", list);
 		

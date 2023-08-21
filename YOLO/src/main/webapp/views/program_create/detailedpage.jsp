@@ -3,8 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="path" value="${ pageContext.request.contextPath }"/>
 
-<jsp:include page="/views/common/header.jsp" />
-
 <!-- 상세페이지 -->
 
 <style>
@@ -90,75 +88,73 @@
 </style>
 
 <section style="display: flex; justify-content: center;">
-	<div style="width: 100%; justify-content: center; display: flex; min-width: 800px; max-width: 1280px; ">
-		<div style="width: 100%; justify-content: center; display: flex; padding: 50px; 2.5%;">
-			<div style="width: 100%;">
-				<table style="width: 100%;">
-					<tr style="height: 300px;">
-						<th id="inter1">
-							<div style="margin-right: 25px;">
-								<c:if test="${ empty program.thumb }">
-									<img src="${path}/resources/images/example.png" class="thumb_style">
-								</c:if>
-								<c:if test="${ not empty program.thumb }">
-									<img src="${path}/resources/upload/main_file/${ program.thumb }" class="thumb_style">
-								</c:if>
-							</div>
-						</th>
-						<th id="inter2" style="height: 60px; font-size: 20px; text-align: center;">
-							  <div style="height: 60px; line-height: 60px;">${ program.title }</div>
-						</th> 
-						<!-- 모임 시작일/ 종료일 -->
-						<th id="inter2" class="date" style="height: 150px;">
-							<h5>모임 시작일</h5>
-							<p>${ program.startDate }</p>
-							<h5>모임 종료일</h5>
-							<p>${ program.expireDate }</p>
-						</th>
-						<th id="inter2">
-							<input type="button" id="btn_join" value="참가하기">
-						</th>
-						<th id="inter2" style="height: 30px;">${ program.writename }</th>
-					</tr>
-				</table>
-
-				<div style="display: flex;">				
-					<div style="width: 75%;">
-						<h4>세부정보</h4>
-						<div style="text-align: left; min-height: 300px;">
-							${ program.content }
+	<div style="width: 100%; justify-content: center; display: flex; padding: 50px; 2.5%;">
+		<div style="width: 100%;">
+			<table style="width: 100%;">
+				<tr style="height: 300px;">
+					<th id="inter1">
+						<div style="margin-right: 25px;">
+							<c:if test="${ empty program.thumb }">
+								<img src="${path}/resources/images/example.png" class="thumb_style">
+							</c:if>
+							<c:if test="${ not empty program.thumb }">
+								<img src="${path}/resources/upload/main_file/${ program.thumb }" class="thumb_style">
+							</c:if>
 						</div>
+					</th>
+					<th id="inter2" style="height: 60px; font-size: 20px; text-align: center;">
+						  <div style="height: 60px; line-height: 60px;">${ program.title }</div>
+					</th> 
+					<!-- 모임 시작일/ 종료일 -->
+					<th id="inter2" class="date" style="height: 150px;">
+						<h5>모임 시작일</h5>
+						<p>${ program.startDate }</p>
+						<h5>모임 종료일</h5>
+						<p>${ program.expireDate }</p>
+					</th>
+					<th id="inter2">
+						<input type="button" id="btn_join" value="참가하기">
+					</th>
+					<th id="inter2" style="height: 30px;">${ program.writename }</th>
+				</tr>
+			</table>
+
+			<div style="display: flex;">				
+				<div style="width: 75%;">
+					<h4>세부정보</h4>
+					<div style="text-align: left; min-height: 300px;">
+						${ program.content }
 					</div>
-					
-					<div id="plus">
-						<h4>포함 사항</h4>
-						<p>- ${ program.inclusion }</p>
-						<h4>불포함 사항</h4>
-						<p>- ${ program.noninclusion }</p>
-						<h4>준비물</h4>
-						<p>- ${ program.supplies }</p>
-					
-					</div>
-				</div>
-	
-				<!-- 지도 -->
-				<div>
-					<h4>모이는 장소</h4>
-					<div id="map"  style="width: 100%; height: 350px"></div>
 				</div>
 				
-	
-					
-				<!-- 수정 및 삭제 버튼 -->
-				<div>
-				    <div style="margin-top: 20px;" id="btn_login">	
-					<c:if test="${(loginMember != null) || (loginMember.no == program.userno)}">
-				    	<input type="button" onclick="location.href='${path}/program/update?no=${program.no}'" value="수정">
-				    	<input type="button" id="btnDelete" value="삭제">
-					</c:if>    	
-				    	<input type="button" onclick="location.href='${ path }/program/oneDay'" value="목록으로">
-				    </div>
+				<div id="plus">
+					<h4>포함 사항</h4>
+					<p>- ${ program.inclusion }</p>
+					<h4>불포함 사항</h4>
+					<p>- ${ program.noninclusion }</p>
+					<h4>준비물</h4>
+					<p>- ${ program.supplies }</p>
+				
 				</div>
+			</div>
+
+			<!-- 지도 -->
+			<div>
+				<h4>모이는 장소</h4>
+				<div id="map"  style="width: 100%; height: 350px"></div>
+			</div>
+			
+
+				
+			<!-- 수정 및 삭제 버튼 -->
+			<div>
+			    <div style="margin-top: 20px;" id="btn_login">	
+				<c:if test="${(loginMember != null) || (loginMember.no == program.userno)}">
+			    	<input type="button" onclick="location.href='${path}/program/update?no=${program.no}'" value="수정">
+			    	<input type="button" id="btnDelete" value="삭제">
+				</c:if>    	
+			    	<input type="button" onclick="location.href='${ path }/program/oneDay'" value="목록으로">
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -215,4 +211,3 @@
 
 </script>
 
-<jsp:include page="/views/common/footer.jsp" />

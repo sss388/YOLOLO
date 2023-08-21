@@ -5,15 +5,16 @@
 
 <style>
 	#sidebar {
-		width: 200px;
+		width: 12%;
+		margin-right: 5%;
 	}
 	
 	#sidebar>div{
-		width: 100%;
-		height: 100%;
+		top: 35%;
+		width: 10%;
 		color: white;
-		display: flex;
-	  	align-items: center;
+	  	position: fixed;
+	  	display: flex;
 	  	justify-content: center;
 	}
 	

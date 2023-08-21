@@ -96,36 +96,60 @@
 		justify-content: center; display: flex; margin: 50px 0">
 		<jsp:include page="/views/common/sidebar2.jsp" />
         <div style="width: 100%; text-align: center;">
-            <h3 style="color: #AAC4FF; font-size: 2em">
+            <h3 style="color: #AAC4FF; font-size: 2em; margin: 50px 0;">
             	<i class="fa-solid fa-comments"></i>&nbsp;자유게시판
-           	</h3> 
-           	<br>
+           	</h3>
+           	
+           	<c:if test="${ not empty param.no }">
+           		<jsp:include page="/views/community/freeBoarddetailpage.jsp" />
+           	</c:if>
+           	
+           	<c:if test="${ not empty param.keyword }">
+           		<c:if test="${ list.size() == 0 }">
+           			<h2 style="text-align: center; margin-bottom: 50px;">검색 결과가 없습니다.</h2>
+           		</c:if>
+           		<c:if test="${ list.size() != 0 }">
+					<h2 style="text-align: center; margin-bottom: 50px;">"${ param.keyword }"의 검색 결과는 ${ list.size() }개 입니다.</h2>
+				</c:if>
+			</c:if>
+           	 
             <table class="board" style="justify-content: space-between; width: 100%; border: 1px solid #ddd;">
                 <tr>
                     <th>글번호</th>
-                    
                     <th width="70%">제목</th>
                     <th>작성자</th>
                     <th>등록일</th>
                 </tr>
-                <c:forEach var="board" items="${ list }">
-	                <tr onclick="location.href='${ path }/community/freeBoarddetailpage?no=${ board.no }'">
-	                    <td>${ board.rowNum } </td>
-	                    <td>${ board.title }</td>
-	                    <td>${ board.userName }</td>
-	                    <td>${ board.createDate }</td>
-	                    <c:if test="${ loginMember.role == 1 }">
-	                    	<td class="delete">
-	                    		<i class="fa-regular fa-trash-can" onclick="deleteBoard(${ board.no })"></i>
-	                    	</td>
-	                    </c:if>
-	                </tr>
-                </c:forEach>
+                <c:if test="${ not empty list }">
+	                <c:forEach var="board" items="${ list }">
+		                <tr onclick="location.href='${ path }/community/freeBoard?page=${ param.page }&no=${ board.no }'">
+		                    <td>${ board.rowNum } </td>
+		                    <td>${ board.title }</td>
+		                    <td>${ board.userName }</td>
+		                    <td>${ board.createDate }</td>
+		                    <c:if test="${ loginMember.role == 1 }">
+		                    	<td class="delete">
+		                    		<i class="fa-regular fa-trash-can" onclick="deleteBoard(${ board.no })"></i>
+		                    	</td>
+		                    </c:if>
+		                </tr>
+	                </c:forEach>
+                </c:if>
+                <c:if test="${ empty list }">
+                	<tr>
+                		<td colspan="4">
+                			게시글이 없습니다.
+                		</td>
+                	</tr>
+                </c:if>
             </table>
             
             <br>
-            <div style="text-align: right;">
-            	<button class="create_button" id="create_write" >글쓰기</button>	
+            <div style="position: relative; justify-content: center; display: flex; align-items: center;">
+            	<div style="position: absolute; width: 100%; text-align: right;">
+            		<button class="create_button" id="create_write" >글쓰기</button>
+           		</div>	
+            	<jsp:include page="/views/common/search.jsp" /> 
             </div>
             
             <!-- 맨 처음으로 -->

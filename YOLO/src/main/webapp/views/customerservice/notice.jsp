@@ -158,6 +158,15 @@
     			<jsp:include page="/views/customerservice/noticeDetail.jsp" />
            	</c:if>
            	
+           	<c:if test="${ not empty param.keyword }">
+           		<c:if test="${ list.size() == 0 }">
+           			<h2 style="text-align: center; margin-bottom: 50px;">검색 결과가 없습니다.</h2>
+           		</c:if>
+           		<c:if test="${ list.size() != 0 }">
+					<h2 style="text-align: center; margin-bottom: 50px;">"${ param.keyword }"의 검색 결과는 ${ list.size() }개 입니다.</h2>
+				</c:if>
+           	</c:if>
+           	
             <table class="board" style="justify-content: space-between; width: 100%; border: 1px solid #ddd;">
                 <tr>
                     <th>글번호</th>
@@ -188,13 +197,17 @@
             </table>
             
             <br>
-            <c:if test="${ loginMember.role == 1 }">
-            <div style="text-align: right;">
-            	<button type="button" class="create_button" onclick="createNoticeButton()">
-            		글쓰기
-            	</button>	
-            </div>
-            </c:if>
+           
+	            <div style="position: relative; justify-content: center; display: flex; align-items: center;">
+	             	<c:if test="${ loginMember.role == 1 }">
+		            	<div style="position: absolute; width: 100%; text-align: right;">
+		            		<button type="button" class="create_button" onclick="createNoticeButton()">
+		            			글쓰기
+		            		</button>	
+		            	</div>
+		            </c:if>
+	            	<jsp:include page="/views/common/search.jsp" />
+	            </div>
             
             <!-- 맨 처음으로 -->
 			<button class="pagenation_direct" onclick="location.href='${ path }/customerService/notice?page=1'">

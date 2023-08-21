@@ -24,22 +24,40 @@ public class clubServlet extends HttpServlet {
 		int page = 1; // 기본 페이지 번호를 1로 설정
         int listCount = 0;
         PageInfo pageInfo = null;
-
-        
+        List<Program> list = null;
 
         try {
             page = Integer.parseInt(request.getParameter("page"));
         } catch (NumberFormatException e) {
             // 페이지 번호가 파라미터로 전달되지 않은 경우 처리
         }
-
-        // Service를 통해 데이터 가져오기
+        
+        try {
+        	int no = Integer.parseInt(request.getParameter("no"));
+        	
+        	Program program = new ProgramService().getProgramByNo(no);
+        	request.setAttribute("program", program);
+        } catch (NumberFormatException e) {
+        	
+        }
+        
         ProgramService programService = new ProgramService();
-        listCount = programService.getClubCount();
-        pageInfo = new PageInfo(page, 10, listCount, 8);
-        List<Program> list = new ProgramService().getBoardList(pageInfo, "club");
         
-        
+        try {
+        	// 검색했을 때
+        	String keyword = request.getParameter("keyword");
+        	
+        	if( !keyword.isEmpty() ) {
+        		listCount = programService.getProgramCountByKeyword(keyword, "club");
+        		pageInfo = new PageInfo(page, 10, listCount, 8);
+        		list = new ProgramService().getBoardList(pageInfo, "club");
+        	}
+        	
+		} catch (NullPointerException e) {
+			listCount = programService.getClubCount();
+			pageInfo = new PageInfo(page, 10, listCount, 8);
+			list = new ProgramService().getBoardList(pageInfo, "club");
+		}
 
         request.setAttribute("pageInfo", pageInfo);
         request.setAttribute("list", list);

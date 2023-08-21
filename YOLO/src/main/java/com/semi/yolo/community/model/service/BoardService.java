@@ -61,6 +61,16 @@ public class BoardService {
 		return count;
 	}
 	
+	public int getBoardCountByKeyword(int kind, String keyword) {
+		int count = 0;
+		Connection connection = getConnection();
+		
+		count = new BoardDao().getBoardCountByKeyword(connection, kind, keyword);
+		
+		close(connection);
+		
+		return count;
+	}
 
 	 public List<Board> getBoardList(PageInfo pageInfo, int kind) {
         List<Board> list = null;
@@ -76,6 +86,19 @@ public class BoardService {
         return list;
     }
 	 
+	 public List<Board> getBoardListByKeyword(PageInfo pageInfo, int kind, String keyword) {
+		 List<Board> list = null;
+		 Connection connection = getConnection();
+		 
+		 try {
+			 BoardDao boardDao = new BoardDao();
+			 list = boardDao.findAllByKeyword(connection, pageInfo, kind, keyword);
+		 } finally {
+			 close(connection);
+		 }
+		 
+		 return list;
+	 }
 	 
 	 public Board getBoardByNo(int no) {
 			Board board = null;
@@ -143,6 +166,7 @@ public class BoardService {
 
         return list;
 	}
+	
 
 	public int updateReview(int no, String content) {
 		Connection connection = getConnection();
@@ -158,6 +182,8 @@ public class BoardService {
 		
 		return result;
 	}
+
+
 
 	
 	
