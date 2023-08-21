@@ -8,8 +8,8 @@
 <!-- 회원정보 수정  -->
 <style>
      section {
-          max-width: 100%;
-          text-align:center; 
+          justify-content: center; 
+          display: flex;
      }
 
      section #joinform input {
@@ -158,9 +158,11 @@
 </style>
 
 <section>
-     <h1 align="center">회원 정보 수정</h1>
-     <div id="joinform" style="width: 100%; min-width: 800px; max-width: 1280px; justify-content: center; display: flex align-items: center;">
-          <form action="${ path }/myInfo/update" method="POST">
+     <div id="joinform" style="width: 100%; min-width: 800px; max-width: 1280px;
+		justify-content: center; display: flex; margin: 50px 0">
+		<div style="width: 100%; text-align: center;">
+	    <h1 align="center">회원 정보 수정</h1>
+        <form action="${ path }/myInfo/update" method="POST">
                <table class="join">
                     <tr>
                          <!-- 아이디는 변경 못하도록하고 아이디값만 가져오도록 함 -->
@@ -172,12 +174,12 @@
                          			<img class="hover-image" src="${path}/resources/images/example.png">
                          		</c:if>
                          		<c:if test="${ not empty loginMember.profileImg }">
-                         			<img class="hover-image" src="${ loginMember.profileImg }">
+                         			<img class="hover-image" src="${path}/resources/images/example.png">
                          		</c:if>
                          		<div class="hover-text">사진 변경</div>
                          	</div>
                          	<input type="file" id="profile_img_select" hidden>
-                         	<input type="text" id="profile_img_clob" name="profile_img_clob" hidden>
+                         	<input type="text" id="profile_img_blob" name="profile_img_blob" hidden>
                          	
                          </td>
                     </tr>
@@ -225,6 +227,7 @@
                </div>
      
           </form>
+          </div>
      </div>
 </section>
 
@@ -247,7 +250,7 @@
 		    reader.onload = function(event) {
 				let dataURL = event.target.result; // Base64로 인코딩된 이미지 데이터
 			    $(".hover-image").attr("src", dataURL); // img 태그에 데이터 설정
-			    $("#profile_img_clob").getAttr("src");
+			    $("#profile_img_blob").val(dataURL);
 		    };
 
 		    // 파일을 읽어 Base64로 인코딩

@@ -1,12 +1,15 @@
 package com.semi.yolo.member.dao;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
+import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 
 import static com.semi.yolo.common.jdbc.JDBCTemplate.*;
 import com.semi.yolo.member.vo.Member;
@@ -43,25 +46,7 @@ public class MemberDao {
 				member.setCreateDate(rs.getString("CREATE_DATE"));
 				member.setUpdateDate(rs.getString("UPDATE_DATE"));
 				member.setRole(rs.getInt("ROLE"));
-				
-				// Clob 타입 데이터를 String 타입으로 변환하여 설정
-				Clob profileImgClob = rs.getClob("PROFILE_IMG");
-		        if (profileImgClob != null) {
-		            StringBuilder sb = new StringBuilder();
-		            try (Reader reader = profileImgClob.getCharacterStream()) {
-		                int c = 0;
-		                while ((c = reader.read()) != -1) {
-		                    sb.append((char) c);
-		                }
-		                String profileImg = sb.toString();
-		                member.setProfileImg(profileImg);
-		            } catch (IOException e) {
-		                throw new RuntimeException(e);
-		            }
-		        }
-		        else {
-		            member.setProfileImg("");
-		        }
+				member.setProfileImg(rs.getBlob("PROFILE_IMG"));
 			}
 			
 		} catch (SQLException e) {
@@ -148,7 +133,7 @@ public class MemberDao {
 	public int updateMember(Connection connection, Member member) {
 		PreparedStatement pstmt = null;
 	    int result = 0;
-	    String query = "UPDATE YOLO_MEMBER SET NAME=?, PCODE=?, ADDRESS1=?, ADDRESS2=?, PHONE=?, EMAIL=?, UPDATE_DATE=SYSDATE WHERE ID=?";
+	    String query = "UPDATE YOLO_MEMBER SET NAME=?, PCODE=?, ADDRESS1=?, ADDRESS2=?, PHONE=?, EMAIL=?, UPDATE_DATE=SYSDATE, PROFILE_IMG=? WHERE ID=?";
 
 	    try {
 	        pstmt = connection.prepareStatement(query);
@@ -159,7 +144,19 @@ public class MemberDao {
 			pstmt.setString(4, member.getAddress2());
 			pstmt.setString(5, member.getPhone());
 			pstmt.setString(6, member.getEmail());
-			pstmt.setString(7, member.getUserId());
+
+			// Blob 타입으로 가져옵니다.
+	        Blob profileImgBlob = member.getProfileImg();
+
+	        if (profileImgBlob != null) {
+	            // Blob 데이터를 BinaryStream으로 변환합니다.
+	            InputStream binaryStream = profileImgBlob.getBinaryStream();
+	            pstmt.setBinaryStream(7, binaryStream, (int) profileImgBlob.length());
+	        } else {
+	            pstmt.setBinaryStream(7, null, 0);
+	        }
+			
+			pstmt.setString(8, member.getUserId());
 
 	        result = pstmt.executeUpdate();
 	    } catch (SQLException e) {
