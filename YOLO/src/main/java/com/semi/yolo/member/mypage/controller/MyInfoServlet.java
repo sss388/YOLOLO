@@ -17,8 +17,6 @@ public class MyInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     public MyInfoServlet() {
-        super();
-
     }
     
     @Override
@@ -27,15 +25,13 @@ public class MyInfoServlet extends HttpServlet {
        	HttpSession session = request.getSession();
        	Member loginMember = (Member) session.getAttribute("loginMember");
        	
-//       	System.out.println(loginMember);  // 가져옴 확인함
-       	
        	if(loginMember != null) {
        		// 로그인한 회원이 있다면, 회원 정보 페이지로 이동
        		request.getRequestDispatcher("/views/mypage/mypage_myInfo.jsp").forward(request, response);    		
        	} else {
        		// 로그인한 회원이 없다면, 메시지를 설정하고 메시지 페이지로 이동
        		request.setAttribute("msg", "로그인 후 수정해 주세요");
-       		request.setAttribute("location", "/");
+       		request.setAttribute("location", "/member/login");
        		
        		// 메시지 페이지로 포워딩
        		request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);

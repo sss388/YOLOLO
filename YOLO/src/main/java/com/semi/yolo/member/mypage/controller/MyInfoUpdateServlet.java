@@ -48,6 +48,7 @@ public class MyInfoUpdateServlet extends HttpServlet {
     		
     		member.setPhone(request.getParameter("phone"));
         	member.setEmail(request.getParameter("email"));
+        	member.setProfileImg(request.getParameter("profile_img_clob"));
         	
         	System.out.println(member); // 확인
 
