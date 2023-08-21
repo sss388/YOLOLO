@@ -5,101 +5,121 @@
 
 <jsp:include page="/views/common/header.jsp" />
 
+<!-- 내가 문의한 내역 -->
+
 <style>
-	section#board-list-container{width:600px; margin:0 auto; text-align:center;}
-	section#board-list-container h2{margin:10px 0;}
-	table#tbl-board{width:1280px; margin:0 auto; border:1px solid white; border-collapse:collapse; clear:both; }
-	table#tbl-board th, table#tbl-board td {border:1px solid white; padding: 5px 0; text-align:center;} 
-	/*글쓰기버튼*/
-	input#btn-add{float:right; margin: 0 0 15px;}
-	/*페이지바*/
-	div#pageBar{margin-top:200px; margin-bottom: 150px; text-align:center;}
-	
-	h2 {
-		color : #B1B2FF;
-		text-align:center;
-	}
-	table#tbl-board th {
-		color : #B1B2FF;
-	}
-	
-	 .pagenation {
-    	font-size: 20px;
-    	border: none;
-    	background: none;
-    	color: gray;
-		opacity: 60%;
-    	cursor: pointer;
+    .title{
+    width: 50%;
+    }
+
+    .board th, .board td{
+    padding: 10px 0;
+    }
+    
+    .board td{
+    opacity: 80%;
+    }
+
+    .board tr:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+    }
+    
+    .board tr:not(:first-child){
+         cursor: pointer;
+    }
+    
+    .board tr:not(:first-child):hover{
+         background-color: #D2DAFF;
+    }
+
+    .board {
+    border-collapse: collapse;
+    border: 1px solid #000;
+    }
+    
+    .pagenation {
+         font-size: 20px;
+         border: none;
+         background: none;
+         color: gray;
+         opacity: 60%;
+         cursor: pointer;
     }
     
     .pagenation:disabled {
-    	color: #AAC4FF;
-    	opacity: 100%;
-    	text-decoration: underline;
+         color: #AAC4FF;
+         opacity: 100%;
+         text-decoration: underline;
     }
     
     .pagenation_direct {
-    	font-size: 20px;
-    	border: none;
-    	background: none;
-    	color: #AAC4FF;
-    	cursor: pointer;
+         font-size: 20px;
+         border: none;
+         background: none;
+         color: #AAC4FF;
+         cursor: pointer;
     }
     
-    h2 {
-      font-size: 2em;
+    .board .delete:hover {
+         color: red;
     }
-    
+    /* section#board-list-container{width:600px; margin:0 auto; text-align:center;} */
+    /* section#board-list-container h2{margin:10px 0;} */
+   /* table#tbl-board{width:100%; margin:0 auto; border:1px solid black; border-collapse:collapse; clear:both; }*/
+   /* table#tbl-board th, table#tbl-board td {border:1px solid; padding: 5px 0; text-align:center;}*/
+         
+          
 </style>
-<section id="content">
-	<h2>문의글</h2>
-	<div id="board-list-container">
-	<c:if test="${ not empty loginMember }">
-	</c:if>
-		<table id="tbl-board">
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
+     
+     
+<section style="justify-content: center; display: flex;"> 
+   <div style="width: 100%; min-width: 800px; max-width: 1280px;
+        justify-content: center; display: flex; margin: 50px 0">
 
-			</tr>
-			
-			<%-- 리스트 비어있으면 조회된 게시글이 없음 --%>
-			<c:if test="${ empty list }">
-				<tr>
-					<td colspan="6">
-						조회된 게시글이 없습니다.
-					</td>
-				</tr>	
-			</c:if>
-			
+        <c:if test="${ not empty loginMember }">
+        </c:if>
+
+        <div style="width: 100%; text-align: center;">
+        <h3 style="color: #AAC4FF; font-size: 2em; margin: 50px 0;">
+             <i class="fa-solid fa-comments"></i>&nbsp;내 문의글
+        </h3>
+             
+             
+        <table class="board" style="justify-content: space-between; width: 100%; border: 1px solid #ddd;">
+             <tr>
+                  <th>번호</th>
+                  <th>작성자</th>
+                  <th>이메일</th>
+                  <th>전화번호</th>
+                  <th>문의유형</th>
+                  <th>작성일</th>
+                  <th>처리여부</th>
+             </tr>
+
 			<c:if test="${ not empty list }">
-				<c:forEach var="board" items="${ list }">
-					<tr>
-						<td>${ board.rowNum }</td>
-						<td>
-							<a href="${ path }/customerService/update?no=${ board.no }">${ board.title }</a>
-						</td>
-						<td>${ board.writerId }</td>
-						<td>${ board.createDate }</td>
-						<%-- 
-						<td>
-							 실제 사용자가 업로드한 걸로 하려고 originalFilename 사용  
-							<c:if test="${ empty board.originalFilename }">
-								<span> - </span>
-							</c:if>
-			
-							<c:if test="${ not empty board.originalFilename }">
-								<span> ${ board.originalFilename }</span>
-							</c:if>
-						
-						<td>${ board.modifyDate }</td>
-						 --%>
-					</tr>
-				</c:forEach>
+			    <c:forEach var="board" items="${ list }">
+			        <tr onclick="location.href='${ path }/customerService/qnaView?no=${ board.no }'">
+			            <td>${ board.rowNum } </td>
+			            <td>${ board.name }</td>
+			            <td>${ board.email }</td>
+			            <td>${ board.phone }</td>
+			            <td>${ board.type }</td>
+			            <td>${ board.createDate }</td>
+			            <td>${ board.reply }</td>
+			        </tr>
+			    </c:forEach>
 			</c:if>
-		</table>
+             <c:if test="${ empty list }">
+                  <tr>
+                       <td colspan="8">
+                            문의하신 내용이 없습니다.
+                       </td>
+                  </tr>
+             </c:if>
+        </table>
+        
+        <br>
+		
 		
 	   <!-- 밑에 페이지 넘기기  -->
 		<div id="pageBar">

@@ -14,9 +14,11 @@ import com.semi.yolo.common.util.PageInfo;
 import static com.semi.yolo.common.jdbc.JDBCTemplate.close;
 import com.semi.yolo.customerService.vo.QnaReply;
 import com.semi.yolo.customerService.vo.Qna_Board;
+import com.semi.yolo.member.vo.Member;
 
 public class QnaBoardDao {
-	// 게시글 작성
+	
+	// 문의글 등록하기
 	public int insertBoard(Connection connection, Qna_Board board) {
 	    int result = 0;
 	    PreparedStatement pstmt = null;
@@ -44,6 +46,7 @@ public class QnaBoardDao {
 	    return result;
 	}
 
+	// 문의글 수정하기
 	public int updateBoard(Connection connection, Qna_Board board) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -65,55 +68,36 @@ public class QnaBoardDao {
 		
 		return result;
 	}
-
 	
-
-	// 전체 게시물 개수
-	public int getBoardCount(Connection connection) {
-		int count = 0;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null; // 쿼리를 select로 실행시키면 무조건 resultset을 써줘야 한다.
-		String query = "SELECT COUNT(*) FROM YOLO_QNABOARD WHERE STATUS='Y'";
-		
-		try {
-			pstmt = connection.prepareStatement(query);
-			
-			rs = pstmt.executeQuery();
-		
-			if (rs.next()) {
-				count = rs.getInt(1); // 1는 컬럼 순번 (어차피 셀렉은 1행1열로 나오니깐)
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-			close(rs);
-		}
-		
-		return count;
-	}
-
-	public List<Qna_Board> findAll(Connection connection, PageInfo pageInfo) {
-		List<Qna_Board> list = new ArrayList<>(); // 조회되는게 있으면 리스트에 담아서 주고, 없으면 빈 리스트를 주게
+	// 마이페이지 - 내문의글
+	public List<Qna_Board> getBoardListByWriterNo(Connection connection, PageInfo pageInfo) {
+		List<Qna_Board> list = new ArrayList<>(); 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String query =  "SELECT RNUM, NO, TITLE, ID, CREATE_DATE, STATUS, REPLY "
+		String query =  "SELECT RNUM, NO, TYPE,CONTENT, EMAIL, PHONE, NAME, CREATE_DATE, STATUS, REPLY "
 			    + "FROM ("
 			    +    "SELECT ROWNUM AS RNUM, "
 			    +           "NO, "
+			    + 			"TYPE, "
+			    + 			"NAME, "
+			    + 			"CONTENT, "
+			    + 			"EMAIL, "
+			    + 			"PHONE, "
 			    + 			"CREATE_DATE, "
 			    +     		"STATUS, "
 			    +			"REPLY "
 			    + 	 "FROM ("
 			    + 	    "SELECT B.NO, "
-			    + 			   "B.TITLE, "
-			    +  			   "M.ID, "
+			    + 			   "B.TYPE, "
+			    +  			   "B.NAME, "
+			    +  			   "B.CONTENT, "
+			    +  			   "B.EMAIL, "
+			    +  			   "B.PHONE, "
 			    + 			   "B.CREATE_DATE, "
 			    + 	   		   "B.STATUS, "
 			    + 	   		   "B.REPLY "
 			    + 		"FROM YOLO_QNABOARD B "
-			    + 		"JOIN YOLO_MEMBER M ON(B.WRITER_NO = M.NO) "
+//			    + 		"JOIN YOLO_MEMBER M ON(B.WRITER_NO = M.NO) "
 			    + 		"WHERE B.STATUS = 'Y' ORDER BY B.NO DESC"
 			    + 	 ")"
 			    + ") WHERE RNUM BETWEEN ? and ?";
@@ -131,6 +115,11 @@ public class QnaBoardDao {
 				
 				board.setNo(rs.getInt("NO"));
 				board.setRowNum(rs.getInt("RNUM"));
+				board.setType(rs.getString("TYPE"));
+				board.setName(rs.getString("NAME"));
+				board.setContent(rs.getString("CONTENT"));
+				board.setEmail(rs.getString("EMAIL"));
+				board.setPhone(rs.getString("PHONE"));
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
 				board.setStatus(rs.getString("STATUS"));
 				board.setReply(rs.getString("REPLY"));
@@ -148,6 +137,36 @@ public class QnaBoardDao {
 		return list;
 	}
 
+	
+	// 문의글 삭제하기
+	public int updateStatus(Connection connection, int no, String status) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = "UPDATE YOLO_QNABOARD SET STATUS=? WHERE NO=?";
+		
+		try {
+			pstmt = connection.prepareStatement(query);
+			
+			pstmt.setString(1, status);
+			pstmt.setInt(2, no);
+			
+			result = pstmt.executeUpdate(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+
+
+	
+
+//     ----------------------------------------  관리자 
+	// 고객센터 - 문의사항 눌렀을때 관리자용 페이지
 	//게시물 번호를 기반으로 특정 게시물을 가져오는 메서드
 	public Qna_Board findBoardByNo(Connection connection, int no) {
 		Qna_Board board = null;
@@ -190,81 +209,9 @@ public class QnaBoardDao {
 		
 		return board;
 	}
-
-
-	public int updateStatus(Connection connection, int no, String status) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String query = "UPDATE YOLO_QNABOARD SET STATUS=? WHERE NO=?"; // status 상태 변경이 아니라 그냥 지우고 싶으면 delete 쿼리쓰면 된다
-		
-		try {
-			pstmt = connection.prepareStatement(query);
-			
-			pstmt.setString(1, status);
-			pstmt.setInt(2, no);
-			
-			result = pstmt.executeUpdate(); 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		
-		return result;
-	}
-
-
-	// 삭제
-	public int deleteBoard(Connection connection, int no) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String query = "UPDATE YOLO_QNABOARD SET STATE='N' WHERE NO=?";
-		
-		System.out.println(no);
-		
-		try {
-			pstmt = connection.prepareStatement(query);
-			
-			pstmt.setInt(1, no);
-			
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		
-		return result;
-	}
-
-	public int createReply(Connection connection, QnaReply reply) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String query = "INSERT INTO YOLO_QNA_REPLY VALUES(?,?,DEFAULT)";
-		String reply_state_query = "UPDATE YOLO_QNABOARD SET REPLY='Y' WHERE NO=?";
-		
-		try {
-			pstmt = connection.prepareStatement(query);
-			
-			pstmt.setInt(1, reply.getNo());
-			pstmt.setString(2, reply.getContent());
-			
-			result = pstmt.executeUpdate();
-			
-			pstmt = connection.prepareStatement(reply_state_query);
-			
-			pstmt.setInt(1, reply.getNo());
-			
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		
-		return result;
-	}
-
+	
+	// 관리자
+	// 게시글에 대한 댓글 조회
 	public QnaReply findReplyByBoardNo(Connection connection, int selected) {
 		QnaReply reply = null;
 		PreparedStatement pstmt = null;
@@ -294,7 +241,128 @@ public class QnaBoardDao {
 		
 		return reply;
 	}
+	
+	// 전체 게시글 개수 조회  
+	public int getBoardCount(Connection connection) {
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null; // 쿼리를 select로 실행시키면 무조건 resultset을 써줘야 한다.
+		String query = "SELECT COUNT(*) FROM YOLO_QNABOARD WHERE STATUS='Y'";
+		
+		try {
+			pstmt = connection.prepareStatement(query);
+			
+			rs = pstmt.executeQuery();
+		
+			if (rs.next()) {
+				count = rs.getInt(1); // 1는 컬럼 순번 (어차피 셀렉은 1행1열로 나오니깐)
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return count;
+	}
+	
+	// 작성자 번호로 문의사항 찾음  => 관리자용
+	public List<Qna_Board> findBoardByWriterNo(Connection connection, PageInfo pageInfo, Member loginMember) {
+		List<Qna_Board> list = new ArrayList<>();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String query = "SELECT RNUM, NAME, EMAIL, PHONE, TYPE, CONTENT, CREATE_DATE, REPLY "
+	            + "FROM ("
+	            +    "SELECT ROWNUM AS RNUM, "
+	            +           "NAME, "
+	            +           "EMAIL, "
+	            +           "PHONE, "
+	            +           "TYPE, "
+	            +           "CONTENT, "
+	            +           "CREATE_DATE, "
+	            +           "REPLY "
+	            +    "FROM ("
+	            +        "SELECT B.NO, "
+	            +               "M.NO AS WRITER_NO, "
+	            +               "M.NAME, "
+	            +               "M.EMAIL, "
+	            +               "M.PHONE, "
+	            +               "B.TYPE, "
+	            +               "B.CONTENT, "
+	            +               "B.CREATE_DATE, "
+	            +               "B.REPLY "
+	            +        "FROM YOLO_QNABOARD B "
+	            +        "JOIN YOLO_MEMBER M ON (B.WRITER_NO = M.NO) "
+	            +        "WHERE B.STATUS = 'Y' AND B.WRITER_NO = ? ORDER BY B.NO DESC"
+	            +    ")"
+	            + ") WHERE RNUM BETWEEN ? AND ?";
 
+	    try {
+	        pstmt = connection.prepareStatement(query);
+
+	        pstmt.setInt(1, loginMember.getNo()); // 로그인한 회원의 회원번호
+	        pstmt.setInt(2, pageInfo.getStartList());
+	        pstmt.setInt(3, pageInfo.getEndList());
+
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            Qna_Board board = new Qna_Board();
+
+	            board.setNo(rs.getInt("NO"));
+	            board.setRowNum(rs.getInt("RNUM"));
+	            board.setName(rs.getString("NAME"));
+	            board.setEmail(rs.getString("EMAIL"));
+	            board.setPhone(rs.getString("PHONE"));
+	            board.setType(rs.getString("TYPE"));
+	            board.setContent(rs.getString("CONTENT"));
+	            board.setCreateDate(rs.getDate("CREATE_DATE"));
+	            board.setReply(rs.getString("REPLY"));
+
+	            list.add(board);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(rs);
+	        close(pstmt);
+	    }
+
+	    return list;
+	}
+	
+	// 답변 생성
+	public int createReply(Connection connection, QnaReply reply) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = "INSERT INTO YOLO_QNA_REPLY VALUES(?,?,DEFAULT)";
+		String reply_state_query = "UPDATE YOLO_QNABOARD SET REPLY='Y' WHERE NO=?";
+		
+		try {
+			pstmt = connection.prepareStatement(query);
+			
+			pstmt.setInt(1, reply.getNo());
+			pstmt.setString(2, reply.getContent());
+			
+			result = pstmt.executeUpdate();
+			
+			pstmt = connection.prepareStatement(reply_state_query);
+			
+			pstmt.setInt(1, reply.getNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	// 답변 수정
 	public int updateReply(Connection connection, QnaReply updateReply) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -316,7 +384,70 @@ public class QnaBoardDao {
 		
 		return result;
 	}
+
+	public List<Qna_Board> findAll(Connection connection, PageInfo pageInfo) {
+		List<Qna_Board> list = new ArrayList<>(); 
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String query =  "SELECT RNUM, NO, TYPE,CONTENT, NAME, CREATE_DATE, STATUS, REPLY "
+			    + "FROM ("
+			    +    "SELECT ROWNUM AS RNUM, "
+			    +           "NO, "
+			    + 			"TYPE, "
+			    + 			"NAME, "
+			    + 			"CONTENT, "
+			    + 			"CREATE_DATE, "
+			    +     		"STATUS, "
+			    +			"REPLY "
+			    + 	 "FROM ("
+			    + 	    "SELECT B.NO, "
+			    + 			   "B.TYPE, "
+			    +  			   "B.NAME, "
+			    +  			   "B.CONTENT, "
+			    + 			   "B.CREATE_DATE, "
+			    + 	   		   "B.STATUS, "
+			    + 	   		   "B.REPLY "
+			    + 		"FROM YOLO_QNABOARD B "
+//			    + 		"JOIN YOLO_MEMBER M ON(B.WRITER_NO = M.NO) "
+			    + 		"WHERE B.STATUS = 'Y' ORDER BY B.NO DESC"
+			    + 	 ")"
+			    + ") WHERE RNUM BETWEEN ? and ?";
+		try {
+			pstmt = connection.prepareStatement(query);
+			
+			pstmt.setInt(1, pageInfo.getStartList());
+			pstmt.setInt(2, pageInfo.getEndList());
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
 	
+				Qna_Board board = new Qna_Board();
+				
+				board.setNo(rs.getInt("NO"));
+				board.setRowNum(rs.getInt("RNUM"));
+				board.setType(rs.getString("TYPE"));
+				board.setName(rs.getString("NAME"));
+				board.setContent(rs.getString("CONTENT"));
+				board.setCreateDate(rs.getDate("CREATE_DATE"));
+				board.setStatus(rs.getString("STATUS"));
+				board.setReply(rs.getString("REPLY"));
+				
+				list.add(board);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+	
+		return list;
+	}
+
+	
+
 	
 	
 }

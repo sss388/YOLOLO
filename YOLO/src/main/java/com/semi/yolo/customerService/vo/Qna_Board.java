@@ -26,5 +26,6 @@ public class Qna_Board {
 	
 	private int readCount;
 	private int rowNum;
+	
 
 }

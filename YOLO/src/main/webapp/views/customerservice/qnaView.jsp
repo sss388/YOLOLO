@@ -6,52 +6,62 @@
 <c:set var="path" value="${ pageContext.request.contextPath }"/>
 <jsp:include page="/views/common/header.jsp" />
 
+<!-- 문의하기 상세페이지 -->
+
 <style>
-    section>div#board-write-container{width:600px; margin:0 auto; text-align:center;}
-    section>div#board-write-container h2{margin:10px 0;}
-    table#tbl-board{width:500px; margin:0 auto; border:1px solid black; border-collapse:collapse; clear:both; }
-    table#tbl-board th {width: 125px; border:1px solid; padding: 5px 0; text-align:center;} 
-    table#tbl-board td {border:1px solid; padding: 5px 0 5px 10px; text-align:left;}
-    div#comment-container button#btn-insert{width:60px;height:50px; color:white; background-color:#3300FF;position:relative;top:-20px;}
-    
+	#fQna_detail{
+	     text-align: left;
+	}
+	
+	#Qna_detail table tr td:first-child {
+	     text-align: center;
+	}
 </style>
-<section id="content">   
-	<div id="board-write-container">
-		<h2>로그인 시 나와야할 게시판</h2>
-		<table id="tbl-board">
-			<tr>
-				<th>글번호</th>
-				<td>${ board.no }</td>
-			</tr>
-			<tr>
-				<th>제 목</th>
-				<td>${ board.title }</td>
-			</tr>
-			<tr>
-				<th>작성자</th>
-				<td>${ board.writerId }</td>
-			</tr>
-			<tr>
-				<th>내 용</th>
-				<td>${ board.content }</td>
-			</tr>
-			<%--글 작성자의 경우 수정삭제 가능 --%>
-			<tr>
-				<th colspan="2">
-				<%-- <c:if test="${ not empty loginMember && loginMember.id == board.writerId }"> --%>
-					
-						<button type="button" onclick="location.href='${ path }/customerService/update?no=${ board.no }'">수정</button>
-						<button type="button" id="btnDelete">삭제</button>
-					<%-- </c:if> --%>
-					
-					<button type="button" onclick="location.href='${ path }/customerService/qnalist'">목록으로</button>
-				</th>
-			</tr>
-		</table>
+
+<section id="Qna_detail">   
+     <div style="border:1px solid #ddd; margin-bottom: 30px; padding-top: 30px; border-radius: 10px;">
+          <div style="justify-content: center; display:flex; padding: 0 5%;">
+               <table style="width: 100%; text-align: left; padding: 0 5%; border-collapse: collapse;">
+                    <tr>
+                         <td >이름</td>
+                         <td>${ board.name }</td>
+                    </tr>
+
+                    <tr>
+                         <td >이메일</td>
+                         <td>${ board.email }</td>
+                    </tr>
+
+                    <tr>
+                         <td >휴대폰번호</td>
+                         <td>${ board.phone }</td>
+                    </tr>
+
+                    <tr>
+                         <td >문의유형</td>
+                         <td>${ board.type }</td>
+                    </tr>
+
+               </table>
+          </div>
+          <div style="padding: 0 5%; padding: 30px 5%;">
+	       <div style="border-bottom: 1px solid #ddd; padding: 15px 5%;">
+	            <div style="min-height: 300px;">
+	                 <p>문의내용</p>
+	                 <div id="content">${ board.content }</div>
+	            </div>
+	            
+	            <c:if test="${ not empty loginMember && ((loginMember.no == item.userNo) || (loginMember.role == 1)) }">
+	                 <div style="justify-content: flex-end; display: flex;">
+	                      <button onclick="location.href='${ path }/customerService/update?no=${ board.no }'">수정하기</button>
+	                      <button type="button" id="btnDelete">삭제하기</button>
+	                      <button type="button" onclick="location.href='${ path }/customerService/qnalist'">목록으로</button>
+	                 </div>
+	            </c:if>
+	       </div>
     </div>
 </section>
 <script>
-// 첨부파일에서 업로드한 파일명 다르게 저장하는 방법 
 	$(document).ready(() => {
 		$('#btnDelete').on('click', () => {
 			if (confirm('게시글을 삭제 하시겠습니까?')) {

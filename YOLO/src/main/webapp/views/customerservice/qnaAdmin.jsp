@@ -128,13 +128,15 @@
 				<div style="border-radius: 10px; border: 2px solid gray; margin-bottom: 50px;">
 					<table class="current_board" style="justify-content: space-between; width: 100%;">
 						<tr>
-							<th width="70%">제목</th>
+							<th>카테고리</th>
+							<th width="70%">내용</th>
 							<th>작성자</th>
 							<th>등록일</th>
 						</tr>
 						<tr>
-							<td width="70%">${ currentBoard.title }</td>
-							<td>${ currentBoard.writerId }</td>
+							<td>${ currentBoard.type }</td>
+							<td width="70%">${ currentBoard.content }</td>
+							<td>${ currentBoard.name }</td>
 							<td>${ currentBoard.createDate }</td>
 						</tr>
 						<tr>
@@ -182,18 +184,19 @@
 			<table class="board" style="justify-content: space-between; width: 100%; border: 1px solid #ddd;">
 	            <tr>
 	                <th>글번호</th>
-	                <th width="70%">제목</th>
-	                <th>작성자</th>
-	                <th>등록일</th>
-	                <th>답변 여부</th>
+					<th>카테고리</th>
+					<th width="70%">내용</th>
+					<th>작성자</th>
+					<th>등록일</th>
 	            </tr>
 	            <c:if test="${ not empty list }">
 		            <c:forEach var="board" items="${ list }">
 		            	<c:if test="${ board.reply == 'N'}">
 				            <tr onclick="handleClickBoard(${board.no})">
 				                <td>${ board.rowNum } </td>
-				                <td>${ board.title }</td>
-				                <td>${ board.writerId }</td>
+				                <td>${ board.type }</td>
+				                <td>${ board.content }</td>
+				                <td>${ board.name }</td>
 				                <td>${ board.createDate }</td>
 				                <td></td>
 				            </tr>
@@ -201,8 +204,9 @@
 			            <c:if test="${ board.reply == 'Y'}">
 			            	<tr class="reply_clear" onclick="handleClickBoard(${board.no})">
 				                <td>${ board.rowNum } </td>
-				                <td>${ board.title }</td>
-				                <td>${ board.writerId }</td>
+				                <td>${ board.type }</td>
+				                <td>${ board.content }</td>
+				                <td>${ board.name }</td>
 				                <td>${ board.createDate }</td>
 				                <td>답변 완료</td>
 				            </tr>

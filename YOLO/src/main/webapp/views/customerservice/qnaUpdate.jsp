@@ -7,6 +7,8 @@
 
 <link rel="stylesheet" type="text/css" href="../resources/css/ckeditor.css">
 
+<!-- 문의하기 수정하기  -->
+
 <style>
 
 	div#board-write-container

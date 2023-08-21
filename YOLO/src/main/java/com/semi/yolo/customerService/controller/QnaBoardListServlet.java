@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.customerService.service.QnaBoardService;
 import com.semi.yolo.customerService.vo.Qna_Board;
+import com.semi.yolo.member.vo.Member;
 
 
 @WebServlet(name = "qnaBoardList", urlPatterns = { "/customerService/qnalist" })
@@ -29,6 +30,8 @@ public class QnaBoardListServlet extends HttpServlet {
     	PageInfo pageInfo = null;
     	List<Qna_Board> list = null;
     	
+    	Member loginMember = (Member) request.getSession().getAttribute("loginMember");
+    	
     	try {
     		page = Integer.parseInt(request.getParameter("page"));
 		} catch (NumberFormatException e) {
@@ -37,7 +40,7 @@ public class QnaBoardListServlet extends HttpServlet {
 		
     	listCount = new QnaBoardService().getBoardCount();
 		pageInfo = new PageInfo(page, 10, listCount, 10);
-		list= new QnaBoardService().getBoardList(pageInfo);
+		list = new QnaBoardService().getBoardListByWriterNo(pageInfo);
 		
 		System.out.println(list);
 		System.out.println(list.size());

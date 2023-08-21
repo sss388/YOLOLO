@@ -26,7 +26,7 @@ public class QnaBoardDeleteServlet extends HttpServlet {
         
     	int no = 0;
     	int result = 0;
-    	
+    	 
     	no = Integer.parseInt(request.getParameter("no"));
     	result = new QnaBoardService().delete(no); // no에 해당하는 게시글 삭제
     	

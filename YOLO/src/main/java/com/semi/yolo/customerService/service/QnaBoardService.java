@@ -12,10 +12,11 @@ import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.customerService.dao.QnaBoardDao;
 import com.semi.yolo.customerService.vo.QnaReply;
 import com.semi.yolo.customerService.vo.Qna_Board;
+import com.semi.yolo.member.vo.Member;
 
 public class QnaBoardService {
 	
-	// 저장하기
+	// 문의글 저장하기 (작성하기, 수정하기)
 	public int save(Qna_Board board) {
 		int result = 0;
 		Connection connection = getConnection();
@@ -40,20 +41,20 @@ public class QnaBoardService {
 		return result;
 	}
 	
-	// 글 번호를 가져오고 해당 번호의 글을 조회함
-	public Qna_Board getBoardByNo(int no) {
-		Qna_Board board = null; 
+	// 마이페이지 - 내문의글
+	public List<Qna_Board> getBoardListByWriterNo(PageInfo pageInfo) {
+		List<Qna_Board> list = null;
 		Connection connection = getConnection();
 		
-		board = new QnaBoardDao().findBoardByNo(connection, no);
+		list = new QnaBoardDao().getBoardListByWriterNo(connection, pageInfo);
 		
 		close(connection);
-	
-		return board;
+		
+		return list;
 	}
 	
-	
-	// 삭제하기
+
+	// 문의글 삭제하기
 	public int delete(int no) {
 		int result = 0;
 		Connection connection = getConnection();
@@ -71,7 +72,34 @@ public class QnaBoardService {
 		return result;
 	}
 
-
+	
+//	---------------------------- 관리자
+	// 고객센터 - 문의사항 눌렀을때 관리자용 페이지
+	// 글 번호를 가져오고 해당 번호의 글을 조회함  => 관리자용
+	public Qna_Board getBoardByNo(int no) {
+		Qna_Board board = null; 
+		Connection connection = getConnection();
+		
+		board = new QnaBoardDao().findBoardByNo(connection, no);
+		
+		close(connection);
+	
+		return board;
+	}
+	
+	// 게시글에 대한 댓글 조회  => 관리자용
+	public QnaReply getReplyByBoradNo(int selected) {
+		QnaReply reply = null; 
+		Connection connection = getConnection();
+		
+		reply = new QnaBoardDao().findReplyByBoardNo(connection, selected);
+		
+		close(connection);
+	
+		return reply;
+	}	
+	
+	// 게시글 수 조회 => 관리자용
 	public int getBoardCount() {
 	int count = 0;
 	Connection connection = getConnection();
@@ -81,10 +109,9 @@ public class QnaBoardService {
 	close(connection);
 	
 	return count;
-}
+	}
 	
-	
-
+	// 페이징 처리된 게시글 목록 조회 => 관리자용
 	public List<Qna_Board> getBoardList(PageInfo pageInfo) {
 		List<Qna_Board> list = null;
 		Connection connection = getConnection();
@@ -96,7 +123,7 @@ public class QnaBoardService {
 		return list;
 	}
 
-	
+	// 답변 생성
 	public int createReply(QnaReply reply) {
 		int result = 0;
 		Connection connection = getConnection();
@@ -113,18 +140,8 @@ public class QnaBoardService {
 		
 		return result;
 	}
-
-	public QnaReply getReplyByBoradNo(int selected) {
-		QnaReply reply = null; 
-		Connection connection = getConnection();
-		
-		reply = new QnaBoardDao().findReplyByBoardNo(connection, selected);
-		
-		close(connection);
 	
-		return reply;
-	}
-
+	// 답변 수정
 	public int updateReply(QnaReply updatedReply) {
 		int result = 0;
 		Connection connection = getConnection();
@@ -141,5 +158,6 @@ public class QnaBoardService {
 		
 		return result;
 	}
+	
 
 }
