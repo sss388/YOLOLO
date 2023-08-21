@@ -1,5 +1,8 @@
 package com.semi.yolo.member.dao;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,6 +43,25 @@ public class MemberDao {
 				member.setCreateDate(rs.getString("CREATE_DATE"));
 				member.setUpdateDate(rs.getString("UPDATE_DATE"));
 				member.setRole(rs.getInt("ROLE"));
+				
+				// Clob 타입 데이터를 String 타입으로 변환하여 설정
+				Clob profileImgClob = rs.getClob("PROFILE_IMG");
+		        if (profileImgClob != null) {
+		            StringBuilder sb = new StringBuilder();
+		            try (Reader reader = profileImgClob.getCharacterStream()) {
+		                int c = 0;
+		                while ((c = reader.read()) != -1) {
+		                    sb.append((char) c);
+		                }
+		                String profileImg = sb.toString();
+		                member.setProfileImg(profileImg);
+		            } catch (IOException e) {
+		                throw new RuntimeException(e);
+		            }
+		        }
+		        else {
+		            member.setProfileImg("");
+		        }
 			}
 			
 		} catch (SQLException e) {

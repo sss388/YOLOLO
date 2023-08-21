@@ -54,9 +54,10 @@
      }
      
      /* 버튼 */
+     
      /* 주소검색 버튼 */
      #postcode_button {
-          background-color: rgb(170, 196, 255); 
+          background-color: #AAC4FF; 
           color: white;  
           border: none;
           width: 75px;
@@ -65,6 +66,8 @@
           text-align: center;
           margin-bottom: 100px;
           border-radius: 10px;
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+          cursor: pointer;
      }
 
      /* 등록버튼 */
@@ -85,7 +88,7 @@
 
      /* 맨밑 등록 , 취소 버튼 */
      #submit_btn input {
-          background-color: rgb(170, 196, 255); 
+          background-color: #AAC4FF; 
           color: white;  
           border: none;
           width: 70px;
@@ -95,15 +98,13 @@
           border-radius: 10px; 
           margin-bottom: 100px;
           cursor: pointer;
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
      }
 
-     #submit_btn input:hover {
-          background-color: #D2DAFF;
-     }
-
-     #submit_btn input:active {
-          background-color: #B1B2FF;
-     }
+	#postcode_button:hover,
+    #submit_btn input:hover {
+         background-color: #668FD8;
+    }
      
                
 </style>
@@ -179,7 +180,7 @@
 		                   <tr>
 							    <th>장소</th>
 							    <td class="address"> 
-							        <input type="text" name="address" id="address" placeholder=" 주소 검색해주세요.">
+							        <input type="text" name="address" id="address" placeholder=" 주소 검색해주세요." readonly>
 							        <input type="button" id="postcode_button" onclick="open_Postcode()" size="5" value="주소검색" style="margin-left: -8px">
 							        <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>							    
 							    </td>   

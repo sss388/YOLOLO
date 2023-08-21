@@ -54,6 +54,7 @@
           margin-top: 10px;
           margin-bottom: 100px;
           border-radius: 10px;
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
      }
 
 
