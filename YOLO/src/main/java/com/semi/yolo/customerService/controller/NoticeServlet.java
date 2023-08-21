@@ -52,9 +52,21 @@ public class NoticeServlet extends HttpServlet {
 			page = 1;
 		}
 		
-		listCount = new BoardService().getBoardCount(5);
-		pageInfo = new PageInfo(page, 10, listCount, 20);
-		list = new BoardService().getBoardList(pageInfo, 5);
+		BoardService boardservice = new BoardService();
+		
+		try {
+			String keyword = request.getParameter("keyword");
+        	
+        	if( !keyword.isEmpty() ) {
+        		listCount = boardservice.getBoardCountByKeyword(5, keyword);
+        		pageInfo = new PageInfo(page, 10, listCount, 20);
+        		list = new BoardService().getBoardListByKeyword(pageInfo, 5, keyword);
+        	}
+		} catch (NullPointerException e) {
+			listCount = boardservice.getBoardCount(5);
+			pageInfo = new PageInfo(page, 10, listCount, 20);
+			list = boardservice.getBoardList(pageInfo, 5);
+		}
 		
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("list", list);

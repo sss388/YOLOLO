@@ -20,11 +20,16 @@
 	background-color: #668FD8;
 }
 
+#search_keyword {
+	border-radius: 10px; 
+	padding: 2.5px 5px;
+}
+
 </style>
 
 <div style="z-index: 1; position: relative;">
-	<form method="GET" id="search_form" action="">
-		<input name="keyword" type="text" style="border-radius: 10px; padding: 2.5px 5px;" required>
+	<form method="GET" id="search_form" action="" >
+		<input id="search_keyword" name="keyword" type="text" required maxlength="30" placeholder="검색어 입력">
 		<button id="search_button">검색</button>
 	</form>
 </div>

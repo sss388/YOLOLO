@@ -120,19 +120,28 @@
                     <th>작성자</th>
                     <th>등록일</th>
                 </tr>
-                <c:forEach var="board" items="${ list }">
-	                <tr onclick="location.href='${ path }/community/freeBoard?page=${ param.page }&no=${ board.no }'">
-	                    <td>${ board.rowNum } </td>
-	                    <td>${ board.title }</td>
-	                    <td>${ board.userName }</td>
-	                    <td>${ board.createDate }</td>
-	                    <c:if test="${ loginMember.role == 1 }">
-	                    	<td class="delete">
-	                    		<i class="fa-regular fa-trash-can" onclick="deleteBoard(${ board.no })"></i>
-	                    	</td>
-	                    </c:if>
-	                </tr>
-                </c:forEach>
+                <c:if test="${ not empty list }">
+	                <c:forEach var="board" items="${ list }">
+		                <tr onclick="location.href='${ path }/community/freeBoard?page=${ param.page }&no=${ board.no }'">
+		                    <td>${ board.rowNum } </td>
+		                    <td>${ board.title }</td>
+		                    <td>${ board.userName }</td>
+		                    <td>${ board.createDate }</td>
+		                    <c:if test="${ loginMember.role == 1 }">
+		                    	<td class="delete">
+		                    		<i class="fa-regular fa-trash-can" onclick="deleteBoard(${ board.no })"></i>
+		                    	</td>
+		                    </c:if>
+		                </tr>
+	                </c:forEach>
+                </c:if>
+                <c:if test="${ empty list }">
+                	<tr>
+                		<td colspan="4">
+                			게시글이 없습니다.
+                		</td>
+                	</tr>
+                </c:if>
             </table>
             
             <br>
