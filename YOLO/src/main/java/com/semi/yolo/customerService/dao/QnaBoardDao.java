@@ -21,7 +21,7 @@ public class QnaBoardDao {
 	    int result = 0;
 	    PreparedStatement pstmt = null;
 	    String query = "INSERT INTO YOLO_QNABOARD (NO, TYPE, WRITER_NO, NAME, EMAIL, PHONE, CONTENT, STATUS, AGREE, CREATE_DATE, MODIFY_DATE, REPLY)"
-	                 + " VALUES (YOLO_QNABOARD_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,SYSDATE,SYSDATE,'N')";
+	                 + " VALUES (YOLO_QNABOARD_SEQ.NEXTVAL,?,?,?,?,?,?,'Y','Y',SYSDATE,SYSDATE,'N')";
 
 	    try {
 	        pstmt = connection.prepareStatement(query);
@@ -32,8 +32,7 @@ public class QnaBoardDao {
 	        pstmt.setString(4, board.getEmail());
 	        pstmt.setString(5, board.getPhone());  
 	        pstmt.setString(6, board.getContent());
-	        pstmt.setString(7, board.getStatus());
-	        pstmt.setString(8, board.getAgree());
+
 
 	        result = pstmt.executeUpdate();
 	    } catch (SQLException e) {

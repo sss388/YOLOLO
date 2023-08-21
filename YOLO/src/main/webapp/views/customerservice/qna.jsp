@@ -62,13 +62,13 @@
                     </select>
           
                     <h4>이름</h4>
-                    <input type="text" id="name" value="${ loginMember.name }" required>
+                    <input type="text" id="name" name="name" value="${ loginMember.name }" required>
           
                     <h4>이메일</h4>
-                    <input type="text" id="email"  value="${ loginMember.email }" required>
+                    <input type="text" id="email" name="email"  value="${ loginMember.email }" required>
           
                     <h4>휴대폰번호</h4>
-                    <input type="text" id="phone"  value="${ loginMember.phone }" required> 
+                    <input type="text" id="phone" name="phone" value="${ loginMember.phone }" required> 
           
                     <h4>문의내용</h4>
                     <textarea name="contect" id="contect" maxlength="3000" style="width: 400px; height: 150px;" required ></textarea>

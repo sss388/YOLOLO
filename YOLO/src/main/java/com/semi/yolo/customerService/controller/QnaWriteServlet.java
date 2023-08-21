@@ -99,9 +99,12 @@ public class QnaWriteServlet extends HttpServlet {
     		board.setWriterNo(loginMember.getNo());
     		
     		// 문의유형
+    		String type = request.getParameter("type");
+    		board.setType(type);
     		
     		// 이름
     		board.setName(request.getParameter("name"));
+    		
     		// 이메일
     		board.setEmail(request.getParameter("email"));
     		
@@ -109,11 +112,10 @@ public class QnaWriteServlet extends HttpServlet {
     		board.setPhone(request.getParameter("phone"));
     		
     		// 문의내용
-    		board.setContent(request.getParameter("content"));
+    		board.setContent(request.getParameter("contect"));
     		
     		// 동의내용
     		board.setAgree(request.getParameter("agree"));
-    		
     		
     	    // 파일을 서비스객체에 전달하고, (나중에 dao 객체를 사용해서 db에 저장)
     		int result = new QnaBoardService().save(board);
