@@ -16,6 +16,10 @@
 	#Qna_detail table tr td:first-child {
 	     text-align: center;
 	}
+	
+	#btn button {
+		display: center;
+	}
 </style>
 
 <section id="Qna_detail">   
@@ -52,7 +56,7 @@
 	            </div>
 	            
 	            <c:if test="${ not empty loginMember && ((loginMember.no == item.userNo) || (loginMember.role == 1)) }">
-	                 <div style="justify-content: flex-end; display: flex;">
+	                 <div style="justify-content: flex-end; display: flex;" id="btn">
 	                      <button onclick="location.href='${ path }/customerService/update?no=${ board.no }'">수정하기</button>
 	                      <button type="button" id="btnDelete">삭제하기</button>
 	                      <button type="button" onclick="location.href='${ path }/customerService/qnalist'">목록으로</button>

@@ -172,17 +172,20 @@ public class QnaBoardDao {
 		Qna_Board board = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String query = "SELECT  B.NO, "
-				 + "B.TITLE, "
-				 + "M.NO, "
-				 + "B.WRITER_NO "
-				 + "B.CONTENT, "
-				 + "B.CREATE_DATE, "
-				 + "B.MODIFY_DATE, "
-				 + "B.REPLY "
-		 + "FROM YOLO_QNABOARD B "
-		 + "INNER JOIN YOLO_MEMBER M ON(B.WRITER_NO = M.NO) "
-		 + "WHERE B.STATUS = 'Y' AND B.NO=?";
+		String query = "SELECT  B.NO, "        // 게시글번호 
+							 + "B.NAME, "      // 작성자
+							 + "M.NO, "            // member 회원번호
+							 + "B.WRITER_NO, "     // 작성자 회원번호
+							 + "B.EMAIL, "         // 이메일 
+							 + "B.PHONE, "         // 휴대전화 
+							 + "B.CONTENT, "       // 문의내용
+							 + "B.TYPE, "          // 문의유형
+							 + "B.CREATE_DATE, "
+							 + "B.MODIFY_DATE, "
+							 + "B.REPLY "
+					 + "FROM YOLO_QNABOARD B "
+					 + "INNER JOIN YOLO_MEMBER M ON(B.WRITER_NO = M.NO) "
+					 + "WHERE B.STATUS = 'Y' AND B.NO=?";
 		
 		try {
 			pstmt = connection.prepareStatement(query);
@@ -195,6 +198,10 @@ public class QnaBoardDao {
 				board = new Qna_Board();
 				
 				board.setNo(rs.getInt("NO"));
+				board.setName(rs.getString("NAME"));
+				board.setEmail(rs.getString("EMAIL"));
+				board.setPhone(rs.getString("PHONE"));
+				board.setType(rs.getString("TYPE"));
 				board.setContent(rs.getString("CONTENT"));
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
 				board.setModifyDate(rs.getDate("MODIFY_DATE"));
