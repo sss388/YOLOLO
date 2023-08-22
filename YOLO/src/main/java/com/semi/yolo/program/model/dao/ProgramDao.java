@@ -332,6 +332,7 @@ public class ProgramDao {
                 program.setTitle(rs.getString("TITLE"));
                 program.setExpireDate(rs.getDate("EXPIRE_DATE"));
                 program.setNo(rs.getInt("NO"));
+                program.setCategory(rs.getString("CATEGORY"));
 
                 list.add(program);
             }
@@ -371,6 +372,7 @@ public class ProgramDao {
                 program.setTitle(rs.getString("TITLE"));
                 program.setCreateDate(rs.getDate("CREATE_DATE"));
                 program.setNo(rs.getInt("NO"));
+                program.setCategory(rs.getString("CATEGORY"));
 
                 list.add(program);
             }

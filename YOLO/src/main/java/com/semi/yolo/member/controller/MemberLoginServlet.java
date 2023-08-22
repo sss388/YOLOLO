@@ -71,7 +71,7 @@ public class MemberLoginServlet extends HttpServlet {
         Member loginMember = new MemberService().login(userId, encryptedPassword);
         
         // 로그인 결과로 얻은 loginMember 객체를 콘솔에 출력
-    	System.out.println(loginMember);
+    	//System.out.println(loginMember);
     	
     	// 로그인에 성공하고 실패했을 때
     	if(loginMember != null) {

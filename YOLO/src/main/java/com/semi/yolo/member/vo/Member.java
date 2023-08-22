@@ -1,5 +1,13 @@
 package com.semi.yolo.member.vo;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Base64;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,5 +29,5 @@ public class Member {
 	private String createDate;   // 회원가입일
 	private String updateDate;   // 최종수정일 
 	private int role;            // 권한,역할
-
+	private String profileImg;	 // 프사
 }

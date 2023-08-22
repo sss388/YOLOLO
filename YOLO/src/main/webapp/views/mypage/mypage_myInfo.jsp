@@ -8,8 +8,8 @@
 <!-- 회원정보 수정  -->
 <style>
      section {
-          max-width: 100%;
-          text-align:center; 
+          justify-content: center; 
+          display: flex;
      }
 
      section #joinform input {
@@ -27,7 +27,6 @@
 
      .join th, .join td {
           padding: 10px;
-          border-bottom: 1px solid rgb(150, 150, 150);
      }
 
      .join th {
@@ -35,12 +34,26 @@
           background-color: rgb(238, 241, 255);
           
      }
+     
+     .join tr {
+     	border-bottom: 1px solid rgb(150, 150, 150);
+     }
+     
+     .join {
+     	border-collapse: collapse;
+     }
 
      /* input  */
      /* input 전체 */
-     input {
-          width: 250px;
+     input:not(#name, #postcode, #postcode_button) {
+          width: 400px;
           height: 30px;
+          border: 1px solid rgb(201, 201, 201);
+          border-radius: 5px;
+     }
+     
+     #name, #postcode, #postcode_button {
+     	height: 30px;
           border: 1px solid rgb(201, 201, 201);
           border-radius: 5px;
      }
@@ -67,6 +80,13 @@
           color: white;  
           border: none;
           width: 70px;
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+          cursor: pointer;
+     }
+     
+     #postcode_button:hover,
+     #btnJoin:hover {
+     	background-color: #668FD8;
      }
      
      /* 회원탈퇴 버튼 */
@@ -76,30 +96,92 @@
           border: none;
           font-size: 5px;
           margin: 10px 0px 10px;
+          border-radius: 10px;
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
      }
 
      /* 회원가입 버튼 */
      #btnJoin {
-          background-color: rgb(170, 196, 255); 
-          color: white;  
-          border: none;
-          padding: 10px 30px;
-          margin-bottom: 100px;
-          border-radius: 10px;
+        background-color: rgb(170, 196, 255); 
+        color: white;  
+        border: none;
+        padding: 7.5px 20px;
+        margin-bottom: 100px;
+        border-radius: 10px;
+        transition: background-color 0.1s ease;
+        font-size: 20px;
+    	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
      }
+     
+     #profile_img {
+     	border-radius: 50px; 
+     	border: 2px solid black; 
+     	height: 100px; 
+     	overflow: hidden;
+     	position: relative;
+     	user-select: none;
+     	cursor: pointer;
+     }
+     
+     #profile_img img{
+     	width: 100%;
+     	height: 100%;
+     	object-fit: cover;
+     }
+     
+    #profile_img.hover-image {
+		display: block;
+		width: 200px;
+		height: 200px;
+	}
 
+	/* 배경색 */
+	.hover-image:hover {
+		filter: brightness(50%);
+		transition: 0.3s ease-in-out;
+	}
+	
+	.hover-text {
+	  	display: none;
+	  	position: absolute;
+	  	top: 50%;
+	  	left: 50%;
+	  	transform: translate(-50%, -50%);
+	  	opacity: 0.8;
+	  	font-size: 16px;
+	  	font-weight: bold;
+	  	color: white;
+	  	text-align: center;
+	  	transition: 0.3s ease-in-out;
+	}
 
 </style>
 
 <section>
-     <h1 align="center">회원 정보 수정</h1>
-     <div id="joinform" style="width: 100%; justify-content: center; display: flex align-items: center;">
-          <form action="${ path }/myInfo/update" method="POST">
+     <div id="joinform" style="width: 100%; min-width: 800px; max-width: 1280px;
+		justify-content: center; display: flex; margin: 50px 0">
+		<div style="width: 100%; text-align: center;">
+	    <h1 align="center">회원 정보 수정</h1>
+        <form action="${ path }/myInfo/update" method="POST">
                <table class="join">
                     <tr>
                          <!-- 아이디는 변경 못하도록하고 아이디값만 가져오도록 함 -->
                          <th>아이디</th>
-                         <td>&nbsp; ${loginMember.userId}</td>
+                         <td>&nbsp;${loginMember.userId}</td>
+                         <td rowspan="2" width="100px">
+                         	<div id="profile_img">
+                         		<c:if test="${ empty loginMember.profileImg }">
+                         			<img class="hover-image" src="${path}/resources/images/example.png">
+                         		</c:if>
+                         		<c:if test="${ not empty loginMember.profileImg }">
+                         			<img class="hover-image" src="${ loginMember.profileImg }">
+                         		</c:if>
+                         		<div class="hover-text">사진 변경</div>
+                         	</div>
+                         	<input type="file" id="profile_img_select" hidden>
+                         	<input type="text" id="profile_img_blob" name="profile_img_blob" hidden>
+                         	
+                         </td>
                     </tr>
                     
                     <tr>
@@ -110,7 +192,7 @@
                     <!-- 주소 -->
                     <tr>
                          <th>주소</th>
-                         <td class="address"> 
+                         <td class="address" colspan="2" style="">
                               <input type="text" name="postcode" id="postcode" placeholder="우편번호" size="5" value="${loginMember.postcode}" readonly > 
                               <input type="button" id="postcode_button" onclick="open_Postcode()" 
                                              size="5" value="주소검색" style="margin-left: -8px">
@@ -123,15 +205,15 @@
      
                     <tr>
                          <th>휴대전화</th>
-                         <td>
-                         <input type="text" name="phone" id="phone" maxlength="13" value="${loginMember.phone}" placeholder =" '-'는 뺴고 입력해주세요." required>
+                         <td colspan="2">
+                         	<input type="text" name="phone" id="phone" maxlength="13" value="${loginMember.phone}" placeholder =" '-'는 뺴고 입력해주세요." required>
                          </td>
                          
                     </tr>
      
                     <tr>
                          <th>이메일</th>
-                         <td><input type="email" name="email" id="email" value="${loginMember.email}" required>
+                         <td colspan="2"><input type="email" name="email" id="email" value="${loginMember.email}" required>
                     </tr>
                </table>
                
@@ -140,16 +222,52 @@
                     <button type="button" id="btnDelete">회원탈퇴</button>
                </div>
                
-               <div  class="button">
+               <div class="button">
                     <button type="submit" id="btnJoin">수정하기</button>
                </div>
      
           </form>
+          </div>
      </div>
 </section>
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <script>
+
+	$('#profile_img').on('click', function() {
+		$('#profile_img_select').click();
+	});
+	
+	$("#profile_img_select").on("change", function() {
+		// 파일 선택 확인
+		if (this.files && this.files[0]) {
+			let file = this.files[0];
+
+		    // FileReader 객체 생성
+		    let reader = new FileReader();
+
+		    reader.onload = function(event) {
+				let dataURL = event.target.result; // Base64로 인코딩된 이미지 데이터
+			    $(".hover-image").attr("src", dataURL); // img 태그에 데이터 설정
+			    $("#profile_img_blob").val(dataURL);
+		    };
+
+		    // 파일을 읽어 Base64로 인코딩
+		    reader.readAsDataURL(file);
+		}
+	});
+	
+	$('#profile_img').on('mouseover', () => {
+		$('.hover-text').css('display', 'block');
+		$('.hover-image').css('filter', 'brightness(50%)');
+	});
+	
+	$('#profile_img').on('mouseleave', () => {
+		$('.hover-text').css('display', 'none');
+		$('.hover-image').css('filter', 'brightness(100%)');
+	});
+
 	// 탈퇴하기
 	$(document).ready(() => {
 		$('#btnDelete').on('click', () => {
