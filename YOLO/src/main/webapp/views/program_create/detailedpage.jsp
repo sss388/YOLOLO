@@ -25,15 +25,23 @@
 	}
 	
 	/* 참가하기 버튼 */
-	#btn_join {
-		  background-color: rgb(170, 196, 255); 
-          color: white;  
-          width: 100px; 
-          height: 50px;
-          width: 100%;
-          border: none;
-          border-radius: 10px;
-          
+	#btn_join,
+	#btn_join_chk {
+		background-color: rgb(170, 196, 255); 
+		color: white;  
+		width: 100px; 
+		height: 50px;
+		width: 100%;
+		border: none;
+		border-radius: 10px;
+		font-size: 20px;
+		box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+		cursor: pointer;
+	}
+	
+	#btn_join:hover,
+	#btn_join_chk:hover {
+		background-color: #668FD8;
 	}
 	
 	/* 글자정렬 */
@@ -113,9 +121,21 @@
 						<p>${ program.expireDate }</p>
 					</th>
 					<th id="inter2">
-						<input type="button" id="btn_join" value="참가하기">
+						<c:if test="${ loginMember.no == program.userno }">
+							<input type="button" id="btn_join_chk" value="참가자 확인">
+						</c:if>
+						<c:if test="${ loginMember.no != program.userno }">
+							<input type="button" id="btn_join" value="참가하기">
+						</c:if>
 					</th>
-					<th id="inter2" style="height: 30px;">${ program.writename }</th>
+					<th id="inter2" style="display: flex; margin-top: 5px; height: 50px;">
+						<div style="height:50px; width: 50px; overflow:hidden; border-radius: 50px; margin-right: 5px;">
+							<img src="${ member.profileImg }" style="width:100%; height:100%; object-fit: cover;">
+						</div>
+						<div style="font-size: 16px; padding-top: 9.5px;">
+							${ member.name }
+						</div>
+					</th>
 				</tr>
 			</table>
 
