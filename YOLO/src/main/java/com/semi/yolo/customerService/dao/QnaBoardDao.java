@@ -45,6 +45,63 @@ public class QnaBoardDao {
 
 	    return result;
 	}
+	
+	// 마이페이지 - 내문의글 - 상세페이지
+	public Qna_Board findBoardAndReplyByNo(Connection connection, int no) {
+		 Qna_Board board = null;
+	        PreparedStatement pstmt = null;
+	        ResultSet rs = null;
+	        String query = "SELECT B.NO, " 
+	                     + "B.NAME, "
+	                     + "M.NO, "
+	                     + "B.WRITER_NO, "
+	                     + "B.EMAIL, "
+	                     + "B.PHONE, "
+	                     + "B.CONTENT, "
+	                     + "B.TYPE, "
+	                     + "B.CREATE_DATE, "
+	                     + "B.MODIFY_DATE, "
+	                     + "B.REPLY, "
+	                     + "R.CONTENT AS REPLY_CONTENT, " 
+	                     + "R.CREATE_DATE AS REPLY_CREATE_DATE " 
+	                     + "FROM YOLO_QNABOARD B "
+	                     + "INNER JOIN YOLO_MEMBER M ON(B.WRITER_NO = M.NO) "
+	                     + "LEFT JOIN YOLO_QNA_REPLY R ON(B.NO = R.NO) "
+	                     + "WHERE B.STATUS = 'Y' AND B.NO=?";
+	        
+	        try {
+	            pstmt = connection.prepareStatement(query);
+	            pstmt.setInt(1, no);
+	            rs = pstmt.executeQuery();
+	            
+	            if (rs.next()) {
+	                board = new Qna_Board();
+	                board.setNo(rs.getInt("NO"));
+	                board.setName(rs.getString("NAME"));
+	                board.setEmail(rs.getString("EMAIL"));
+	                board.setPhone(rs.getString("PHONE"));
+	                board.setType(rs.getString("TYPE"));
+	                board.setContent(rs.getString("CONTENT"));
+	                board.setCreateDate(rs.getDate("CREATE_DATE"));
+	                board.setModifyDate(rs.getDate("MODIFY_DATE"));
+	                board.setReply(rs.getString("REPLY"));
+	                
+	                // 답변 정보 설정
+	                QnaReply reply = new QnaReply();
+	                reply.setContent(rs.getString("REPLY_CONTENT"));
+	                reply.setCreateDate(rs.getDate("REPLY_CREATE_DATE"));
+	                
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            close(rs);
+	            close(pstmt);
+	        }
+	        
+	        return board;
+	}
+
 
 	// 문의글 수정하기
 	public int updateBoard(Connection connection, Qna_Board board) {
@@ -218,7 +275,7 @@ public class QnaBoardDao {
 	}
 	
 	// 관리자
-	// 게시글에 대한 댓글 조회
+	// 게시글에 대한 답변 조회
 	public QnaReply findReplyByBoardNo(Connection connection, int selected) {
 		QnaReply reply = null;
 		PreparedStatement pstmt = null;
@@ -391,7 +448,8 @@ public class QnaBoardDao {
 		
 		return result;
 	}
-
+	
+	// 페이징 처리된 게시글 목록 조회 => 관리자용
 	public List<Qna_Board> findAll(Connection connection, PageInfo pageInfo) {
 		List<Qna_Board> list = new ArrayList<>(); 
 		PreparedStatement pstmt = null;
@@ -415,7 +473,7 @@ public class QnaBoardDao {
 			    + 	   		   "B.STATUS, "
 			    + 	   		   "B.REPLY "
 			    + 		"FROM YOLO_QNABOARD B "
-//			    + 		"JOIN YOLO_MEMBER M ON(B.WRITER_NO = M.NO) "
+			    + 		"JOIN YOLO_MEMBER M ON(B.WRITER_NO = M.NO) "
 			    + 		"WHERE B.STATUS = 'Y' ORDER BY B.NO DESC"
 			    + 	 ")"
 			    + ") WHERE RNUM BETWEEN ? and ?";

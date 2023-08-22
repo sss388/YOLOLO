@@ -53,6 +53,29 @@ public class QnaBoardService {
 		return list;
 	}
 	
+	// 마이페이지 - 내문의글 - 상세페이지
+	public Qna_Board getBoardAndReplyByNo(int no) {
+        Qna_Board board = null;
+        Connection connection = getConnection();
+
+        board = new QnaBoardDao().findBoardAndReplyByNo(connection, no);
+
+        close(connection);
+
+        return board;
+	}
+	// 마이페이지 - 내문의글 - 상세페이지(답변)
+	public QnaReply getReplyByBoardNo(int no) {
+		QnaReply reply = null; 
+		Connection connection = getConnection();
+		
+		reply = new QnaBoardDao().findReplyByBoardNo(connection, no);
+		
+		close(connection);
+	
+		return reply;
+	}
+	
 
 	// 문의글 삭제하기
 	public int delete(int no) {
@@ -71,6 +94,7 @@ public class QnaBoardService {
 		
 		return result;
 	}
+	
 
 	
 //	---------------------------- 관리자
@@ -86,18 +110,6 @@ public class QnaBoardService {
 	
 		return board;
 	}
-	
-	// 게시글에 대한 댓글 조회  => 관리자용
-	public QnaReply getReplyByBoradNo(int selected) {
-		QnaReply reply = null; 
-		Connection connection = getConnection();
-		
-		reply = new QnaBoardDao().findReplyByBoardNo(connection, selected);
-		
-		close(connection);
-	
-		return reply;
-	}	
 	
 	// 게시글 수 조회 => 관리자용
 	public int getBoardCount() {
@@ -123,6 +135,19 @@ public class QnaBoardService {
 		return list;
 	}
 
+	
+	// 게시글에 대한 답변 조회  => 관리자용
+	public QnaReply getReplyByBoradNo(int selected) {
+		QnaReply reply = null; 
+		Connection connection = getConnection();
+		
+		reply = new QnaBoardDao().findReplyByBoardNo(connection, selected);
+		
+		close(connection);
+	
+		return reply;
+	}	
+	
 	// 답변 생성
 	public int createReply(QnaReply reply) {
 		int result = 0;
