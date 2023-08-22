@@ -10,117 +10,84 @@
 <!-- 문의하기 수정하기  -->
 
 <style>
+      /* input 전체 */
+      input, #type {
+           width: 400px;
+           height: 30px;
+           border: 1px solid rgb(201, 201, 201);
+           border-radius: 5px;
+      }
+      
+      h4 {
+      	margin-bottom: 5px; 
+      }
+      
+      table {
+      border-spacing: 0;
+      }
+      
+      
+      #table td{
+           border: 1px solid black;
+           box-sizing: border-box;
+           border-spacing: 0;
+           padding: 10px;
+      }
 
-	div#board-write-container
-	{
-		width: 1280px;
-		margin:0 auto;
-		text-align:center;
-	}
-	
-	div#board-write-container h2
-	{
-		margin:10px 0;
-	}
-	
-	table#tbl-board
-	{
-		width:1050px;
-		margin:0 auto;
-		border-collapse:collapse;
-	}
-	
-	/*제목*/
-	table#tbl-board th
-	{
-		width:300px;
-		border:1px solid;
-		padding:5px 0;
-		text-align:center;
-		background-color: rgb(238, 241, 255);
-	}
-	
-	/* 내용 나오는 칸 */
-	table#tbl-board td
-	{
-		width: 800px;
-		border:1px solid;
-		padding:5px 0 5px 10px;
-		text-align:left;
-	}
-	
-	h2 {
-		color : #AAC4FF;
-		text-align:center;
-		font-size: 2em;
-	}
-	
-	/*수정,삭제,목록으로 버튼*/
-	input[type="submit"], input[type="button"] {
-          background-color: rgb(170, 196, 255); 
-          color: white;  
-          border: none;
-          width: 70px;
-          height: 30px;
-          text-align: center;
-          font-size: medium;
-          border-radius: 10px; 
-    }
-    
+      /* 회원가입 버튼 */
+      #btnqna button{
+      background-color: rgb(170, 196, 255); 
+      color: white;  
+      border: none;
+      padding: 10px 30px;
+      margin-bottom: 100px;
+      border-radius: 10px;
+      margin-top: 20px;   
+ 	}
 </style>
-<section id="content">
-	<div id='board-write-container'>
-		<h2>내 문의글 수정하기</h2>
-		<form action="${ path }/customerService/update" method="POST">
-		<%-- enctype를 multipart로 보내면 서블릿 post에서 parameter를 변경해준다 --%>
-		<input type="hidden" name="no" value="${ board.no }">
-			<table id='tbl-board'>
-				<tr>
-					<th>제목</th>
-					<td><input type="text" name="title" id="title" value="${ board.title }"></td>
-				</tr>
-				<tr>
-					<th>작성자</th>
-					<td><input type="text" name="writer" value="${ board.writerNo }" readonly></td>
-				</tr>
-				<tr>
-				</tr>	
-				<tr>
-					<th>내용</th>
-					<td><textarea name="content" class="editor" cols="50" rows="15" >${ board.content }</textarea></td>
-				</tr>
-				<tr>
-					
-					 <th colspan="2">
-						<input type="submit" onclick="location.href='${ path }/customerService/update?no=${ board.no }" value="수정">
-						<input type="button" id="btnDelete" value="삭제">
-						<input type="button" onclick="location.replace('${path}/customerService/qnalist')" value="목록으로">
-					 </th>
-			    </tr>
-				
-			</table>
-		</form>
-	</div>
-</section>
-<script>
-$(document).ready(() => {
-   $('#fileDown').on('click', () => {
-			let oname = encodeURIComponent('${ board.originalFilename }');
-			let rname = encodeURIComponent('${ board.renamedFilename }');
-			
-			console.log(oname, rname);
-			
-			location.assign('${ path }/board/fileDown?oname=' + oname + '&rname=' + rname);
-		});
-	
-	$('#btnDelete').on('click', () => {
-		if (confirm('게시글을 삭제 하시겠습니까?')) {
-			location.replace('${ path }/customerService/delete?no=${ board.no }');
-		}
-	});
-});
 
-</script>
+<section style="justify-content: center; display: flex;">
+    	<div style="width: 100%; min-width: 800px; max-width: 1280px;
+	     justify-content: center; display: flex; margin: 50px 0">
+         <div style="width: 100%; text-align: center;">
+         <h1 align="center" style="color: #AAC4FF; font-size: 2em; margin: 50px 0 20px 0;">문의하기</h1>
+         <h3 align="center">무엇을 도와드릴까요?</h3>
+         
+         <div style="justify-content: center; display: flex">
+    
+              <form action="${ path }/customerService/update" method="post">
+         
+                   <h4>문의유형</h4>
+                   <select name="type" id="type" required>
+                        <option value="member_info">회원정보</option>
+                        <option value="program_info">프로그램관련</option>
+                        <option value="etc">기타</option>
+                   </select>
+         
+                   <h4>이름</h4>
+                   <input type="text" id="name" name="name" value="${ board.name }" required>
+         
+                   <h4>이메일</h4>
+                   <input type="text" id="email" name="email"  value="${ board.email }" required>
+         
+                   <h4>휴대폰번호</h4>
+                   <input type="text" id="phone" name="phone" value="${ board.phone }" required> 
+
+                   <h4>제목</h4>
+                   <input type="text" id="title" name="title" value="${ board.title }"  required> 
+         
+                   <h4>문의내용</h4>
+                   <textarea name="contect" id="contect" value="${ board.contect }"  maxlength="3000" style="width: 400px; height: 150px;" required ></textarea>                  
+                   
+                   <div id="btnqna">
+                    	<button type="submit"  onclick="location.href='${ path }/customerService/update?no=${ board.no }">수정하기</button>
+                    	<button type="button"  onclick="location.replace('${path}/customerService/qnalist')">목록으로</button>
+                   </div>
+              </form>
+         </div>
+      </div>
+</section>
+
 
 <script src="../resources/js/ckeditor/script.js"></script>
 <jsp:include page="/views/common/footer.jsp" />

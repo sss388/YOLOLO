@@ -60,6 +60,9 @@ public class CreateAccountServlet extends HttpServlet {
 	    // 이메일
 	    member.setEmail(request.getParameter("email"));
 	    
+		// 동의내용
+	    member.setAgree(request.getParameter("agree"));
+	    
 	    System.out.println(member); // 확인
 	    
 	    int result = new MemberService().save(member);  // 회원 정보 저장에서 가져옴

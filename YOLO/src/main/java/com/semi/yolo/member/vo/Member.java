@@ -30,4 +30,5 @@ public class Member {
 	private String updateDate;   // 최종수정일 
 	private int role;            // 권한,역할
 	private String profileImg;	 // 프사
+	private String agree;        // 동의내역
 }

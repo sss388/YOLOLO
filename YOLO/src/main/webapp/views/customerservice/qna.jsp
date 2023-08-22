@@ -69,9 +69,13 @@
           
                     <h4>휴대폰번호</h4>
                     <input type="text" id="phone" name="phone" value="${ loginMember.phone }" required> 
+
+                    <h4>제목</h4>
+                    <input type="text" id="title" name="title" required> 
           
                     <h4>문의내용</h4>
                     <textarea name="contect" id="contect" maxlength="3000" style="width: 400px; height: 150px;" required ></textarea>
+                    
                     <h4>개인 정보 수집 및 이용 동의서</h4>
                     
                     <p>

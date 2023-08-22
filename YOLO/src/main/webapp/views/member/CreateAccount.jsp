@@ -97,6 +97,52 @@
           border-radius: 10px;
           
      }
+     
+     /* 이용약관 CSS */
+          /* 모달창 스타일 */
+     .modal {
+     display: none;
+     position: fixed;
+     z-index: 1;
+     padding-top: 100px;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     overflow: auto;
+     background-color: rgba(0,0,0,0.4);
+     }
+
+     /* 모달창 내용 스타일 */
+     .modal-content {
+     background-color: #fefefe;
+     margin: auto;
+     padding: 20px;
+     border: 1px solid #888;
+     width: 80%;
+     max-width: 600px;
+     }
+
+     /* 모달창 닫기 버튼 스타일 */
+     .close {
+     display: block;
+     margin-top: 20px;
+     margin-left: auto;
+     margin-right: auto;
+     padding: 10px;
+     border-radius: 5px;
+     background-color: rgb(170, 196, 255);
+     color: white;  
+     border: none;
+     cursor: pointer;
+
+     }
+
+     .close:hover,
+     .close:focus {
+     background-color: #668FD8;
+     cursor: pointer;
+     }
 
 </style>
 
@@ -170,9 +216,25 @@
                          	<input type="button" id="isUserEmailExists" value="중복확인" style="margin-left: -8px">
                          </td>
                     </tr>
+                    
                </table>
-     
-               <br>
+               
+               <!-- 이용약관 -->
+               <label>
+          		 <input type="checkbox" id="checkbox" style="width: 10px; height: 10px" required>
+                  이용약관에 동의합니다.  
+     		   </label>
+     		   
+     		   <div id="modal" class="modal">
+	               <div class="modal-content">
+		               <h2>이용약관</h2>
+		               <p>이용약관 내용을 입력하세요.</p>
+		               <h2>개인정보 수집 및 이용</h2>
+		               <p>이용약관 내용을 입력하세요.</p>
+		               <button class="close">닫기</button>
+	               </div>
+        	   </div>
+               
                <div  class="button">
                     <button type="submit" id="btnJoin">회원가입</button>
                </div>
@@ -312,6 +374,24 @@
                }
           }).open();
      }
+     
+    // 이용약관
+    const checkbox = document.getElementById('checkbox');
+    checkbox.addEventListener('click', function() {
+    	
+    // 체크박스가 체크되어있을 경우 모달창 띄우기
+    if (checkbox.checked) {
+    document.getElementById('modal').style.display = 'block';
+    } else {
+    document.getElementById('modal').style.display = 'none';
+    }
+    });
+
+    // 모달창 닫기 버튼 클릭 시 이벤트 핸들러 등록
+    const closeBtn = document.querySelector('.close');
+    closeBtn.addEventListener('click', function() {
+    document.getElementById('modal').style.display = 'none';
+    })
 </script>
 
 <jsp:include page="/views/common/footer.jsp" />

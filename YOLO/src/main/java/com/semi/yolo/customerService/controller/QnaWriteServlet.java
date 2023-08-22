@@ -100,7 +100,14 @@ public class QnaWriteServlet extends HttpServlet {
     		
     		// 문의유형
     		String type = request.getParameter("type");
-    		board.setType(type);
+
+    		if (type.equals("member_info")) {
+    		    board.setType("회원정보");
+    		} else if (type.equals("program_info")) {
+    		    board.setType("프로그램관련");
+    		} else if (type.equals("etc")) {
+    		    board.setType("기타");
+    		}
     		
     		// 이름
     		board.setName(request.getParameter("name"));
@@ -110,6 +117,9 @@ public class QnaWriteServlet extends HttpServlet {
     		
     		// 휴대폰번호
     		board.setPhone(request.getParameter("phone"));
+    		
+    		// 제목
+    		board.setTitle(request.getParameter("title"));
     		
     		// 문의내용
     		board.setContent(request.getParameter("contect"));

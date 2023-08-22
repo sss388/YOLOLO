@@ -22,18 +22,19 @@ public class QnaBoardDao {
 	public int insertBoard(Connection connection, Qna_Board board) {
 	    int result = 0;
 	    PreparedStatement pstmt = null;
-	    String query = "INSERT INTO YOLO_QNABOARD (NO, TYPE, WRITER_NO, NAME, EMAIL, PHONE, CONTENT, STATUS, AGREE, CREATE_DATE, MODIFY_DATE, REPLY)"
-	                 + " VALUES (YOLO_QNABOARD_SEQ.NEXTVAL,?,?,?,?,?,?,'Y','Y',SYSDATE,SYSDATE,'N')";
+	    String query = "INSERT INTO YOLO_QNABOARD (NO, TYPE, TITLE, WRITER_NO, NAME, EMAIL, PHONE, CONTENT, STATUS, AGREE, CREATE_DATE, MODIFY_DATE, REPLY)"
+	                 + " VALUES (YOLO_QNABOARD_SEQ.NEXTVAL,?,?,?,?,?,?,?,'Y','Y',SYSDATE,SYSDATE,'N')";
 
 	    try {
 	        pstmt = connection.prepareStatement(query);
 
 	        pstmt.setString(1, board.getType());
-	        pstmt.setInt(2, board.getWriterNo());
-	        pstmt.setString(3, board.getName());
-	        pstmt.setString(4, board.getEmail());
-	        pstmt.setString(5, board.getPhone());  
-	        pstmt.setString(6, board.getContent());
+	        pstmt.setString(2, board.getTitle());
+	        pstmt.setInt(3, board.getWriterNo());
+	        pstmt.setString(4, board.getName());
+	        pstmt.setString(5, board.getEmail());
+	        pstmt.setString(6, board.getPhone());  
+	        pstmt.setString(7, board.getContent());
 
 
 	        result = pstmt.executeUpdate();
@@ -46,6 +47,33 @@ public class QnaBoardDao {
 	    return result;
 	}
 	
+	// 문의글 수정하기
+	public int updateBoard(Connection connection, Qna_Board board) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = "UPDATE YOLO_QNABOARD SET TYPE=?, TITLE=?, NAME=?, EMAIL=?, PHONE=?, CONTENT=?,MODIFY_DATE=SYSDATE WHERE NO=?";
+		
+		try {
+			pstmt = connection.prepareStatement(query);
+			
+	        pstmt.setString(1, board.getType());
+	        pstmt.setString(2, board.getTitle());
+	        pstmt.setString(3, board.getName());
+	        pstmt.setString(4, board.getEmail());
+	        pstmt.setString(5, board.getPhone());  
+	        pstmt.setString(6, board.getContent());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	
 	// 마이페이지 - 내문의글 - 상세페이지
 	public Qna_Board findBoardAndReplyByNo(Connection connection, int no) {
 		 Qna_Board board = null;
@@ -57,6 +85,7 @@ public class QnaBoardDao {
 	                     + "B.WRITER_NO, "
 	                     + "B.EMAIL, "
 	                     + "B.PHONE, "
+	                     + "B.TITLE, "
 	                     + "B.CONTENT, "
 	                     + "B.TYPE, "
 	                     + "B.CREATE_DATE, "
@@ -78,9 +107,11 @@ public class QnaBoardDao {
 	                board = new Qna_Board();
 	                board.setNo(rs.getInt("NO"));
 	                board.setName(rs.getString("NAME"));
+	                board.setWriterNo(rs.getInt("WRITER_NO"));
 	                board.setEmail(rs.getString("EMAIL"));
 	                board.setPhone(rs.getString("PHONE"));
 	                board.setType(rs.getString("TYPE"));
+	                board.setTitle(rs.getString("TITLE"));
 	                board.setContent(rs.getString("CONTENT"));
 	                board.setCreateDate(rs.getDate("CREATE_DATE"));
 	                board.setModifyDate(rs.getDate("MODIFY_DATE"));
@@ -103,40 +134,18 @@ public class QnaBoardDao {
 	}
 
 
-	// 문의글 수정하기
-	public int updateBoard(Connection connection, Qna_Board board) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String query = "UPDATE YOLO_QNABOARD SET CONTENT=?,MODIFY_DATE=SYSDATE WHERE NO=?";
-		
-		try {
-			pstmt = connection.prepareStatement(query);
-			
-
-			pstmt.setString(1, board.getContent());
-			pstmt.setInt(2, board.getNo());
-			
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		
-		return result;
-	}
-	
 	// 마이페이지 - 내문의글
 	public List<Qna_Board> getBoardListByWriterNo(Connection connection, PageInfo pageInfo) {
 		List<Qna_Board> list = new ArrayList<>(); 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String query =  "SELECT RNUM, NO, TYPE,CONTENT, EMAIL, PHONE, NAME, CREATE_DATE, STATUS, REPLY "
+		String query =  "SELECT RNUM, NO, TYPE, TITLE, CONTENT, EMAIL, PHONE, NAME, CREATE_DATE, STATUS, REPLY "
 			    + "FROM ("
 			    +    "SELECT ROWNUM AS RNUM, "
 			    +           "NO, "
 			    + 			"TYPE, "
 			    + 			"NAME, "
+			    + 			"TITLE, "
 			    + 			"CONTENT, "
 			    + 			"EMAIL, "
 			    + 			"PHONE, "
@@ -147,6 +156,7 @@ public class QnaBoardDao {
 			    + 	    "SELECT B.NO, "
 			    + 			   "B.TYPE, "
 			    +  			   "B.NAME, "
+			    +  			   "B.TITLE, "
 			    +  			   "B.CONTENT, "
 			    +  			   "B.EMAIL, "
 			    +  			   "B.PHONE, "
@@ -173,6 +183,7 @@ public class QnaBoardDao {
 				board.setNo(rs.getInt("NO"));
 				board.setRowNum(rs.getInt("RNUM"));
 				board.setType(rs.getString("TYPE"));
+				board.setTitle(rs.getString("TITLE"));
 				board.setName(rs.getString("NAME"));
 				board.setContent(rs.getString("CONTENT"));
 				board.setEmail(rs.getString("EMAIL"));
@@ -235,6 +246,7 @@ public class QnaBoardDao {
 							 + "B.WRITER_NO, "     // 작성자 회원번호
 							 + "B.EMAIL, "         // 이메일 
 							 + "B.PHONE, "         // 휴대전화 
+							 + "B.TITLE, "         // 제목
 							 + "B.CONTENT, "       // 문의내용
 							 + "B.TYPE, "          // 문의유형
 							 + "B.CREATE_DATE, "
@@ -259,6 +271,7 @@ public class QnaBoardDao {
 				board.setEmail(rs.getString("EMAIL"));
 				board.setPhone(rs.getString("PHONE"));
 				board.setType(rs.getString("TYPE"));
+				board.setTitle(rs.getString("TITLE"));
 				board.setContent(rs.getString("CONTENT"));
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
 				board.setModifyDate(rs.getDate("MODIFY_DATE"));
@@ -337,11 +350,12 @@ public class QnaBoardDao {
 		List<Qna_Board> list = new ArrayList<>();
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
-	    String query = "SELECT RNUM, NAME, EMAIL, PHONE, TYPE, CONTENT, CREATE_DATE, REPLY "
+	    String query = "SELECT RNUM, NAME, EMAIL,TITLE, PHONE, TYPE, CONTENT, CREATE_DATE, REPLY "
 	            + "FROM ("
 	            +    "SELECT ROWNUM AS RNUM, "
 	            +           "NAME, "
 	            +           "EMAIL, "
+	            +           "TITLE, "
 	            +           "PHONE, "
 	            +           "TYPE, "
 	            +           "CONTENT, "
@@ -352,6 +366,7 @@ public class QnaBoardDao {
 	            +               "M.NO AS WRITER_NO, "
 	            +               "M.NAME, "
 	            +               "M.EMAIL, "
+	            +               "M.TITLE, "
 	            +               "M.PHONE, "
 	            +               "B.TYPE, "
 	            +               "B.CONTENT, "
@@ -379,6 +394,7 @@ public class QnaBoardDao {
 	            board.setRowNum(rs.getInt("RNUM"));
 	            board.setName(rs.getString("NAME"));
 	            board.setEmail(rs.getString("EMAIL"));
+	            board.setTitle(rs.getString("TITLE"));
 	            board.setPhone(rs.getString("PHONE"));
 	            board.setType(rs.getString("TYPE"));
 	            board.setContent(rs.getString("CONTENT"));
@@ -454,11 +470,12 @@ public class QnaBoardDao {
 		List<Qna_Board> list = new ArrayList<>(); 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String query =  "SELECT RNUM, NO, TYPE,CONTENT, NAME, CREATE_DATE, STATUS, REPLY "
+		String query =  "SELECT RNUM, NO, TYPE, TITLE, CONTENT, NAME, CREATE_DATE, STATUS, REPLY "
 			    + "FROM ("
 			    +    "SELECT ROWNUM AS RNUM, "
 			    +           "NO, "
 			    + 			"TYPE, "
+			    + 			"TITLE, "
 			    + 			"NAME, "
 			    + 			"CONTENT, "
 			    + 			"CREATE_DATE, "
@@ -467,6 +484,7 @@ public class QnaBoardDao {
 			    + 	 "FROM ("
 			    + 	    "SELECT B.NO, "
 			    + 			   "B.TYPE, "
+			    + 			   "B.TITLE, "
 			    +  			   "B.NAME, "
 			    +  			   "B.CONTENT, "
 			    + 			   "B.CREATE_DATE, "
@@ -492,6 +510,7 @@ public class QnaBoardDao {
 				board.setNo(rs.getInt("NO"));
 				board.setRowNum(rs.getInt("RNUM"));
 				board.setType(rs.getString("TYPE"));
+				board.setTitle(rs.getString("TITLE"));
 				board.setName(rs.getString("NAME"));
 				board.setContent(rs.getString("CONTENT"));
 				board.setCreateDate(rs.getDate("CREATE_DATE"));

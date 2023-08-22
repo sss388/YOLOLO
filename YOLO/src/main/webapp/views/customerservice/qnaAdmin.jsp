@@ -129,13 +129,13 @@
 					<table class="current_board" style="justify-content: space-between; width: 100%;">
 						<tr>
 							<th>카테고리</th>
-							<th width="70%">내용</th>
+							<th width="60%">제목</th>
 							<th>작성자</th>
 							<th>등록일</th>
 						</tr>
 						<tr>
 							<td>${ currentBoard.type }</td>
-							<td width="70%">${ currentBoard.content }</td>
+							<td width="60%">${ currentBoard.title }</td>
 							<td>${ currentBoard.name }</td>
 							<td>${ currentBoard.createDate }</td>
 						</tr>
@@ -185,7 +185,7 @@
 	            <tr>
 	                <th>글번호</th>
 					<th>카테고리</th>
-					<th width="70%">내용</th>
+					<th width="60%">제목</th>
 					<th>작성자</th>
 					<th>등록일</th>
 	            </tr>
@@ -195,7 +195,7 @@
 				            <tr onclick="handleClickBoard(${board.no})">
 				                <td>${ board.rowNum } </td>
 				                <td>${ board.type }</td>
-				                <td>${ board.content }</td>
+				                <td width="60%">${ board.title }</td>
 				                <td>${ board.name }</td>
 				                <td>${ board.createDate }</td>
 				                <td></td>
@@ -205,7 +205,7 @@
 			            	<tr class="reply_clear" onclick="handleClickBoard(${board.no})">
 				                <td>${ board.rowNum } </td>
 				                <td>${ board.type }</td>
-				                <td>${ board.content }</td>
+				                <td width="60%">${ board.title }</td>
 				                <td>${ board.name }</td>
 				                <td>${ board.createDate }</td>
 				                <td>답변 완료</td>

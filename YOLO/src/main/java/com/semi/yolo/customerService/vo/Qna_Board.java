@@ -13,6 +13,7 @@ public class Qna_Board {
 
 	private int no;          // 게시글번호
 	private String type;     // 문의유형
+	private String title;     // 제목
 	private int writerNo;    // 작성자 회원번호
 	private String name;     // 작성자
 	private String email;    // 이메일

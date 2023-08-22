@@ -135,7 +135,7 @@ public class MemberDao {
 	public int insertMember(Connection connection, Member member) {
 		PreparedStatement pstmt = null;
 	    int result = 0;
-	    String query = "INSERT INTO YOLO_MEMBER (NO, ID, PASSWORD, NAME, PCODE, ADDRESS1, ADDRESS2, PHONE, EMAIL, STATUS, CREATE_DATE) VALUES (YOLO_MEMBER_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, 'Y', SYSDATE)";
+	    String query = "INSERT INTO YOLO_MEMBER (NO, ID, PASSWORD, NAME, PCODE, ADDRESS1, ADDRESS2, PHONE, EMAIL, AGREE, STATUS, CREATE_DATE) VALUES (YOLO_MEMBER_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?,'Y', 'Y', SYSDATE)";
 
 	    try {
 	        pstmt = connection.prepareStatement(query);

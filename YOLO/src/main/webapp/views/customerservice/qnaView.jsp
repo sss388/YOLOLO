@@ -23,7 +23,7 @@
          text-align: center;
     }
     
-    #btn button {
+    #btn input {
          background-color: rgb(170, 196, 255); 
          color: white;  
          border: none;
@@ -38,31 +38,28 @@
 
 <section id="Qna_detail">   
      <div style="width: 100%; justify-content: center; display: flex" >
-     <div style="border:1px solid #ddd; margin-bottom: 30px; padding-top: 30px; border-radius: 10px; width: 600px; " > 
+     <div style="border:1px solid #ddd; margin-bottom: 30px; padding-top: 30px; border-radius: 10px; width: 800px; " > 
+          <div style="padding: 0 5%; padding: 30px 5%;">
           <h2>문의내용</h2>
           <h5 style="text-align: right;">${ board.createDate }</h5>
+          </div>	
           
           <div style="justify-content: center; display:flex;">
-               <table style="width: 100%; text-align: left;">
+               <table style="width: 100%; margin: 0px 50px 0px 50px; text-align: left;">
                     <tr>
                          <td >이름</td>
                          <td>${ board.name }</td>
-                    </tr>
-
-                    <tr>
-                         <td >이메일</td>
+                   		 <td>이메일</td>
                          <td>${ board.email }</td>
                     </tr>
 
                     <tr>
+                    	 <td>문의유형</td>
+                         <td>${ board.type }</td>
                          <td >휴대폰번호</td>
                          <td>${ board.phone }</td>
                     </tr>
 
-                    <tr>
-                         <td >문의유형</td>
-                         <td>${ board.type }</td>
-                    </tr>
 
                </table>
           </div>
@@ -74,11 +71,17 @@
                          <div id="content">${ board.content }</div>
                     </div>
                     
-                    <c:if test="${ not empty loginMember && ((loginMember.no == item.userNo) || (loginMember.role == 1)) }">
-                         <div id="btn">
-                              <button onclick="location.href='${ path }/customerService/update?no=${ board.no }'">수정하기</button>
-                              <button type="button" id="btnDelete">삭제하기</button>
-                         </div>
+                    <c:if test="${ not empty loginMember && ((loginMember.no == board.writerNo) || (loginMember.role == 1)) }">
+				    <c:choose>
+				        <c:when test="${board.reply == 'N'}">
+				            <div id="btn">
+				            	<input type="button" value="수정하기" onclick="location.href='${ path }/customerService/update?no=${ board.no }'"> 
+				            	<input type="button" value="삭제하기" id="btnDelete">
+				            </div>
+				        </c:when>
+				        <c:otherwise>
+				        </c:otherwise>
+				    </c:choose>
                     </c:if>
            </div>
 
@@ -98,7 +101,7 @@
 		        </c:otherwise>
 		    	</c:choose>
 		    
-             	<div  id="btn">
+             	<div  id="btn" style="margin-top: 20px;">
                   	<button type="button" onclick="location.href='${ path }/customerService/qnalist'">목록으로</button>
              	</div>
           </div>

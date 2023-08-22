@@ -90,8 +90,8 @@
                   <th>번호</th>
                   <th>작성자</th>
                   <th>이메일</th>
-                  <th>전화번호</th>
                   <th>문의유형</th>
+                  <th>제목</th>                  
                   <th>작성일</th>
                   <th>처리여부</th>
              </tr>
@@ -102,8 +102,8 @@
 			            <td>${ board.rowNum } </td>
 			            <td>${ board.name }</td>
 			            <td>${ board.email }</td>
-			            <td>${ board.phone }</td>
 			            <td>${ board.type }</td>
+			            <td>${ board.title }</td>
 			            <td>${ board.createDate }</td>
 			            <td>${ board.reply }</td>
 			        </tr>
