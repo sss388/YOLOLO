@@ -1,12 +1,17 @@
 package com.semi.yolo.member.mypage.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.rowset.serial.SerialBlob;
 
 import com.semi.yolo.member.service.MemberService;
 import com.semi.yolo.member.vo.Member;
@@ -48,11 +53,21 @@ public class MyInfoUpdateServlet extends HttpServlet {
     		
     		member.setPhone(request.getParameter("phone"));
         	member.setEmail(request.getParameter("email"));
-        	member.setProfileImg(request.getParameter("profile_img_clob"));
+        	member.setProfileImg(request.getParameter("profile_img_blob"));
         	
-        	System.out.println(member); // 확인
+//        	String profileImgString = request.getParameter("profile_img_blob");
+//        	ByteArrayInputStream inputStream = new ByteArrayInputStream(profileImgString.getBytes("UTF-8"));
+//        	Blob profileImgBlob;
+//        	
+//			try {
+//				profileImgBlob = new SerialBlob(inputStream.readAllBytes());
+//				member.setProfileImg(profileImgBlob);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+        	
+//        	System.out.println(member); // 확인
 
-    		
         	// 회원 정보를 수정
         	int result = new MemberService().save(member);
         	

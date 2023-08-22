@@ -163,7 +163,7 @@
      
                <div class="profile-box" style="padding-bottom: 10px;">
                     <div class="box" style="background: #BDBDBD;">
-                         <img class="profile" src="${path}/resources/images/examplee.png">
+                         <img class="profile" src="${ loginMember.profileImg }">
                     </div>
                     <div class="profile-info">
                          <p>${loginMember.name}</p>

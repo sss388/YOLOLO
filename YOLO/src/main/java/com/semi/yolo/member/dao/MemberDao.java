@@ -1,19 +1,47 @@
 package com.semi.yolo.member.dao;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.sql.Clob;
+import static com.semi.yolo.common.jdbc.JDBCTemplate.close;
+import static com.semi.yolo.common.jdbc.JDBCTemplate.getConnection;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static com.semi.yolo.common.jdbc.JDBCTemplate.*;
+import javax.sql.rowset.serial.SerialBlob;
+
 import com.semi.yolo.member.vo.Member;
 
 // 데이터베이스와 관련된 작업을 처리하는 DAO(Data Access Object) 클래스
 public class MemberDao {
+	
+	public String blobToString(Blob blob) throws Exception{
+		StringBuffer str = new StringBuffer();
 
+		String strng = "";
+
+		BufferedReader bufferRead = new BufferedReader( new InputStreamReader(blob.getBinaryStream()));
+
+		while( (strng = bufferRead.readLine())!=null ){
+		   str.append(strng);
+		}
+		
+		return str.toString();
+	}
+	
+	public Blob stringToBlob(Connection connection, String str) throws SQLException, UnsupportedEncodingException {
+		byte[] byteData = str.getBytes("UTF-8");//Better to specify encoding
+		Blob blobData = connection.createBlob();
+		blobData.setBytes(1, byteData);
+		
+		return blobData;
+	}
+	
 	// 주어진 데이터베이스 커넥션과 사용자 아이디로 멤버를 찾는 역할
 	public Member findMemberById(Connection connection, String userId) {
 		Member member = null;
@@ -44,24 +72,11 @@ public class MemberDao {
 				member.setUpdateDate(rs.getString("UPDATE_DATE"));
 				member.setRole(rs.getInt("ROLE"));
 				
-				// Clob 타입 데이터를 String 타입으로 변환하여 설정
-				Clob profileImgClob = rs.getClob("PROFILE_IMG");
-		        if (profileImgClob != null) {
-		            StringBuilder sb = new StringBuilder();
-		            try (Reader reader = profileImgClob.getCharacterStream()) {
-		                int c = 0;
-		                while ((c = reader.read()) != -1) {
-		                    sb.append((char) c);
-		                }
-		                String profileImg = sb.toString();
-		                member.setProfileImg(profileImg);
-		            } catch (IOException e) {
-		                throw new RuntimeException(e);
-		            }
-		        }
-		        else {
-		            member.setProfileImg("");
-		        }
+				try {
+					member.setProfileImg(blobToString(rs.getBlob("PROFILE_IMG")));
+				} catch (Exception e) {
+					System.out.println("BLOB TO STRING ERROR");
+				}
 			}
 			
 		} catch (SQLException e) {
@@ -148,7 +163,7 @@ public class MemberDao {
 	public int updateMember(Connection connection, Member member) {
 		PreparedStatement pstmt = null;
 	    int result = 0;
-	    String query = "UPDATE YOLO_MEMBER SET NAME=?, PCODE=?, ADDRESS1=?, ADDRESS2=?, PHONE=?, EMAIL=?, UPDATE_DATE=SYSDATE WHERE ID=?";
+	    String query = "UPDATE YOLO_MEMBER SET NAME=?, PCODE=?, ADDRESS1=?, ADDRESS2=?, PHONE=?, EMAIL=?, UPDATE_DATE=SYSDATE, PROFILE_IMG=? WHERE ID=?";
 
 	    try {
 	        pstmt = connection.prepareStatement(query);
@@ -159,7 +174,14 @@ public class MemberDao {
 			pstmt.setString(4, member.getAddress2());
 			pstmt.setString(5, member.getPhone());
 			pstmt.setString(6, member.getEmail());
-			pstmt.setString(7, member.getUserId());
+			
+			try {
+				pstmt.setBlob(7, stringToBlob(connection, member.getProfileImg()));
+			} catch (UnsupportedEncodingException e) {
+				System.out.println("STRING TO BLOB!!");
+			}
+			
+			pstmt.setString(8, member.getUserId());
 
 	        result = pstmt.executeUpdate();
 	    } catch (SQLException e) {
