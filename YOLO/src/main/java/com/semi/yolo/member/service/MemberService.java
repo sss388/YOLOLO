@@ -135,6 +135,17 @@ public class MemberService {
 		
 		return user_name;
 	}
+
+	public Member getMemberProfileByNo(int userNo) {
+		Member member = null;
+		Connection connection = getConnection();
+		
+		member = new MemberDao().findMemberByNo(connection, userNo);
+		
+		close(connection);
+		
+		return member;
+	}
 	
 	
 }
