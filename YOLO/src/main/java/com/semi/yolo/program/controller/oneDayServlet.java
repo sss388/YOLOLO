@@ -12,6 +12,8 @@ import java.util.List;
 
 import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.community.model.service.BoardService;
+import com.semi.yolo.member.service.MemberService;
+import com.semi.yolo.member.vo.Member;
 import com.semi.yolo.program.model.service.ProgramService;
 import com.semi.yolo.program.model.vo.Program;
 
@@ -40,6 +42,10 @@ public class oneDayServlet extends HttpServlet {
         	
         	Program program = new ProgramService().getProgramByNo(no);
         	request.setAttribute("program", program);
+        	
+        	Member member = new MemberService().getMemberProfileByNo(program.getUserno());
+        	request.setAttribute("member", member);
+        	
         } catch (NumberFormatException e) {
         	
         }

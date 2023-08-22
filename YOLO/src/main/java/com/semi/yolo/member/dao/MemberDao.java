@@ -311,6 +311,39 @@ public class MemberDao {
 		}
 		
 		return result;
+	}
+
+	public Member findMemberByNo(Connection connection, int userNo) {
+		Member member = null;
+		PreparedStatement pstmt = null;
+		String query = "SELECT * FROM YOLO_MEMBER WHERE NO=?";
+		ResultSet rs = null;
+		
+		try {
+			pstmt = connection.prepareStatement(query);
+			
+			pstmt.setInt(1, userNo);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				member = new Member();
+	            member.setName(rs.getString("NAME"));
+	            
+	            try {
+					member.setProfileImg(blobToString(rs.getBlob("PROFILE_IMG")));
+				} catch (Exception e) {
+					System.out.println("BLOB TO STRING ERROR");
+				}
+	        }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return member;
 	}	
 
 }
