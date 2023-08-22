@@ -26,14 +26,20 @@
 	
 	/* 참가하기 버튼 */
 	#btn_join {
-		  background-color: rgb(170, 196, 255); 
-          color: white;  
-          width: 100px; 
-          height: 50px;
-          width: 100%;
-          border: none;
-          border-radius: 10px;
-          
+		background-color: rgb(170, 196, 255); 
+		color: white;  
+		width: 100px; 
+		height: 50px;
+		width: 100%;
+		border: none;
+		border-radius: 10px;
+		font-size: 20px;
+		box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+		cursor: pointer;
+	}
+	
+	#btn_join:hover {
+		background-color: #668FD8;
 	}
 	
 	/* 글자정렬 */
