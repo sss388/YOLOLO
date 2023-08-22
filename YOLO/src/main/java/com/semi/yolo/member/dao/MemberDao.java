@@ -1,22 +1,47 @@
 package com.semi.yolo.member.dao;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
+import static com.semi.yolo.common.jdbc.JDBCTemplate.close;
+import static com.semi.yolo.common.jdbc.JDBCTemplate.getConnection;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.sql.Blob;
-import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Base64;
 
-import static com.semi.yolo.common.jdbc.JDBCTemplate.*;
+import javax.sql.rowset.serial.SerialBlob;
+
 import com.semi.yolo.member.vo.Member;
 
 // 데이터베이스와 관련된 작업을 처리하는 DAO(Data Access Object) 클래스
 public class MemberDao {
+	
+	public String blobToString(Blob blob) throws Exception{
+		StringBuffer str = new StringBuffer();
 
+		String strng = "";
+
+		BufferedReader bufferRead = new BufferedReader( new InputStreamReader(blob.getBinaryStream()));
+
+		while( (strng = bufferRead.readLine())!=null ){
+		   str.append(strng);
+		}
+		
+		return str.toString();
+	}
+	
+	public Blob stringToBlob(Connection connection, String str) throws SQLException, UnsupportedEncodingException {
+		byte[] byteData = str.getBytes("UTF-8");//Better to specify encoding
+		Blob blobData = connection.createBlob();
+		blobData.setBytes(1, byteData);
+		
+		return blobData;
+	}
+	
 	// 주어진 데이터베이스 커넥션과 사용자 아이디로 멤버를 찾는 역할
 	public Member findMemberById(Connection connection, String userId) {
 		Member member = null;
@@ -46,7 +71,12 @@ public class MemberDao {
 				member.setCreateDate(rs.getString("CREATE_DATE"));
 				member.setUpdateDate(rs.getString("UPDATE_DATE"));
 				member.setRole(rs.getInt("ROLE"));
-				member.setProfileImg(rs.getBlob("PROFILE_IMG"));
+				
+				try {
+					member.setProfileImg(blobToString(rs.getBlob("PROFILE_IMG")));
+				} catch (Exception e) {
+					System.out.println("BLOB TO STRING ERROR");
+				}
 			}
 			
 		} catch (SQLException e) {
@@ -144,17 +174,12 @@ public class MemberDao {
 			pstmt.setString(4, member.getAddress2());
 			pstmt.setString(5, member.getPhone());
 			pstmt.setString(6, member.getEmail());
-
-			// Blob 타입으로 가져옵니다.
-	        Blob profileImgBlob = member.getProfileImg();
-
-	        if (profileImgBlob != null) {
-	            // Blob 데이터를 BinaryStream으로 변환합니다.
-	            InputStream binaryStream = profileImgBlob.getBinaryStream();
-	            pstmt.setBinaryStream(7, binaryStream, (int) profileImgBlob.length());
-	        } else {
-	            pstmt.setBinaryStream(7, null, 0);
-	        }
+			
+			try {
+				pstmt.setBlob(7, stringToBlob(connection, member.getProfileImg()));
+			} catch (UnsupportedEncodingException e) {
+				System.out.println("STRING TO BLOB!!");
+			}
 			
 			pstmt.setString(8, member.getUserId());
 

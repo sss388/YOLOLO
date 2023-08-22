@@ -174,7 +174,7 @@
                          			<img class="hover-image" src="${path}/resources/images/example.png">
                          		</c:if>
                          		<c:if test="${ not empty loginMember.profileImg }">
-                         			<img class="hover-image" src="${path}/resources/images/example.png">
+                         			<img class="hover-image" src="${ loginMember.profileImg }">
                          		</c:if>
                          		<div class="hover-text">사진 변경</div>
                          	</div>

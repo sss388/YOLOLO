@@ -53,19 +53,20 @@ public class MyInfoUpdateServlet extends HttpServlet {
     		
     		member.setPhone(request.getParameter("phone"));
         	member.setEmail(request.getParameter("email"));
+        	member.setProfileImg(request.getParameter("profile_img_blob"));
         	
-        	String profileImgString = request.getParameter("profile_img_blob");
-        	ByteArrayInputStream inputStream = new ByteArrayInputStream(profileImgString.getBytes("UTF-8"));
-        	Blob profileImgBlob;
+//        	String profileImgString = request.getParameter("profile_img_blob");
+//        	ByteArrayInputStream inputStream = new ByteArrayInputStream(profileImgString.getBytes("UTF-8"));
+//        	Blob profileImgBlob;
+//        	
+//			try {
+//				profileImgBlob = new SerialBlob(inputStream.readAllBytes());
+//				member.setProfileImg(profileImgBlob);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
         	
-			try {
-				profileImgBlob = new SerialBlob(inputStream.readAllBytes());
-				member.setProfileImg(profileImgBlob);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-        	
-        	System.out.println(member); // 확인
+//        	System.out.println(member); // 확인
 
         	// 회원 정보를 수정
         	int result = new MemberService().save(member);
