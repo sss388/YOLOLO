@@ -63,7 +63,7 @@
                 	</c:if>
                 	<c:if test="${ not empty closeDeadLine }">
 	                	<c:forEach var="item" items="${ closeDeadLine }" varStatus="status">
-	                		<div class="img_box" onclick="showProgramDetailPage(${ item.no })">
+	                		<div class="img_box" onclick="showProgramDetailPage(${ item.no }, `${ item.category }`)">
 		                        <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; overflow: hidden; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 	                        		<div style="width: 100%; height: 100%;">
 			                        	<c:if test="${ not empty item.thumb }">
@@ -103,7 +103,7 @@
                 	</c:if>
                 	<c:if test="${ not empty recentProgram }">
                     <c:forEach var="item" items="${ recentProgram }" varStatus="status">
-                		<div class="img_box" onclick="showProgramDetailPage(${ item.no })">
+                		<div class="img_box" onclick="showProgramDetailPage(${ item.no }, `${ item.category }`)">
 	                        <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; overflow: hidden; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
                         		<div style="width: 100%; height: 100%;">
 		                        	<c:if test="${ not empty item.thumb }">
@@ -138,7 +138,7 @@
                 	</c:if>
                 	<c:if test="${ not empty recentReviewBoard }">
                     <c:forEach var="item" items="${ recentReviewBoard }" varStatus="status">
-                		<div class="img_box" onclick="showReviewDetailPage(${ item.no })">
+                		<div class="img_box" onclick="showReviewDetailPage(${ item.no }, '${ item.category }')">
 	                        <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; overflow: hidden; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
                         		<div style="width: 100%; height: 100%;">
                             		<c:if test="${ empty item.thumb }">
@@ -167,7 +167,7 @@
               	<h4>지금 바로 시작해보세요</h4>
                	<div style="justify-content: center; display: flex; margin-top: -25px">
                     <div style="width: 40%; display: flex; flex-direction: column; align-items: center;">
-                        <a href="http://localhost:8090/YOLO/program_create/createwrite" style="cursor: pointer"><img src="${ path }/resources/images/example2.png"></a>
+                        <a href="${ path }/program_create/createwrite" style="cursor: pointer"><img src="${ path }/resources/images/example2.png"></a>
                         <br>
                         <b>모임 만들기</b>
                         <p style="text-align: center; opacity: 70%; font-size: 14px">
@@ -176,7 +176,7 @@
                         </p>
                     </div>
                     <div style="width: 40%; display: flex; flex-direction: column; align-items: center;">
-                        <a href="http://localhost:8090/YOLO/program/oneDay" style="cursor: pointer"><img src="resources/images/example3.png" "></a>
+                        <a href="${ path }/program/oneDay" style="cursor: pointer"><img src="resources/images/example3.png" "></a>
                         <br>
                         <b>모임 참여하기</b>
                         <p style="text-align: center; font-size: 16px">
@@ -226,11 +226,14 @@ const swiper = new Swiper('.swiper', {
     },
 });
 
-const showProgramDetailPage = (no) => {
-	location.href='${ path }/program_create/detailedpage?no=' + no;
+const showProgramDetailPage = (no, category) => {
+	if(category == "oneday") {
+		category = "oneDay";
+	}
+	location.href='${ path }/program/' + category + '?no=' + no;		
 }
 
 const showReviewDetailPage = (no) => {
-	location.href='${ path }/community/reviewDetail?no=' + no;		
+	location.href='${ path }/community/meetingReview?no=' + no;		
 }
 </script>
