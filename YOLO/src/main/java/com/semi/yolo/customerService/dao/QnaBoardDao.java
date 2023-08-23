@@ -307,6 +307,7 @@ public class QnaBoardDao {
 				board.setCreateDate(rs.getDate("CREATE_DATE"));
 				board.setModifyDate(rs.getDate("MODIFY_DATE"));
 				board.setReply(rs.getString("REPLY"));
+				board.setWriterNo(rs.getInt("WRITER_NO"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

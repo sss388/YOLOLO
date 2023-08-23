@@ -80,43 +80,44 @@
         </c:if>
 
         <div style="width: 100%; text-align: center;">
-        <h3 style="color: #AAC4FF; font-size: 2em; margin: 50px 0;">
-             <i class="fa-solid fa-comments"></i>&nbsp;내 문의글
-        </h3>
-             
-             
-        <table class="board" style="justify-content: space-between; width: 100%; border: 1px solid #ddd;">
-             <tr>
-                  <th>번호</th>
-                  <th>작성자</th>
-                  <th>이메일</th>
-                  <th>문의유형</th>
-                  <th>제목</th>                  
-                  <th>작성일</th>
-                  <th>처리여부</th>
-             </tr>
-
-			<c:if test="${ not empty list }">
-			    <c:forEach var="board" items="${ list }">
-			        <tr onclick="location.href='${ path }/customerService/qnaView?no=${ board.no }'">
-			            <td>${ board.rowNum } </td>
-			            <td>${ board.name }</td>
-			            <td>${ board.email }</td>
-			            <td>${ board.type }</td>
-			            <td>${ board.title }</td>
-			            <td>${ board.createDate }</td>
-			            <td>${ board.reply }</td>
-			        </tr>
-			    </c:forEach>
-			</c:if>
-             <c:if test="${ empty list }">
-                  <tr>
-                       <td colspan="8">
-                            문의하신 내용이 없습니다.
-                       </td>
-                  </tr>
-             </c:if>
-        </table>
+	        <h3 style="color: #AAC4FF; font-size: 2em; margin: 50px 0;">
+	             <i class="fa-solid fa-comments"></i>&nbsp;내 문의글
+	        </h3>
+	             
+	             
+	        <table class="board" style="justify-content: space-between; width: 100%; border: 1px solid #ddd;">
+	             <tr>
+	                  <th>번호</th>
+	                  <th>작성자</th>
+	                  <th>이메일</th>
+	                  <th>문의유형</th>
+	                  <th>제목</th>                  
+	                  <th>작성일</th>
+	                  <th>처리여부</th>
+	             </tr>
+	
+				<c:if test="${ not empty list }">
+				    <c:forEach var="board" items="${ list }">
+				        <tr onclick="location.href='${ path }/customerService/qnaView?no=${ board.no }'">
+				            <td>${ board.rowNum } </td>
+				            <td>${ board.name }</td>
+				            <td>${ board.email }</td>
+				            <td>${ board.type }</td>
+				            <td>${ board.title }</td>
+				            <td>${ board.createDate }</td>
+				            <td>${ board.reply }</td>
+				        </tr>
+				    </c:forEach>
+				</c:if>
+	             <c:if test="${ empty list }">
+	                  <tr>
+	                       <td colspan="8">
+	                            문의하신 내용이 없습니다.
+	                       </td>
+	                  </tr>
+	             </c:if>
+        	</table>
+       	</div>
         
         <br>
 		
