@@ -94,15 +94,6 @@
 		width: 100%; height: 300px; object-fit: cover; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); border-radius: 10px;
 	}
 	
-	#entry_modal {
-		width: 500px; 
-		height: 500px; 
-		background: white; 
-		box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5); 
-		border-radius: 10px; 
-		border: 1px solid #ddd; 
-		
-	}
 	
 	#modal_background {
 		width: 100%; height: 100%;
@@ -114,6 +105,28 @@
 		justify-content: center;
 		align-items: center;
 		display: none;
+	}
+	
+	#entry_modal {
+		width: 500px; 
+		height: 500px; 
+		background: white; 
+		box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5); 
+		border-radius: 10px; 
+		border: 1px solid #ddd;
+		justify-content: center; 
+		display: flex;
+	}
+	
+	#entry_empty {
+		box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.5); 
+		width: 400px;
+		height: 400px;
+		border-radius: 10px;
+		overflow: auto;
+		justify-content: center; 
+		align-items: center;
+		display: flex;
 	}
 </style>
 
@@ -147,7 +160,12 @@
 							<input type="button" id="btn_join_chk" value="참가자 확인">
 						</c:if>
 						<c:if test="${ loginMember.no != program.userno }">
-							<input type="button" id="btn_join" value="참가하기">
+							<c:if test="${ entry_state == 0}">
+								<input type="button" id="btn_join" value="참가하기">
+							</c:if>
+							<c:if test="${ entry_state == 1}">
+								<input type="button" id="btn_join" value="취소하기">
+							</c:if>
 						</c:if>
 					</th>
 					<th id="inter2" style="display: flex; margin-top: 5px; height: 50px;">
@@ -203,13 +221,30 @@
 	
 	<div id="modal_background">
 		<div id="entry_modal">
-			<h1>참가자 명단</h1>
+			<div>
+				<h1>참가자 명단</h1>
+				<c:if test="${ empty entryMemberList }">
+					<div id="entry_empty">
+						참가자가 없습니다.
+					</div>
+				</c:if>
+			</div>
 		</div>	
 	</div>
+	<form id="entry_button" method="POST" action="${ path }/program/entry" hidden>
+		<input type="text" value="${ loginMember.no }" name="user_no">
+		<input type="text" value="${ program.no }" name="program_no">
+	</form>
 </section>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=874176aa26c8be96cf01e374fe87f3ed"></script>
 <script>
+	$('#btn_join').on('click', () => {
+		if (confirm('참가하시겠습니까?')) {
+			$('#entry_button').submit();
+		}
+	});
+	
 	$('#btn_join_chk').on('click', () => {
 		$('#modal_background').css('display', 'flex');
 	});

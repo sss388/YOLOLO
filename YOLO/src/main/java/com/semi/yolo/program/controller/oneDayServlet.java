@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.util.List;
 
@@ -14,7 +15,9 @@ import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.community.model.service.BoardService;
 import com.semi.yolo.member.service.MemberService;
 import com.semi.yolo.member.vo.Member;
+import com.semi.yolo.program.model.service.EntryMemberService;
 import com.semi.yolo.program.model.service.ProgramService;
+import com.semi.yolo.program.model.vo.EntryMember;
 import com.semi.yolo.program.model.vo.Program;
 
 @WebServlet(name = "oneDay", urlPatterns = { "/program/oneDay" })
@@ -39,12 +42,27 @@ public class oneDayServlet extends HttpServlet {
         
         try {
         	int no = Integer.parseInt(request.getParameter("no"));
+        	int entry_state = 0;
         	
         	Program program = new ProgramService().getProgramByNo(no);
         	request.setAttribute("program", program);
         	
         	Member member = new MemberService().getMemberProfileByNo(program.getUserno());
         	request.setAttribute("member", member);
+        	
+        	List<EntryMember> entryMemberList = new EntryMemberService().getMembersByProgramNo(no);
+        	
+        	request.setAttribute("entryMemberList", entryMemberList);
+        	
+        	HttpSession session = request.getSession();
+    		Member loginMember = (Member) session.getAttribute("loginMember");
+        	
+        	for (EntryMember entryMember : entryMemberList) {
+        		 if (entryMember.getUserNo() == loginMember.getNo()) {
+        			 entry_state = 1;
+        		 }
+        	}
+        	request.setAttribute("entry_state", entry_state);
         	
         } catch (NumberFormatException e) {
         	
