@@ -32,15 +32,17 @@ public class QnaBoardListServlet extends HttpServlet {
     	
     	Member loginMember = (Member) request.getSession().getAttribute("loginMember");
     	
+    	int user_no = loginMember.getNo();
+    	
     	try {
     		page = Integer.parseInt(request.getParameter("page"));
 		} catch (NumberFormatException e) {
 			page = 1;
 		}
 		
-    	listCount = new QnaBoardService().getBoardCount();
+    	listCount = new QnaBoardService().getmyQnaBoardCount(user_no);
 		pageInfo = new PageInfo(page, 10, listCount, 10);
-		list = new QnaBoardService().getBoardListByWriterNo(pageInfo);
+		list = new QnaBoardService().getBoardListByWriterNo(pageInfo,user_no);
 		
 		System.out.println(list);
 		System.out.println(list.size());

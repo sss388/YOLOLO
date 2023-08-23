@@ -42,15 +42,27 @@ public class QnaBoardService {
 	}
 	
 	// 마이페이지 - 내문의글
-	public List<Qna_Board> getBoardListByWriterNo(PageInfo pageInfo) {
+	public List<Qna_Board> getBoardListByWriterNo(PageInfo pageInfo, int user_no) {
 		List<Qna_Board> list = null;
 		Connection connection = getConnection();
 		
-		list = new QnaBoardDao().getBoardListByWriterNo(connection, pageInfo);
+		list = new QnaBoardDao().getBoardListByWriterNo(connection, pageInfo, user_no);
 		
 		close(connection);
 		
 		return list;
+	}
+	
+	// 마이페이지 - 내문의글 
+	public int getmyQnaBoardCount(int user_no) {
+        int count = 0;
+        Connection connection = getConnection();
+
+        count = new QnaBoardDao().getmyQnaBoardCount(connection, user_no);
+
+        close(connection);
+
+        return count;
 	}
 	
 	// 마이페이지 - 내문의글 - 상세페이지
@@ -183,6 +195,8 @@ public class QnaBoardService {
 		
 		return result;
 	}
+
+
 	
 
 }
