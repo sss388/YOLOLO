@@ -16,8 +16,6 @@
         border-collapse: collapse;
         border: 1px solid #000;
     }
-    
-    
    
 	.text {
 		text-align: center;
@@ -221,9 +219,6 @@
 			<button class="pagenation_direct" onclick="location.href='${path}/program/oneDay?page=${pageInfo.maxPage}'">
 				<i class="fa-solid fa-angles-right"></i>
 			</button>
-			</div>
-			
-			</div>
 		</div>
 	
 	<form id="delete_program_form" method="POST" action="${ path }/program/adminDeleteProgram" hidden>
