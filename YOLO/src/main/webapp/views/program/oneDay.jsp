@@ -112,6 +112,7 @@
 	#deleteTrigger:hover {
 		color: red;
 	}
+
 </style>
 
 <section style="justify-content: center; display: flex;">
@@ -223,9 +224,8 @@
 			</div>
 			
 			</div>
-			
 		</div>
-		
+	
 	<form id="delete_program_form" method="POST" action="${ path }/program/adminDeleteProgram" hidden>
 		<input type="text" name="category" value="oneDay">
 		<input id="delete_program_no" type="text" name="delete_program_no">

@@ -93,6 +93,28 @@
 	.thumb_style {
 		width: 100%; height: 300px; object-fit: cover; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); border-radius: 10px;
 	}
+	
+	#entry_modal {
+		width: 500px; 
+		height: 500px; 
+		background: white; 
+		box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5); 
+		border-radius: 10px; 
+		border: 1px solid #ddd; 
+		
+	}
+	
+	#modal_background {
+		width: 100%; height: 100%;
+		background: rgba(0,0,0,0.5);
+		z-index: 100;
+		position: fixed; 
+		top: 0; left: 0;
+		display: flex; 
+		justify-content: center;
+		align-items: center;
+		display: none;
+	}
 </style>
 
 <section style="display: flex; justify-content: center;">
@@ -178,56 +200,72 @@
 			</div>
 		</div>
 	</div>
+	
+	<div id="modal_background">
+		<div id="entry_modal">
+			<h1>참가자 명단</h1>
+		</div>	
+	</div>
 </section>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=874176aa26c8be96cf01e374fe87f3ed"></script>
 <script>
-		$(function(){
-			//:not() 특정 선택자를 제외한 나머지 요소
-			$("dd:not(:first)").css("display","none");
-			$("dt:first").addClass("selected");
-			$("dl dt").mouseover(function(){
-				$(this).addClass("over");
-			}).mouseout(function(){
-				$(this).removeClass("over");
-			}).click(function(){
-				//if($(선택자).메서드()==조건){}
-				//$("+요소명") 인접한 요소 선택자
-				if($("+dd",this).css("display")=="none"){
-					$("dd").slideUp("slow");
-					$("+dd",this).slideDown("slow");
+	$('#btn_join_chk').on('click', () => {
+		$('#modal_background').css('display', 'flex');
+	});
+	
+	$('#modal_background').on('click', (e) => {
+		if (e.target == $('#modal_background')[0]) {
+			$('#modal_background').css('display', 'none');			
+		}
+	});
+	
+	$(function(){
+		//:not() 특정 선택자를 제외한 나머지 요소
+		$("dd:not(:first)").css("display","none");
+		$("dt:first").addClass("selected");
+		$("dl dt").mouseover(function(){
+			$(this).addClass("over");
+		}).mouseout(function(){
+			$(this).removeClass("over");
+		}).click(function(){
+			//if($(선택자).메서드()==조건){}
+			//$("+요소명") 인접한 요소 선택자
+			if($("+dd",this).css("display")=="none"){
+				$("dd").slideUp("slow");
+				$("+dd",this).slideDown("slow");
 
-					$("dt").removeClass("selected");
-					$(this).addClass("selected");
-				}
-			});
+				$("dt").removeClass("selected");
+				$(this).addClass("selected");
+			}
 		});
-		
-		$(document).ready(() => {
-			$('#btnDelete').on('click', () => {
-				if (confirm('게시글을 삭제 하시겠습니까?')) {
-					location.replace('${ path }//program/delete?no=${ program.no }');
-				}
-			});
-
+	});
+	
+	$(document).ready(() => {
+		$('#btnDelete').on('click', () => {
+			if (confirm('게시글을 삭제 하시겠습니까?')) {
+				location.replace('${ path }//program/delete?no=${ program.no }');
+			}
 		});
-		
-		// 지도
-		var mapContainer = document.getElementById('map');
-        var mapOption = {
-            center: new kakao.maps.LatLng(${program.latitude}, ${program.longitude}),
-            level: 3
-        };
 
-        var map = new kakao.maps.Map(mapContainer, mapOption);
+	});
+	
+	// 지도
+	var mapContainer = document.getElementById('map');
+    var mapOption = {
+        center: new kakao.maps.LatLng(${program.latitude}, ${program.longitude}),
+        level: 3
+    };
 
-        var markerPosition = new kakao.maps.LatLng(${program.latitude}, ${program.longitude});
+    var map = new kakao.maps.Map(mapContainer, mapOption);
 
-        var marker = new kakao.maps.Marker({
-            position: markerPosition
-        });
+    var markerPosition = new kakao.maps.LatLng(${program.latitude}, ${program.longitude});
 
-        marker.setMap(map);
+    var marker = new kakao.maps.Marker({
+        position: markerPosition
+    });
+
+    marker.setMap(map);
 
 </script>
 
