@@ -26,7 +26,8 @@
 	
 	/* 참가하기 버튼 */
 	#btn_join,
-	#btn_join_chk {
+	#btn_join_chk,
+	#btn_join_cancel {
 		background-color: rgb(170, 196, 255); 
 		color: white;  
 		width: 100px; 
@@ -40,7 +41,8 @@
 	}
 	
 	#btn_join:hover,
-	#btn_join_chk:hover {
+	#btn_join_chk:hover,
+	#btn_join_cancel:hover {
 		background-color: #668FD8;
 	}
 	
@@ -128,6 +130,15 @@
 		align-items: center;
 		display: flex;
 	}
+	
+	#entry_exist {
+		box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.5); 
+		width: 400px;
+		height: 400px;
+		border-radius: 10px;
+		overflow: auto;
+		justify-content: center; 
+	}
 </style>
 
 <section style="display: flex; justify-content: center;">
@@ -145,26 +156,59 @@
 							</c:if>
 						</div>
 					</th>
+					
 					<th id="inter2" style="height: 60px; font-size: 20px; text-align: center;">
 						  <div style="height: 60px; line-height: 60px;">${ program.title }</div>
 					</th> 
+					
 					<!-- 모임 시작일/ 종료일 -->
 					<th id="inter2" class="date" style="height: 150px;">
 						<h5>모임 시작일</h5>
 						<p>${ program.startDate }</p>
 						<h5>모임 종료일</h5>
 						<p>${ program.expireDate }</p>
+						<h5>
+							<div style="display: flex; justify-content: space-between;">
+								<div>
+									참가 인원 : &nbsp; ${ entryMemberList.size() + 1 } / ${ program.maximum }
+								</div>
+								
+								
+								
+								<div style="display: flex; margin-top: -5px; position: relative">
+									<c:forEach var="entryMember" items="${ entryMemberList }" varStatus="status">
+										<div style="height: 30px; width: 30px; overflow: hidden; border-radius: 30px; 
+											border: 1px solid black; position: absolute; right: 5;">
+											<c:if test="${ not empty entryMember.profileImg }">
+												<img src="${ entryMember.profileImg }" style="width:100%; height:100%; object-fit: cover;">
+											</c:if>
+											<c:if test="${ empty entryMember.profileImg }">
+												<img src="${ path }/resources/images/example.png" style="width:100%; height:100%; object-fit: cover;">
+											</c:if>
+										</div>
+									</c:forEach>
+									
+									<div style="height: 30px; width: 30px; overflow: hidden; border-radius: 30px; border: 1px solid black;
+										position: absolute; right: 0;">
+										<img src="${ member.profileImg }" style="width: 100%; height: 100%; object-fit: cover;">
+									</div>
+								</div>
+								
+								
+							</div>
+						</h5>
 					</th>
+					
 					<th id="inter2">
 						<c:if test="${ loginMember.no == program.userno }">
 							<input type="button" id="btn_join_chk" value="참가자 확인">
 						</c:if>
 						<c:if test="${ loginMember.no != program.userno }">
-							<c:if test="${ entry_state == 0}">
+							<c:if test="${ entry_state == 0 or empty entry_state }">
 								<input type="button" id="btn_join" value="참가하기">
 							</c:if>
-							<c:if test="${ entry_state == 1}">
-								<input type="button" id="btn_join" value="취소하기">
+							<c:if test="${ entry_state == 1 }">
+								<input type="button" id="btn_join_cancel" value="취소하기">
 							</c:if>
 						</c:if>
 					</th>
@@ -228,12 +272,36 @@
 						참가자가 없습니다.
 					</div>
 				</c:if>
+				
+				<c:if test="${ not empty entryMemberList }">
+					<div id="entry_exist">
+						<c:forEach var="entryMember" items="${ entryMemberList }">
+							<div style="padding: 10px;">
+								<div style="display: flex;">
+									<div style="height:50px; width: 50px; overflow:hidden; border-radius: 50px; margin-right: 10px; border: 2px solid black;">
+										<c:if test="${ empty entryMember.profileImg }">
+											<img src="${ path }/resources/images/example.png" style="width:100%; height:100%; object-fit: cover;">
+										</c:if>
+										
+										<c:if test="${ not empty entryMember.profileImg }">
+											<img src="${ entryMember.profileImg }" style="width:100%; height:100%; object-fit: cover;">
+										</c:if>
+									</div>
+									<div style="padding-top: 7.5px;">
+										${ entryMember.name }
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+				</c:if>
 			</div>
 		</div>	
 	</div>
 	<form id="entry_button" method="POST" action="${ path }/program/entry" hidden>
 		<input type="text" value="${ loginMember.no }" name="user_no">
 		<input type="text" value="${ program.no }" name="program_no">
+		<input type="text" name="kind" id="entry_kind">
 	</form>
 </section>
 
@@ -241,6 +309,14 @@
 <script>
 	$('#btn_join').on('click', () => {
 		if (confirm('참가하시겠습니까?')) {
+			$('#entry_kind').attr('value','1');
+			$('#entry_button').submit();
+		}
+	});
+	
+	$('#btn_join_cancel').on('click', () => {
+		if (confirm('정말 취소하시겠습니까?')) {
+			$('#entry_kind').attr('value','2');
 			$('#entry_button').submit();
 		}
 	});

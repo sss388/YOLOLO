@@ -20,9 +20,9 @@ public class EntryMemberDao {
 		PreparedStatement pstmt = null;
         ResultSet rs = null;
         
-        String query = "SELECT E.*, M.NAME, M.PROFILE_IMG\r\n"
-        		+ "FROM YOLO_PROGRAM_ENTRY_MEMBER E\r\n"
-        		+ "JOIN YOLO_MEMBER M ON E.USER_NO = M.NO\r\n"
+        String query = "SELECT E.*, M.NAME, M.PROFILE_IMG "
+        		+ "FROM YOLO_PROGRAM_ENTRY_MEMBER E "
+        		+ "JOIN YOLO_MEMBER M ON E.USER_NO = M.NO "
         		+ "WHERE PROGRAM_NO = " + no;
         
         try {
@@ -33,7 +33,9 @@ public class EntryMemberDao {
             	 EntryMember entryMember = new EntryMember();
             	 
             	 entryMember.setName(rs.getString("NAME"));
-            	 entryMember.setProfileImg(new MemberDao().blobToString(rs.getBlob("PROFILE_IMG")));
+            	 if(rs.getBlob("PROFILE_IMG") != null) {
+            		 entryMember.setProfileImg(new MemberDao().blobToString(rs.getBlob("PROFILE_IMG")));
+            	 }
             	 entryMember.setUserNo(rs.getInt("USER_NO"));
 
                  list.add(entryMember);
@@ -54,6 +56,27 @@ public class EntryMemberDao {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String query = "INSERT INTO YOLO_PROGRAM_ENTRY_MEMBER (USER_NO, PROGRAM_NO) VALUES (?, ?)";
+		
+		try {
+			pstmt = connection.prepareStatement(query);
+			
+			pstmt.setInt(1, user_no);
+			pstmt.setInt(2, program_no);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+	    } finally {
+	        close(pstmt);
+	    }
+		
+		return result;
+	}
+
+	public int delete(Connection connection, int user_no, int program_no) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = "DELETE FROM YOLO_PROGRAM_ENTRY_MEMBER WHERE USER_NO=? AND PROGRAM_NO=?";
 		
 		try {
 			pstmt = connection.prepareStatement(query);

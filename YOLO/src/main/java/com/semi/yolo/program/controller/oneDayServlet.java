@@ -56,13 +56,15 @@ public class oneDayServlet extends HttpServlet {
         	
         	HttpSession session = request.getSession();
     		Member loginMember = (Member) session.getAttribute("loginMember");
-        	
-        	for (EntryMember entryMember : entryMemberList) {
-        		 if (entryMember.getUserNo() == loginMember.getNo()) {
-        			 entry_state = 1;
-        		 }
-        	}
-        	request.setAttribute("entry_state", entry_state);
+    		
+    		if(loginMember != null) {
+    			for (EntryMember entryMember : entryMemberList) {
+    				if (entryMember.getUserNo() == loginMember.getNo()) {
+    					entry_state = 1;
+    				}
+    			}
+    			request.setAttribute("entry_state", entry_state);
+    		}
         	
         } catch (NumberFormatException e) {
         	
