@@ -45,4 +45,21 @@ public class EntryMemberService {
 		return result;
 	}
 
+	public int cancelEntry(int user_no, int program_no) {
+		int result = 0;
+		Connection connection = getConnection();
+		
+		result = new EntryMemberDao().delete(connection, user_no, program_no);
+		
+		if (result > 0) {
+			commit(connection);
+		} else {
+			rollback(connection);			
+		}
+		
+		close(connection);
+		
+		return result;
+	}
+
 }

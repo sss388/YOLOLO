@@ -113,6 +113,7 @@ public class ProgramDao {
 				program.setWritename(rs.getString("WRITER_NAME"));
 				program.setLatitude(rs.getDouble("LATITUDE"));
 				program.setLongitude(rs.getDouble("LONGITUDE"));
+				program.setMaximum(rs.getInt("MAXIMUM"));
 			}			
 		} catch (SQLException e) {
 			e.printStackTrace();
