@@ -228,8 +228,13 @@
 	               <div class="modal-content">
 	               	   <h2>약관동의</h2>
 
-		               <div style="display: flex; align-items: center; margin-top: -15px">
-	                    <input type="checkbox" id="modalCheckbox" style="width: 15px; height: 15px">
+		               <div style="display: flex; align-items: center; margin-top: -15px; ">
+	                    <input type="checkbox" id="AllmodalCheckbox" style="width: 15px; height: 15px">
+	                    <h4>전체동의</h4> 
+          			   </div>	
+
+		               <div style="display: flex; align-items: center; margin-top: -30px;">
+	                    <input type="checkbox" name="modalCheckbox" style="width: 15px; height: 15px">
 	                    <h4>회원가입 약관(필수)</h4> 
           			   </div>	
           			  
@@ -386,7 +391,7 @@
 		               
 		               
 		               <div style="display: flex; align-items: center;">
-	                    <input type="checkbox" id="modalCheckbox" style="width: 15px; height: 15px">
+	                    <input type="checkbox" name="modalCheckbox" style="width: 15px; height: 15px">
 	                    <h4>개인정보 수집 및 이용(필수)</h4> 
           			   </div>			               
           			   
@@ -616,53 +621,65 @@
           }).open();
      }
      
-    // 이용약관
-    const mainCheckbox = document.getElementById('mainCheckbox');
-    const modalCheckboxes = document.querySelectorAll('.modalCheckbox');
-    const agreeBtn = document.querySelector('.agree');
-    const closeBtn = document.querySelector('.close');
-    const modal = document.getElementById('modal');
 
-    function updateModalAndMainCheckbox() {
-        const allChecked = Array.from(modalCheckboxes).every(checkbox => checkbox.checked);
-        mainCheckbox.checked = allChecked;
-        agreeBtn.disabled = !allChecked;
-        if (mainCheckbox.checked) {
-            modal.style.display = 'block';
-        } else {
-            modal.style.display = 'none';
-        }
-    }
-
-    mainCheckbox.addEventListener('change', function () {
-        modalCheckboxes.forEach(function (checkbox) {
-            checkbox.checked = mainCheckbox.checked;
-        });
-        updateModalAndMainCheckbox();
-    });
-
-    modalCheckboxes.forEach(function (checkbox) {
-        checkbox.addEventListener('change', function () {
-            updateModalAndMainCheckbox();
-        });
-    });
-
-    agreeBtn.addEventListener('click', function () {
-        if (Array.from(modalCheckboxes).every(checkbox => checkbox.checked)) {
-            modal.style.display = 'none';
-        } else {
-            alert('필수 약관을 동의하지 않았습니다.');
-        }
-    });
-
-    closeBtn.addEventListener('click', function () {
-        modalCheckboxes.forEach(function (checkbox) {
-            checkbox.checked = false;
-        });
-        mainCheckbox.checked = false;
-        agreeBtn.disabled = true;
-        modal.style.display = 'none';
-    });
+	// 이용약관
+	const mainCheckbox = document.getElementById('mainCheckbox');
+	const AllmodalCheckbox = document.getElementById('AllmodalCheckbox');
+	const modalCheckboxes = document.getElementsByName('modalCheckbox');
+	const agreeBtn = document.querySelector('.agree');
+	const closeBtn = document.querySelector('.close');
+	const modal = document.getElementById('modal');
+	
+	function updateModalAndMainCheckbox() {
+	   let allChecked = true;
+	   for (let checkbox of modalCheckboxes) {
+	      if (checkbox.required && !checkbox.checked) allChecked = false;
+	   }
+	   mainCheckbox.checked = allChecked;
+	   agreeBtn.disabled = !allChecked;
+	   if (mainCheckbox.checked) {
+	      modal.style.display = 'block';
+	   } else {
+	      modal.style.display = 'none';
+	   }
+	}
+	
+	mainCheckbox.addEventListener('change', function () {
+	   modalCheckboxes.forEach(function (checkbox) {
+	      checkbox.checked = mainCheckbox.checked;
+	   });
+	   updateModalAndMainCheckbox();
+	});
+	
+	AllmodalCheckbox.addEventListener('change', function() {
+	   modalCheckboxes.forEach(function (checkbox) {
+	      checkbox.checked = true;
+	   });
+	   updateModalAndMainCheckbox();
+	});
+	
+	modalCheckboxes.forEach(function (checkbox) {
+	   checkbox.addEventListener('change', function () {
+	      updateModalAndMainCheckbox();
+	   });
+	});
+	
+	agreeBtn.addEventListener('click', function () {
+	   if (Array.from(modalCheckboxes).every(checkbox => checkbox.checked)) {
+	      modal.style.display = 'none';
+	   } else {
+	      alert('필수 약관을 동의하지 않았습니다.');
+	   }
+	});
+	
+	closeBtn.addEventListener('click', function () {
+	   modalCheckboxes.forEach(function (checkbox) {
+	      checkbox.checked = false;
+	   });
+	   mainCheckbox.checked = false;
+	   agreeBtn.disabled = true;
+	   modal.style.display = 'none';
+	});
 </script>
 
 <jsp:include page="/views/common/footer.jsp" />
