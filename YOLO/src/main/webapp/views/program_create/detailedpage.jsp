@@ -178,7 +178,7 @@
 								<div style="display: flex; margin-top: -5px; position: relative">
 									<c:forEach var="entryMember" items="${ entryMemberList }" varStatus="status">
 										<div style="height: 30px; width: 30px; overflow: hidden; border-radius: 30px; 
-											border: 1px solid black; position: absolute; right: 5;">
+											border: 1px solid black; position: absolute; right: 5px;">
 											<c:if test="${ not empty entryMember.profileImg }">
 												<img src="${ entryMember.profileImg }" style="width:100%; height:100%; object-fit: cover;">
 											</c:if>
