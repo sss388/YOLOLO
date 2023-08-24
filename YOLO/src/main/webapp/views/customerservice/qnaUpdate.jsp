@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="path" value="${ pageContext.request.contextPath }"/>
+<c:set var="path" value="${ pageContext.request.contextPath }"/>    
 
 <jsp:include page="/views/common/header.jsp" />
 
-<link rel="stylesheet" type="text/css" href="../resources/css/ckeditor.css">
 
 <!-- 문의하기 수정하기  -->
 
@@ -56,6 +55,7 @@
          <div style="justify-content: center; display: flex">
     
               <form action="${ path }/customerService/update" method="post">
+              <input type="hidden" name="no" value="${board.no}">
          
                    <h4>문의유형</h4>
                    <select name="type" id="type" required>
@@ -74,10 +74,10 @@
                    <input type="text" id="phone" name="phone" value="${ board.phone }" required> 
 
                    <h4>제목</h4>
-                   <input type="text" id="title" name="title" value="${ board.title }"  required> 
+                   <input type="text" id="title" name="title" value="${ board.title }" maxlength="25"  required> 
          
                    <h4>문의내용</h4>
-                   <textarea name="contect" id="contect" value="${ board.contect }"  maxlength="3000" style="width: 400px; height: 150px;" required ></textarea>                  
+                   <textarea name="content" id="content" maxlength="3000" style="width: 400px; height: 150px;" required >${ board.content }</textarea>                  
                    
                    <div id="btnqna">
                     	<button type="submit"  onclick="location.href='${ path }/customerService/update?no=${ board.no }">수정하기</button>
@@ -88,6 +88,4 @@
       </div>
 </section>
 
-
-<script src="../resources/js/ckeditor/script.js"></script>
 <jsp:include page="/views/common/footer.jsp" />

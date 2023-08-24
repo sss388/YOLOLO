@@ -59,12 +59,15 @@ public class QnaBoardUpdateServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		Member loginMember = (Member) session.getAttribute("loginMember");
     	
     	if (loginMember != null) {
 
     		Qna_Board board = new Qna_Board();
+    		
+    		board.setNo(Integer.parseInt(request.getParameter("no")));
     		
     		// 게시글을 작성한 작성자의 No 값 
     		board.setWriterNo(loginMember.getNo());
@@ -93,10 +96,8 @@ public class QnaBoardUpdateServlet extends HttpServlet {
     		board.setTitle(request.getParameter("title"));
     		
     		// 문의내용
-    		board.setContent(request.getParameter("contect"));
+    		board.setContent(request.getParameter("content"));
     		
-    		// 동의내용
-    		board.setAgree(request.getParameter("agree"));
     		
     	    // 파일을 서비스객체에 전달하고, (나중에 dao 객체를 사용해서 db에 저장)
     		int result = new QnaBoardService().save(board);

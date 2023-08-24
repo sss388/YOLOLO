@@ -156,7 +156,7 @@ DROP SEQUENCE YOLO_BOARD_NO;
 CREATE TABLE YOLO_QNABOARD (   
     NO NUMBER PRIMARY KEY,              -- 게시글번호 
     TYPE VARCHAR2(30) NOT NULL,         -- 문의유형
-    TITLE VARCHAR2(30) NOT NULL,        -- 제목
+    TITLE VARCHAR2(50) NOT NULL,        -- 제목
     WRITER_NO NUMBER NOT NULL,          -- 작성자 회원번호
     NAME VARCHAR2(16) NOT NULL,         -- 작성자
     EMAIL VARCHAR2(30) NOT NULL,        -- 이메일

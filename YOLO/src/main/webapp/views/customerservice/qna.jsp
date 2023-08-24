@@ -71,7 +71,7 @@
                     <input type="text" id="phone" name="phone" value="${ loginMember.phone }" required> 
 
                     <h4>제목</h4>
-                    <input type="text" id="title" name="title" required> 
+                    <input type="text" id="title" name="title" maxlength="25" required> 
           
                     <h4>문의내용</h4>
                     <textarea name="contect" id="contect" maxlength="3000" style="width: 400px; height: 150px;" required ></textarea>

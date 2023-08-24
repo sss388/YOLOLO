@@ -23,7 +23,7 @@
          text-align: center;
     }
     
-    #btn input {
+    #btn input,#btn button  {
          background-color: rgb(170, 196, 255); 
          color: white;  
          border: none;
@@ -45,8 +45,8 @@
           </div>	
           
           <div style="justify-content: center; display:flex;">
-               <table style="width: 100%; margin: 0px 50px 0px 50px; text-align: left;">
-                    <tr>
+               <table style="width: 100%; margin: -40px 50px 0px 50px; text-align: left; ">
+                    <tr style="border: 1px solid;">
                          <td >이름</td>
                          <td>${ board.name }</td>
                    		 <td>이메일</td>
@@ -67,8 +67,10 @@
           <div style="padding: 0 5%; padding: 30px 5%;">
                <div style="border-bottom: 1px solid #ddd; padding: 15px 5%;">
                     <div style="border-top: 1px solid #ddd; min-height: 300px;">
-                         <p>문의내용</p>
-                         <div id="content">${ board.content }</div>
+                     <div style="margin-top: 10px;">
+                         <div id="title" style="font-size: 20px; font-weight: 400; margin-bottom: 5px;">${ board.title }</div>
+                         <div id="content" style="font-size: 15px; font-weight: 300;">${ board.content }</div>
+                     </div>
                     </div>
                     
                     <c:if test="${ not empty loginMember && ((loginMember.no == board.writerNo) || (loginMember.role == 1)) }">
@@ -95,7 +97,7 @@
 		        </c:when>
 		        <c:otherwise>
 		            <h5 style="text-align: right;">${reply.createDate}</h5>
-		            <div style="min-height: 300px;">
+		            <div style="min-height: 300px;" >
 		                ${reply.content}
 		            </div>
 		        </c:otherwise>

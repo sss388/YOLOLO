@@ -51,7 +51,7 @@ public class QnaBoardDao {
 	public int updateBoard(Connection connection, Qna_Board board) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String query = "UPDATE YOLO_QNABOARD SET TYPE=?, TITLE=?, NAME=?, EMAIL=?, PHONE=?, CONTENT=?,MODIFY_DATE=SYSDATE WHERE NO=?";
+		String query = "UPDATE YOLO_QNABOARD SET TYPE=?, TITLE=?, NAME=?, EMAIL=?, PHONE=?, CONTENT=?, MODIFY_DATE=SYSDATE WHERE NO=?";
 		
 		try {
 			pstmt = connection.prepareStatement(query);
@@ -62,6 +62,8 @@ public class QnaBoardDao {
 	        pstmt.setString(4, board.getEmail());
 	        pstmt.setString(5, board.getPhone());  
 	        pstmt.setString(6, board.getContent());
+	        
+	        pstmt.setInt(7, board.getNo());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {

@@ -38,26 +38,26 @@
     }
     
     .pagenation {
-         font-size: 20px;
-         border: none;
-         background: none;
-         color: gray;
-         opacity: 60%;
-         cursor: pointer;
+    	font-size: 20px;
+    	border: none;
+    	background: none;
+    	color: gray;
+		opacity: 60%;
+    	cursor: pointer;
     }
     
     .pagenation:disabled {
-         color: #AAC4FF;
-         opacity: 100%;
-         text-decoration: underline;
+    	color: #AAC4FF;
+    	opacity: 100%;
+    	text-decoration: underline;
     }
     
     .pagenation_direct {
-         font-size: 20px;
-         border: none;
-         background: none;
-         color: #AAC4FF;
-         cursor: pointer;
+    	font-size: 20px;
+    	border: none;
+    	background: none;
+    	color: #AAC4FF;
+    	cursor: pointer;
     }
     
     .board .delete:hover {
@@ -74,8 +74,8 @@
      
 <section style="justify-content: center; display: flex;"> 
    <div style="width: 100%; min-width: 800px; max-width: 1280px;
-        justify-content: center; display: flex; margin: 50px 0">
-
+        justify-content: center; margin: 50px 0;">
+	 <div style="width: 100%; text-align: center;">
         <c:if test="${ not empty loginMember }">
         </c:if>
 
@@ -123,7 +123,6 @@
 		
 		
 	   <!-- 밑에 페이지 넘기기  -->
-		<div id="pageBar">
 			<!-- 맨 처음으로 -->
 			<button class="pagenation_direct" onclick="location.href='${ path }/customerService/qnalist?page=1'">
 				<i class="fa-solid fa-angles-left"></i>
