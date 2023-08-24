@@ -185,9 +185,9 @@
                <button type="submit" id="">내가 참여한 모임</button><br>
                
                <p>고객센터</p>
-               <button type="submit" id="common">자주묻는질문</button><br>
+               <button type="submit" id="common" onclick="location.assign('${ path }/customerService/faq');">자주묻는질문</button><br>
                <button type="button" id="notice" onclick="location.assign('${ path }/customerService/notice');">공지사항</button><br>
-               <button type="submit" id="qna">문의하기</button><br>
+               <button type="submit" id="qna" onclick="location.assign('${ path }/customerService/qna');">문의하기</button><br>
                <button type="submit" id="myqna">내 문의보기</button><br> 
           </div>
 
