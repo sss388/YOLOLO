@@ -18,7 +18,7 @@ public class ProgramDao {
 	public int updateprogram(Connection connection, Program program) {
 	    int result = 0;
 	    PreparedStatement pstmt = null;
-	    String query = "UPDATE YOLO_PROGRAM SET TITLE=?, CONTENT=?, THUMB=?, CATEGORY=?, START_DATE=?, EXPIRE_DATE=?,ADDRESS=?, LATITUDE=?, LONGITUDE=?, INCLUSION=?, NONINCLUSION=?, SUPPLIES=? WHERE NO=?";
+	    String query = "UPDATE YOLO_PROGRAM SET TITLE=?, CONTENT=?, THUMB=?, CATEGORY=?, START_DATE=?, EXPIRE_DATE=?,ADDRESS=?, LATITUDE=?, LONGITUDE=?, INCLUSION=?, NONINCLUSION=?, SUPPLIES=?, MAXIMUM=? WHERE NO=?";
 
 	    try {
 	        pstmt = connection.prepareStatement(query);
@@ -35,7 +35,8 @@ public class ProgramDao {
 	        pstmt.setString(10, program.getInclusion());
 	        pstmt.setString(11, program.getNoninclusion());
 	        pstmt.setString(12, program.getSupplies());
-	        pstmt.setInt(13, program.getNo());
+	        pstmt.setInt(13, program.getMaximum());
+	        pstmt.setInt(14, program.getNo());
 
 	        result = pstmt.executeUpdate();
 	    } catch (SQLException e) {
@@ -51,7 +52,7 @@ public class ProgramDao {
 	public int insertprogram(Connection connection, Program program) {
 		int result = 0;
 	    PreparedStatement pstmt = null;
-	    String query = "INSERT INTO YOLO_PROGRAM (NO, USER_NO, TITLE, THUMB, CATEGORY, CONTENT, ADDRESS, LATITUDE, LONGITUDE, INCLUSION, NONINCLUSION, SUPPLIES, STATUS, CREATE_DATE, START_DATE, EXPIRE_DATE, WRITER_NAME) VALUES (YOLO_PROGRAM_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,'Y',SYSDATE,?,?,?)";
+	    String query = "INSERT INTO YOLO_PROGRAM (NO, USER_NO, TITLE, THUMB, CATEGORY, CONTENT, ADDRESS, LATITUDE, LONGITUDE, INCLUSION, NONINCLUSION, SUPPLIES, STATUS, CREATE_DATE, START_DATE, EXPIRE_DATE, WRITER_NAME, MAXIMUM) VALUES (YOLO_PROGRAM_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,'Y',SYSDATE,?,?,?,?)";
 
 	    try {
 	        pstmt = connection.prepareStatement(query);
@@ -70,6 +71,7 @@ public class ProgramDao {
 	        pstmt.setDate(12, new java.sql.Date(program.getStartDate().getTime()));
 	        pstmt.setDate(13, new java.sql.Date(program.getExpireDate().getTime()));
 	        pstmt.setString(14, program.getWritename());
+	        pstmt.setInt(15, program.getMaximum());
 
 	        result = pstmt.executeUpdate();
 	    } catch (SQLException e) {

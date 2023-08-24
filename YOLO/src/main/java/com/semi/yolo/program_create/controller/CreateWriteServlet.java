@@ -77,6 +77,10 @@ public class CreateWriteServlet extends HttpServlet {
 	            String endDateStr = mr.getParameter("end_date").replace("-", "/");;
 
 	            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+	            
+	            // 최대 인원
+	            //maximum
+	            program.setMaximum(Integer.parseInt(mr.getParameter("maximum")));
 
 	            try {
 	                if (!startDateStr.isEmpty() && !endDateStr.isEmpty()) {
@@ -92,6 +96,7 @@ public class CreateWriteServlet extends HttpServlet {
 	                e.printStackTrace();
 
 	            }
+	            
 	            // 상세설명	    
 		        program.setContent(mr.getParameter("content")); 
 		        

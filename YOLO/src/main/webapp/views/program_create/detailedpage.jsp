@@ -46,6 +46,11 @@
 		background-color: #668FD8;
 	}
 	
+	#btn_join:disabled {
+	  	background-color: #cccccc;
+  		cursor: not-allowed;
+	}
+	
 	/* 글자정렬 */
 	h4{
 	 text-align: left;
@@ -172,13 +177,15 @@
 								<div>
 									참가 인원 : &nbsp; ${ entryMemberList.size() + 1 } / ${ program.maximum }
 								</div>
-								
-								
-								
 								<div style="display: flex; margin-top: -5px; position: relative">
+									<div style="height: 30px; width: 30px; overflow: hidden; border-radius: 30px; border: 1px solid black;
+										position: absolute; right: ${ entryMemberList.size() * 5 }px;">
+										<img src="${ member.profileImg }" style="width: 100%; height: 100%; object-fit: cover;">
+									</div>
+									
 									<c:forEach var="entryMember" items="${ entryMemberList }" varStatus="status">
-										<div style="height: 30px; width: 30px; overflow: hidden; border-radius: 30px; 
-											border: 1px solid black; position: absolute; right: 5px;">
+										<div id="entry_member_summary_${ status.index }" style="height: 30px; width: 30px; overflow: hidden; 
+											border-radius: 30px; border: 1px solid black; position: absolute; right: ${(entryMemberList.size() - status.index - 1) * 5}px;" >
 											<c:if test="${ not empty entryMember.profileImg }">
 												<img src="${ entryMember.profileImg }" style="width:100%; height:100%; object-fit: cover;">
 											</c:if>
@@ -187,11 +194,6 @@
 											</c:if>
 										</div>
 									</c:forEach>
-									
-									<div style="height: 30px; width: 30px; overflow: hidden; border-radius: 30px; border: 1px solid black;
-										position: absolute; right: 0;">
-										<img src="${ member.profileImg }" style="width: 100%; height: 100%; object-fit: cover;">
-									</div>
 								</div>
 								
 								
@@ -205,7 +207,12 @@
 						</c:if>
 						<c:if test="${ loginMember.no != program.userno }">
 							<c:if test="${ entry_state == 0 or empty entry_state }">
-								<input type="button" id="btn_join" value="참가하기">
+								<c:if test="${ entryMemberList.size() + 1 < program.maximum }">
+									<input type="button" id="btn_join" value="참가하기">
+								</c:if>
+								<c:if test="${ entryMemberList.size() + 1 == program.maximum }">
+									<input type="button" id="btn_join" value="참가하기" disabled>
+								</c:if>
 							</c:if>
 							<c:if test="${ entry_state == 1 }">
 								<input type="button" id="btn_join_cancel" value="취소하기">

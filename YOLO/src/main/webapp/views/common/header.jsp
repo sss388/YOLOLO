@@ -182,7 +182,7 @@
                
                <p>프로그램</p>
                <button type="submit" id="made">내가 만든 모임</button><br>
-               <button type="submit" id="">내가 참여한 모임</button><br>
+               <button type="submit" id="myentry">내가 참여한 모임</button><br>
                
                <p>고객센터</p>
                <button type="submit" id="common" onclick="location.assign('${ path }/customerService/faq');">자주묻는질문</button><br>
@@ -260,7 +260,11 @@
 
 		$('#made').on('click', () => {
 			location.assign('${ path }/made/meeting');
-		});		    
+		});
+		
+		$('#myentry').on('click', () => {
+			location.assign('${ path }/mypage/myentry');
+		});
 	  });
 </script>
 
