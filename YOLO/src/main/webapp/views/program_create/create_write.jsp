@@ -170,6 +170,14 @@
 		                         </td>
 		                   </tr>
 		
+							<tr>
+								<th>모임 최대 인원</th>
+								<td style="display: flex; align-items: center;">
+									<input id="maximum" type="range" min="2" max="30" value="2" name="maximum">
+									<div id="maximum_label" style="font-size: 20px;">2명</div> 
+								</td>
+							</tr>
+					
 		                   <tr>
 			                    <th>상세설명</th>
 			                    <td>
@@ -242,6 +250,10 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=874176aa26c8be96cf01e374fe87f3ed&libraries=services"></script>
 <script>
+	$('#maximum').on('input', function() {
+    	$('#maximum_label').text($(this).val() + "명");
+  	});
+
 	$('#start_date').on('change', function() {
 		let start_date = new Date($(this).val());
 	    let end_date = new Date($('#end_date').val());

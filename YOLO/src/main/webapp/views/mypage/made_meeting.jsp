@@ -45,24 +45,7 @@
     	color: #AAC4FF;
     	cursor: pointer;
     }
-    
-    .create_freeboard {
-    	font-size: 20px;
-    	border: none;
-    	background: none;
-    	cursor: pointer;
-    	background-color: #AAC4FF; 
-    	padding: 7.5px 15px;
-    	border-radius: 10px;
-    	color: #FFF;
-    	margin-right: 5%;
-    	transition: background-color 0.1s ease;
-    }
-    
-    .create_freeboard:hover {
-    	background-color: #668FD8;
-    }
-    
+
     section#board-list-container{width:600px; margin:0 auto; text-align:center;}
 	section#board-list-container h2{margin:10px 0;}
     table#tbl-board{width:100%; margin:0 auto; border-collapse:collapse; clear:both; }
@@ -91,27 +74,32 @@
     opacity: 60%;
     font-size: 11px;
 	}
+	
+	a {
+		color: black;
+	}
 </style>
 
 <section>
-	<div style="display:flex; justify-content: center; padding-bottom: 100px;">
-	
-		<!-- 사이드바 추가 -->
-		<div style="width: 100%; max-width: 1280px">
-			<h1 style="text-align: center; font-size: 2em; color: #AAC4FF;">내가 만든 모임</h1>
+	<div style="display:flex; justify-content: center;">
+		<div style="width: 100%; min-width: 800px; max-width: 1280px; margin-top: 100px;">
+		
+			<h1 style="text-align: center; font-size: 2em; color: #AAC4FF; margin-bottom: 50px;">
+				내가 만든 모임
+			</h1>
 
-			<table class="board" style="justify-content: space-between; width: 100%; border: 1px solid #ddd;">
                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                 	<c:if test="${ empty list }">
                 		<div style="padding: 50px 0; width: 100%; text-align: center;">
                 			내가 만든 모임이 없습니다.
                 		</div>
                 	</c:if>
+                	
                 	<c:if test="${ not empty list }">
 					    <c:forEach var="program" items="${ list }" end="3">
 					        <div class="img_box">
 					          <a href="${ path }/program_create/detailedpage?no=${ program.no }">
-					            <div style="width: 100%; height: 200px; overflow: hidden;">
+					            <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 					            	<c:if test="${ empty program.thumb }">
 					            		<img src="${path}/resources/images/example.png">
 					            	</c:if>
@@ -130,7 +118,7 @@
 					    	<c:if test="${ status.count > 4}">
 					        <div class="img_box">
 					          <a href="${ path }/program_create/detailedpage?no=${ program.no }">
-					            <div style="width: 100%; height: 200px; overflow: hidden;">
+					            <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 					               <c:if test="${ empty program.thumb }">
 					            		<img src="${path}/resources/images/example.png">
 					            	</c:if>
@@ -148,11 +136,10 @@
 					    </c:forEach>
 				    </c:if>
 				</div>
-			</table>
 		</div>
 	</div>
 			   
-   <div style="display:flex; justify-content: center;"> 
+   <div style="display:flex; justify-content: center; margin-bottom: 100px;"> 
       <!-- 맨 처음으로 -->
 		<button class="pagenation_direct" onclick="location.href='${path}/made/meeting?page=1'">
 			<i class="fa-solid fa-angles-left"></i>
