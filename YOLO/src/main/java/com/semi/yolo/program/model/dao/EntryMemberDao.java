@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.semi.yolo.common.util.PageInfo;
 import com.semi.yolo.member.dao.MemberDao;
 import com.semi.yolo.program.model.vo.EntryMember;
 import com.semi.yolo.program.model.vo.Program;
@@ -94,4 +95,97 @@ public class EntryMemberDao {
 		return result;
 	}
 
+	public int getCountByUserNo(Connection connection, int no) {
+		int count = 0;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        String query = "SELECT COUNT(*) FROM YOLO_PROGRAM_ENTRY_MEMBER WHERE USER_NO=" + no;
+        
+        try {
+            pstmt = connection.prepareStatement(query);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rs);
+            close(pstmt);
+        }
+        
+		return count;
+	}
+
+	public List<Program> findEntryProgramByUserNo(Connection connection, PageInfo pageInfo, int no) {
+		List<Program> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String query = "SELECT P.*, ROW_NUMBER() OVER (ORDER BY NO DESC) AS RN "
+        		+ "FROM YOLO_PROGRAM_ENTRY_MEMBER EM "
+        		+ "JOIN YOLO_PROGRAM P ON EM.PROGRAM_NO = P.NO "
+        		+ "WHERE EM.USER_NO = ?";
+        
+        try {
+        	pstmt = connection.prepareStatement(query);
+        	
+        	pstmt.setInt(1, no);
+        	
+        	rs = pstmt.executeQuery();
+        	
+        	while (rs.next()) {
+        		Program program = new Program();
+        		
+        		program.setTitle(rs.getString("TITLE"));
+        		program.setThumb(rs.getString("THUMB"));
+        		program.setRowNum(rs.getInt("RN"));
+        		program.setCategory(rs.getString("CATEGORY"));
+        		program.setCreateDate(rs.getDate("CREATE_DATE"));
+        		program.setNo(rs.getInt("NO"));
+        		
+        		list.add(program);
+        	}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rs);
+            close(pstmt);
+        }
+        
+		return list;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

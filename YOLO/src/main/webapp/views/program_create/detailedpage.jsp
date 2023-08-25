@@ -180,7 +180,12 @@
 								<div style="display: flex; margin-top: -5px; position: relative">
 									<div style="height: 30px; width: 30px; overflow: hidden; border-radius: 30px; border: 1px solid black;
 										position: absolute; right: ${ entryMemberList.size() * 5 }px;">
-										<img src="${ member.profileImg }" style="width: 100%; height: 100%; object-fit: cover;">
+										<c:if test="${ not empty entryMember.profileImg }">
+											<img src="${ member.profileImg }" style="width: 100%; height: 100%; object-fit: cover;">
+										</c:if>
+										<c:if test="${empty entryMember.profileImg }">
+											<img src="${ path }/resources/images/example.png" style="width:100%; height:100%; object-fit: cover;">
+										</c:if>
 									</div>
 									
 									<c:forEach var="entryMember" items="${ entryMemberList }" varStatus="status">
@@ -195,8 +200,6 @@
 										</div>
 									</c:forEach>
 								</div>
-								
-								
 							</div>
 						</h5>
 					</th>
@@ -220,8 +223,13 @@
 						</c:if>
 					</th>
 					<th id="inter2" style="display: flex; margin-top: 5px; height: 50px;">
-						<div style="height:50px; width: 50px; overflow:hidden; border-radius: 50px; margin-right: 5px;">
-							<img src="${ member.profileImg }" style="width:100%; height:100%; object-fit: cover;">
+						<div style="height:50px; width: 50px; overflow:hidden; border-radius: 50px; margin-right: 5px; border: 2px solid black;">
+							<c:if test="${ not empty member.profileImg }">
+								<img src="${ member.profileImg }" style="width:100%; height:100%; object-fit: cover;">
+							</c:if>
+							<c:if test="${ empty member.profileImg }">
+								<img src="${ path }/resources/images/example.png" style="width:100%; height:100%; object-fit: cover;">
+							</c:if>
 						</div>
 						<div style="font-size: 16px; padding-top: 9.5px;">
 							${ member.name }

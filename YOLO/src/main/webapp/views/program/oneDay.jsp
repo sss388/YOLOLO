@@ -189,37 +189,37 @@
 			<br>
             
             <div style="display:flex; justify-content: center;">
-            <!-- 맨 처음으로 -->
-			<button class="pagenation_direct" onclick="location.href='${path}/program/oneDay?page=1'">
-				<i class="fa-solid fa-angles-left"></i>
-			</button>
-
-			<!-- 이전 페이지로 -->
-			<button class="pagenation_direct" onclick="location.href='${path}/program/oneDay?page=${pageInfo.prevPage}'">
-				<i class="fa-solid fa-angle-left"></i>
-			</button>
-            
-            <c:forEach var="current" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-            	<c:choose>
-					<c:when test="${current == pageInfo.currentPage}">					
-						<button class="pagenation" disabled>${current}</button>			
-					</c:when>
-					<c:otherwise>
-						<button class="pagenation" onclick="location.href='${path}/program/oneDay?page=${current}'">${current}</button>			
-					</c:otherwise>
-				</c:choose>
-            </c:forEach>
-            
-            <!-- 다음 페이지로 -->
-			<button class="pagenation_direct" onclick="location.href='${path}/program/oneDay?page=${pageInfo.nextPage}'">
-				<i class="fa-solid fa-angle-right"></i>
-			</button>
-
-			<!-- 맨 끝으로 -->
-			<button class="pagenation_direct" onclick="location.href='${path}/program/oneDay?page=${pageInfo.maxPage}'">
-				<i class="fa-solid fa-angles-right"></i>
-			</button>
-		</div>
+	            <!-- 맨 처음으로 -->
+				<button class="pagenation_direct" onclick="location.href='${path}/program/oneDay?page=1'">
+					<i class="fa-solid fa-angles-left"></i>
+				</button>
+	
+				<!-- 이전 페이지로 -->
+				<button class="pagenation_direct" onclick="location.href='${path}/program/oneDay?page=${pageInfo.prevPage}'">
+					<i class="fa-solid fa-angle-left"></i>
+				</button>
+	            
+	            <c:forEach var="current" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+	            	<c:choose>
+						<c:when test="${current == pageInfo.currentPage}">					
+							<button class="pagenation" disabled>${current}</button>			
+						</c:when>
+						<c:otherwise>
+							<button class="pagenation" onclick="location.href='${path}/program/oneDay?page=${current}'">${current}</button>			
+						</c:otherwise>
+					</c:choose>
+	            </c:forEach>
+	            
+	            <!-- 다음 페이지로 -->
+				<button class="pagenation_direct" onclick="location.href='${path}/program/oneDay?page=${pageInfo.nextPage}'">
+					<i class="fa-solid fa-angle-right"></i>
+				</button>
+	
+				<!-- 맨 끝으로 -->
+				<button class="pagenation_direct" onclick="location.href='${path}/program/oneDay?page=${pageInfo.maxPage}'">
+					<i class="fa-solid fa-angles-right"></i>
+				</button>
+			</div>
 	
 	<form id="delete_program_form" method="POST" action="${ path }/program/adminDeleteProgram" hidden>
 		<input type="text" name="category" value="oneDay">

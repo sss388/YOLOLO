@@ -65,6 +65,7 @@ public class ProgramDao {
 	                program.setTitle(rs.getString("TITLE"));
 	                program.setThumb(rs.getString("THUMB"));
 	                program.setCreateDate(rs.getDate("CREATE_DATE"));
+	                program.setCategory(rs.getString("CATEGORY"));
 
 	                list.add(program);
 	            }
