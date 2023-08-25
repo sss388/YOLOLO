@@ -157,6 +157,8 @@
                               <input pattern="^[a-zA-Z0-9]{4,16}$" title="4~16자의 영문 대소문자와 숫자로만 입력해주세요." 
                               	type="text" name="userId"  id="userId" placeholder="아이디를 입력해주세요."  required>
                               <input type="button" id="isUserIdExists" value="중복확인" style="margin-left: -8px">
+                              <br>
+                              <p style="margin-top: -5px; margin-left: 10px;">4~16자의 영문 대/소문자, 숫자를 사용해 주세요.</p>
                          </td>
                     </tr>
      
@@ -166,6 +168,8 @@
                          	<input pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,20}$" 
 						       title="8~20자의 영문자와 숫자 그리고 특수문자를 포함하여 입력해주세요." 
 						       type="password" name="userpw" id="userpw" placeholder="비밀번호를 입력해주세요." required>
+						       <br>
+                              <p style="margin-top: -5px; margin-left: 10px;">8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요.</p>   
                          </td>
                     </tr>
                     
