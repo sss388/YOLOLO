@@ -188,7 +188,7 @@
 		                   <tr>
 							    <th>장소</th>
 							    <td class="address"> 
-							        <input type="text" name="address" id="address" placeholder=" 주소 검색해주세요." readonly>
+							        <input type="text" name="address" id="address" placeholder="주소를 검색해주세요." readonly>
 							        <input type="button" id="postcode_button" onclick="open_Postcode()" size="5" value="주소검색" style="margin-left: -8px">
 							        <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>							    
 							    </td>   
