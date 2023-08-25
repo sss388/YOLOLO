@@ -92,7 +92,16 @@
       .profile-info {
           margin-left: 10px;
       }
+      
+      .profile-info p {
+      		font-size: 12px;
+          color: black;
+      }
       /* 마이페이지 스타일 끝  */
+      
+      #closeButton {
+      	cursor: pointer;
+      }
       
 .header_active {
 	color: #AAC4FF;
@@ -155,9 +164,9 @@
      <section style="width: 100%; justify-content: center; display: flex">
           <div id="dimmed"></div>
           <div class="menuwrap">
-          <div class="mypage"  >
+          <div class="mypage" style="text-align: left" >
                <!--  X 버튼 -->
-               <span class="close-button" id="closeButton">&times;</span>
+               <div class="close-button" id="closeButton">&times;</div>
                
                <h1 style="text-align: center; margin-bottom: 23px;">마이페이지</h1>
      
@@ -241,7 +250,7 @@
 		$('#customerService').on('click', () => {
 			location.assign('${ path }/customerService/faq');
 		});
-		
+			
 		$('#community').on('click', () => {
 			location.assign('${ path }/community/freeBoard');
 		});
