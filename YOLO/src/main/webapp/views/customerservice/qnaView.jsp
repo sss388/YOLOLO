@@ -6,6 +6,7 @@
 <c:set var="path" value="${ pageContext.request.contextPath }"/>
 <jsp:include page="/views/common/header.jsp" />
 
+<link rel="stylesheet" type="text/css" href="../resources/css/ckeditor.css">
 <!-- 문의하기 상세페이지 -->
 
 <style>
@@ -118,5 +119,6 @@
 		});
 	});
 </script>
+
 
 <jsp:include page="/views/common/footer.jsp" /> 
