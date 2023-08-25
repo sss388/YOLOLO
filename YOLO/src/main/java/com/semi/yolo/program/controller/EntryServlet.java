@@ -24,7 +24,16 @@ public class EntryServlet extends HttpServlet {
 		int user_no = Integer.parseInt(request.getParameter("user_no"));
 		int program_no = Integer.parseInt(request.getParameter("program_no"));
 		
-		new EntryMemberService().save(user_no, program_no);
+		int kind = Integer.parseInt(request.getParameter("kind"));
+		
+		switch (kind) {
+		case 1:
+			new EntryMemberService().save(user_no, program_no);
+			break;
+		case 2:
+			new EntryMemberService().cancelEntry(user_no, program_no);
+			break;
+		}
 		
 		response.sendRedirect(request.getHeader("referer"));
 	}

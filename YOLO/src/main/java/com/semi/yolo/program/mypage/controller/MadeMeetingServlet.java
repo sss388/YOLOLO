@@ -49,8 +49,8 @@ public class MadeMeetingServlet extends HttpServlet {
     		pageInfo = new PageInfo(page, 10, listCount, 8);
     		list = new MyProgramService().getBoardList(pageInfo, user_no);
     		
-    		System.out.println(list); 
-    		System.out.println(list.size());
+//    		System.out.println(list); 
+//    		System.out.println(list.size());
     		
         	request.setAttribute("pageInfo", pageInfo);
         	request.setAttribute("list", list);

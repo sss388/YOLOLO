@@ -70,8 +70,9 @@
           <div id="login">
                <input pattern="^[a-zA-Z0-9]{4,16}$" title="4~16자의 영문 대소문자와 숫자로만 입력해주세요." 
                		type="text" name="userId" placeholder="아이디" value="${ savedId }" required> <br>
-               <input pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{4,16}$" title="4~16자의 영문자와 숫자를 포함하여 입력해주세요." 
-               		type="password" name="userPw"  placeholder="비밀번호" required>
+               <input pattern=".{8,20}" 
+			       title="8~20자 입력해주세요." 
+			       type="password" name="userPw" id="userpw" placeholder="비밀번호를 입력해주세요." required>
           </div>
                
           <div style="font-size: 12px; display: flex; align-items: center; margin-left: 5px;">

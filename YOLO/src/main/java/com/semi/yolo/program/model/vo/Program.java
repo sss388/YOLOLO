@@ -32,6 +32,8 @@ public class Program {
 	private Date startDate;                	 // 모임시작일
 	private Date expireDate;                 // 모임만료일
 	private int rowNum;
+	
+	private int maximum;					 // 최대인원
 
 
 }
