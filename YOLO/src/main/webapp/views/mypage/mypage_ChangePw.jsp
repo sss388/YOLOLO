@@ -73,11 +73,19 @@
                     
                     <tr>
                          <th>현재 비밀번호</th>
-                         <td><input type="text" name="name" id="name" required></td>
+                         <td>
+                         	<input pattern=".{8,20}" 
+       							title="8~20자 입력해주세요." 
+       							type="password" name="userpw" id="userpw" placeholder="비밀번호를 입력해주세요." required>
+                         </td>
                     </tr>
                     <tr>
                          <th>새로운 비밀번호</th>
-                         <td><input type="text" name="name" id="name" required></td>
+                         <td>
+                         	<input pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,20}$" 
+						       title="8~20자의 영문자와 숫자 그리고 특수문자를 포함하여 입력해주세요." 
+						       type="password" name="userpw" id="userpw" placeholder="비밀번호를 입력해주세요." required>
+						</td>
                     </tr>
                     <tr>
                          <th>새로운 비밀번호 확인</th>

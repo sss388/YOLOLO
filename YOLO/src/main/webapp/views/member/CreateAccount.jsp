@@ -163,8 +163,9 @@
                     <tr>
                          <th>비밀번호</th>
                          <td>
-                         	<input pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{4,16}$" title="4~16자의 영문자와 숫자를 포함하여 입력해주세요." 
-                         		type="password" name="userpw"  id="userpw" placeholder="비밀번호를 입력해주세요." required>
+                         	<input pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,20}$" 
+						       title="8~20자의 영문자와 숫자 그리고 특수문자를 포함하여 입력해주세요." 
+						       type="password" name="userpw" id="userpw" placeholder="비밀번호를 입력해주세요." required>
                          </td>
                     </tr>
                     
