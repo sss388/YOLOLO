@@ -137,6 +137,11 @@
 	font-size: 20px;
 }
 
+p {
+	color: black;
+	font-size: 16px;
+}
+
 </style>
 
 <section style="justify-content: center; display: flex;">

@@ -171,18 +171,35 @@
                <h1 style="text-align: center; margin-bottom: 23px;">마이페이지</h1>
      
                <div class="profile-box" style="padding-bottom: 10px;">
-                    <div class="box" style="background: #BDBDBD; border: 2px solid black;">
-                    	<c:if test="${ not empty loginMember.profileImg }">
-	                     	<img class="profile" src="${ loginMember.profileImg }">
-                    	</c:if>
-                    	<c:if test="${ empty loginMember.profileImg }">
-                    		<img class="profile" src="${ path }/resources/images/example.png">
-                    	</c:if>
-                    </div>
-                    <div class="profile-info">
-                         <p>${loginMember.name}</p>
-                         <p>${loginMember.email}</p>
-                    </div>
+               		<c:if test="${ loginMember.role != 1}">
+	               		<div class="box" style="background: #BDBDBD; border: 2px solid black;">
+	                    	<c:if test="${ not empty loginMember.profileImg }">
+		                     	<img class="profile" src="${ loginMember.profileImg }">
+	                    	</c:if>
+	                    	<c:if test="${ empty loginMember.profileImg }">
+	                    		<img class="profile" src="${ path }/resources/images/example.png">
+	                    	</c:if>
+	                    </div>
+	                    <div class="profile-info">
+	                         <p>${loginMember.name}</p>
+	                         <p>${loginMember.email}</p>
+	                    </div>
+                    </c:if>
+                    
+                    <c:if test="${ loginMember.role == 1}">
+	               		<div class="box" style="background: #BDBDBD; border: 2px solid red;">
+	                    	<c:if test="${ not empty loginMember.profileImg }">
+		                     	<img class="profile" src="${ loginMember.profileImg }">
+	                    	</c:if>
+	                    	<c:if test="${ empty loginMember.profileImg }">
+	                    		<img class="profile" src="${ path }/resources/images/example.png">
+	                    	</c:if>
+	                    </div>
+	                    <div class="profile-info">
+	                         <p>${loginMember.name}</p>
+	                         <p>${loginMember.email}</p>
+	                    </div>
+                    </c:if>
                </div>
      
                <p>회원정보</p>

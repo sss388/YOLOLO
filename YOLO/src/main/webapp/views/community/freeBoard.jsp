@@ -88,6 +88,10 @@
     table#tbl-board{width:100%; margin:0 auto; border:1px solid black; border-collapse:collapse; clear:both; }
 	table#tbl-board th, table#tbl-board td {border:1px solid; padding: 5px 0; text-align:center;}
 	
+	p {
+		color: black;
+		font-size: 16px;
+	}
 	 
 </style>
 
@@ -122,11 +126,11 @@
                 </tr>
                 <c:if test="${ not empty list }">
 	                <c:forEach var="board" items="${ list }">
-		                <tr onclick="location.href='${ path }/community/freeBoard?page=${ param.page }&no=${ board.no }'">
-		                    <td>${ board.rowNum } </td>
-		                    <td>${ board.title }</td>
-		                    <td>${ board.userName }</td>
-		                    <td>${ board.createDate }</td>
+		                <tr>
+		                    <td onclick="location.href='${ path }/community/freeBoard?page=${ param.page }&no=${ board.no }'">${ board.rowNum } </td>
+		                    <td onclick="location.href='${ path }/community/freeBoard?page=${ param.page }&no=${ board.no }'">${ board.title }</td>
+		                    <td onclick="location.href='${ path }/community/freeBoard?page=${ param.page }&no=${ board.no }'">${ board.userName }</td>
+		                    <td onclick="location.href='${ path }/community/freeBoard?page=${ param.page }&no=${ board.no }'">${ board.createDate }</td>
 		                    <c:if test="${ loginMember.role == 1 }">
 		                    	<td class="delete">
 		                    		<i class="fa-regular fa-trash-can" onclick="deleteBoard(${ board.no })"></i>
@@ -198,7 +202,6 @@ $(document).ready(() => {
 });
 
 const deleteBoard = (no) => {
-	console.log(no);
 	$('#delete_freeboard_no').val(no);
 	$('#delete_freeboard_form').submit();
 }	

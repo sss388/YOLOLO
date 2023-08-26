@@ -40,7 +40,7 @@
 				<c:if test="${ not empty loginMember && ((loginMember.no == item.userNo) || (loginMember.role == 1)) }">
 					<div style="justify-content: flex-end; display: flex;">
 						<button onclick="modifyBoardButton(${board.no})">수정하기</button>
-						<button>삭제하기</button>
+						<button onclick="deleteBoardButton(${board.no})">삭제하기</button>
 					</div>
 				</c:if>
 			</div>
@@ -50,10 +50,17 @@
 	<form id="modify_board_form" method="POST" action="${ path }/community/modifyBoard" hidden>
 		<input type="text" value="${ board.no }" name="board_no">
 	</form>
+	<form id="delete_board_form" method="POST" action="${ path }/community/freeBoardDelete" hidden>
+		<input type="text" value="${ board.no }" name="delete_freeboard_no">
+	</form>
 </section>
 
 <script>
 const modifyBoardButton = (no) => {
 	$('#modify_board_form').submit();
+}
+
+const deleteBoardButton = (no) => {
+	$('#delete_board_form').submit();
 }
 </script>

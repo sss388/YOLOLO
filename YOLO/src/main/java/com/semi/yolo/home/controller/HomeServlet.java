@@ -46,7 +46,7 @@ public class HomeServlet extends HttpServlet {
 		    	Calendar expire_cal = Calendar.getInstance(); // 마감일
 		    	expire_cal.setTime(program.getExpireDate());
 		        
-		        remainDate[index++] = expire_cal.get(Calendar.DAY_OF_MONTH) - now_cal.get(Calendar.DAY_OF_MONTH);
+		        remainDate[index++] = expire_cal.get(Calendar.DAY_OF_YEAR) - now_cal.get(Calendar.DAY_OF_YEAR);
 		    }
 		}
 		

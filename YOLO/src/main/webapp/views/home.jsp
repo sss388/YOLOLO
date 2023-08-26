@@ -79,7 +79,7 @@
 		                            	<c:if test="${ remainDate[status.index] == 0 }">
 		                            		오늘 마감!!!
 		                            	</c:if>
-		                            	<c:if test="${ remainDate[status.index] != 0 }">
+		                            	<c:if test="${ remainDate[status.index] != 0  }">
 		                            		${ remainDate[status.index] }일 남음!!
 		                            	</c:if>
 	                            	</span> <br>

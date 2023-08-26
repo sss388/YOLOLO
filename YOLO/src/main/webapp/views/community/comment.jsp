@@ -91,11 +91,11 @@
 		<div id="create_comment" style="padding: 0 2.5%; display: flex; margin-top: 25px;">
 			<div style="background-color: #EEF1FF; width: 100%; display: flex; padding: 25px;
 			border-radius: 10px; padding-bottom: 10px;">
-				<div style="width: 5%;">
+				<div style="width: 8%; text-align: center;">
 					${ loginMember.name }
 				</div>
 				<form method="POST" action="${ path }/community/commentSave"
-					style="width: 95%; justify-content: flex-end; display: flex;">
+					style="width: 92%; justify-content: flex-end; display: flex;">
 					<div style="width: 95%; display: inline-block;">
 						<input name="board_no" value="${ board.no }" hidden>
 						<textarea name="content" style="width: 97.5%; border-radius: 10px; resize: none; padding: 5px;" maxlength="100" rows="3"></textarea>
