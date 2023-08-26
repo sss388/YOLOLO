@@ -74,6 +74,7 @@ CREATE TABLE YOLO_PROGRAM (
     INCLUSION VARCHAR2(500),                 -- 포함사항  
     NONINCLUSION VARCHAR2(500),	             -- 불포함사항
     SUPPLIES VARCHAR2(500),                  -- 준비물 
+    MAXIMUM NUMBER,		             -- 최대 참가 인원
     STATUS VARCHAR2(1) DEFAULT 'Y' CHECK (STATUS IN('Y', 'N')),  -- 상태값 (Y,N)
     CREATE_DATE DATE DEFAULT SYSDATE,                            -- 날짜(작성일)
     START_DATE DATE DEFAULT SYSDATE,                             -- 날짜(시작일)
@@ -97,6 +98,7 @@ COMMENT ON COLUMN YOLO_PROGRAM.STATUS  IS '상태값';
 COMMENT ON COLUMN YOLO_PROGRAM.CREATE_DATE  IS '작성일';
 COMMENT ON COLUMN YOLO_PROGRAM.START_DATE  IS '시작일';
 COMMENT ON COLUMN YOLO_PROGRAM.EXPIRE_DATE  IS '만료일';
+COMMENT ON COLUMN YOLO_PROGRAM.MAXIMUM  IS '최대 참가 인원';
 
 -- YOLO_MEMBER에서 회원 번호 외래키로 가져옴
 ALTER TABLE YOLO_PROGRAM 
